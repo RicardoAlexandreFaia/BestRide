@@ -1,12 +1,15 @@
 # Projeto Best Ride
 
-`<p> Para Iniciar o projeto: </p>`
+> Para Iniciar a app turista, execute os seguinte comandos:
 
 ```
     ionic serve tourist_app
+
 ```
 
-#### Tecnologias:
+---
+
+#### Tecnologias Usadas:
 
 1. Ionic
 2. Angular
