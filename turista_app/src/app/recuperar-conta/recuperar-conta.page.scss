@@ -1,0 +1,24 @@
+.conteudo {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  ion-toolbar {
+    --background: white;
+  }
+  
+  ion-item {
+    --bacground: white;
+  }
+  
+  #imagem {
+    padding-top: 20%;
+    width: 50%;
+    align-self: center;
+  }
+  
+  ion-card {
+    font-size: 25px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+  }

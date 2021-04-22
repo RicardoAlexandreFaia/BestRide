@@ -66,4 +66,10 @@ export class LoginPage implements OnInit {
     console.log('ola');
     this.router.navigate(['/cria-conta']);
   }
+
+  //ir para a pagina - criar conta
+  public recuperarConta(): void {
+    console.log('ola');
+    this.router.navigate(['/recuperar-conta']);
+  }
 }
