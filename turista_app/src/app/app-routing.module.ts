@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'splash-screen',
     pathMatch: 'full',
   },
   {
@@ -24,6 +24,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./splash-screen/splash-screen.module').then(
         (m) => m.SplashScreenPageModule
+      ),
+  },
+  {
+    path: 'cria-conta',
+    loadChildren: () =>
+      import('./cria-conta/cria-conta.module').then(
+        (m) => m.CriaContaPageModule
       ),
   },
 ];

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginPage implements OnInit {
   ionicForm: FormGroup;
   name: string;
 
-  // With FormBuilder
+  // Form Builder -> parametros
   profileForm = this.formBuilder.group({
     email: '',
     password: '',
@@ -23,11 +24,11 @@ export class LoginPage implements OnInit {
     password: [''],
   });
 
-  constructor(public formBuilder: FormBuilder) {}
+  constructor(public formBuilder: FormBuilder, private router: Router) {}
 
   ngOnInit() {}
 
-  //password
+  //esconde/mostra password
   togglePass(): void {
     this.showPass = !this.showPass;
 
@@ -59,4 +60,10 @@ export class LoginPage implements OnInit {
       { type: 'pattern', message: 'Please enter a valid email address' },
     ],
   };
+
+  //ir para a pagina - criar conta
+  public navegar(): void {
+    console.log('ola');
+    this.router.navigate(['/cria-conta']);
+  }
 }

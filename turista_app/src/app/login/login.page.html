@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Login</ion-title>
+    <ion-title style="text-align: center;">Login</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -38,10 +38,20 @@
         </div>
       </ion-card>
 
-
       <ion-button [disabled]="!registrationForm.valid" color="primary" expand="block" type="submit">Login</ion-button>
 
     </form>
-  </ion-list>
 
+    <div>
+      <h6 style="text-align: center;" (click)="navegar()">Não tem conta? Crie Gratuitamente</h6>
+    </div>
+
+    <ion-button shape="round" color="tertiary">
+      <ion-icon name="logo-facebook"></ion-icon>
+    </ion-button>
+    <ion-button shape="round" color="warning">
+      <ion-icon name="logo-google"></ion-icon>
+    </ion-button>
+
+  </ion-list>
 </ion-content>

@@ -6,8 +6,15 @@ import { LoginPage } from './login.page';
 const routes: Routes = [
   {
     path: '',
-    component: LoginPage
-  }
+    component: LoginPage,
+  },
+  {
+    path: 'cria-conta',
+    loadChildren: () =>
+      import('../cria-conta/cria-conta.module').then(
+        (m) => m.CriaContaPageModule
+      ),
+  },
 ];
 
 @NgModule({
