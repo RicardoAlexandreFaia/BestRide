@@ -1,6 +1,7 @@
 # Projeto Best Ride
 
 #### Alterações do ultimo commit:
+
 1. Recuperar Conta
 2. Alterações ao login para haver a possibilidade de recuperar conta
 
@@ -25,6 +26,9 @@
 1. Ionic
 2. Angular
 
-#### Bibliotecas Implementadas:
+#### Bibliotecas Implementadas a instalar:
 
-1. None por enquandpo :)
+1. npm install @ionic-native/geolocation
+2. npm install @ionic-native/native-geocoder
+3. npm i @ionic-native/core
+4. npm install --save @ionic-native/core@latest @ionic-native/google-maps@latest
