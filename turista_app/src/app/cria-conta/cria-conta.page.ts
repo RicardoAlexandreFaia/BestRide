@@ -21,11 +21,31 @@ export class CriaContaPage implements OnInit {
     passRepeat: '',
   });
 
-  registrationForm = this.formBuilder.group({
-    email: [''],
-    pass: [''],
-    passRepeat: [''],
-  });
+  registrationForm = this.formBuilder.group(
+    {
+      email: [
+        '',
+        Validators.compose([
+          Validators.maxLength(70),
+          Validators.pattern(
+            '^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'
+          ),
+          Validators.required,
+        ]),
+      ],
+      pass: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(12),
+          Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,12}$'),
+        ]),
+      ],
+      passRepeat: ['', Validators.required],
+    },
+    { validator: this.matchingPasswords('pass', 'passRepeat') }
+  );
 
   constructor(
     private formBuilder: FormBuilder,
@@ -66,6 +86,20 @@ export class CriaContaPage implements OnInit {
     console.log(result);
   }
 
+  matchingPasswords(passwordKey: string, confirmPasswordKey: string) {
+    // TODO maybe use this https://github.com/yuyang041060120/ng2-validation#notequalto-1
+    return (group: FormGroup): { [key: string]: any } => {
+      let password = group.controls[passwordKey];
+      let confirmPassword = group.controls[confirmPasswordKey];
+
+      if (password.value !== confirmPassword.value) {
+        return {
+          mismatchedPasswords: true,
+        };
+      }
+    };
+  }
+
   public submit() {
     console.log(this.registrationForm.get('pass').value);
     console.log(this.registrationForm.get('passRepeat').value);
@@ -73,9 +107,6 @@ export class CriaContaPage implements OnInit {
     var pass: String = this.registrationForm.get('pass').value;
     var passRepetida: String = this.registrationForm.get('passRepeat').value;
 
-    if (!(pass == passRepetida)) {
-      this.showAlert();
-    }
     console.log(this.registrationForm.value);
   }
 }

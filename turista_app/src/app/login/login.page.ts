@@ -20,8 +20,25 @@ export class LoginPage implements OnInit {
   });
 
   registrationForm = this.formBuilder.group({
-    email: [''],
-    password: [''],
+    email: [
+      '',
+      Validators.compose([
+        Validators.maxLength(70),
+        Validators.pattern(
+          '^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'
+        ),
+        Validators.required,
+      ]),
+    ],
+    password: [
+      '',
+      Validators.compose([
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(12),
+        Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,12}$'),
+      ]),
+    ],
   });
 
   constructor(public formBuilder: FormBuilder, private router: Router) {}
@@ -41,6 +58,13 @@ export class LoginPage implements OnInit {
 
   public submit() {
     console.log(this.registrationForm.value);
+    if (
+      (this.email.value == 'claudio@gmail.com' ||
+        this.email.value == 'ricardo@gmail.com') &&
+      this.password.value == 'abc123+*A'
+    ) {
+      this.router.navigate(['/menu']);
+    }
   }
 
   get email() {
