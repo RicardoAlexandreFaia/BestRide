@@ -34,4 +34,9 @@
 2. npm install @ionic-native/native-geocoder
 3. npm i @ionic-native/core
 4. npm install --save @ionic-native/core@latest @ionic-native/google-maps@latest
+5. npm install cordova-plugin-splashscreen
+6. npm install @ionic-native/splash-screen
+7. npm install cordova-plugin-statusbar
+8. npm install @ionic-native/status-bar
+9. npm i --save @capacitor-community/facebook-login
 ```

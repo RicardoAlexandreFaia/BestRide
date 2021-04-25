@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">turista_app</string>
+    <string name="title_activity_main">turista_app</string>
+    <string name="package_name">io.ionic.starter</string>
+    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="facebook_app_id">247849010427731</string>
+    <string name="fb_login_protocol_scheme">247849010427731</string>
+</resources>

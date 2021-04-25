@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +14,10 @@ export class LoginPage implements OnInit {
   passwordIconToggle = 'eye';
   ionicForm: FormGroup;
   name: string;
+
+  loading: HTMLIonLoadingElement;
+  loggedIn: boolean = false;
+  facebookResponse: FacebookLoginResponse;
 
   // Form Builder -> parametros
   profileForm = this.formBuilder.group({
@@ -41,7 +47,8 @@ export class LoginPage implements OnInit {
     ],
   });
 
-  constructor(public formBuilder: FormBuilder, private router: Router) {}
+  constructor(public formBuilder: FormBuilder, private router: Router, private loadingCtrl: LoadingController,
+    private facebook: Facebook,) {}
 
   ngOnInit() {}
 
@@ -95,5 +102,21 @@ export class LoginPage implements OnInit {
   public recuperarConta(): void {
     console.log('ola');
     this.router.navigate(['/recuperar-conta']);
+  }
+
+  //Facebook
+  async facebookLogin() {
+    this.loading = await this.loadingCtrl.create();
+    this.loading.present();
+
+    try {
+      const response: FacebookLoginResponse = await this.facebook.login(['email']);
+      this.loggedIn = true;
+      this.facebookResponse = response;
+      this.loading.dismiss();
+    } catch (error) {
+      console.log('facebookLogin', error);
+      this.loading.dismiss();
+    }
   }
 }
