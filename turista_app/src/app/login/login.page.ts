@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, isPlatform } from '@ionic/angular';
+import { Plugins, registerWebPlugin } from '@capacitor/core';
+
+//facebook login
+import { HttpClient } from '@angular/common/http';
+import { FacebookLoginPlugin } from '@capacitor-community/facebook-login';
+import { FacebookLogin } from '@capacitor-community/facebook-login';
+registerWebPlugin(FacebookLogin);
 
 @Component({
   selector: 'app-login',
@@ -15,9 +21,18 @@ export class LoginPage implements OnInit {
   ionicForm: FormGroup;
   name: string;
 
-  loading: HTMLIonLoadingElement;
-  loggedIn: boolean = false;
-  facebookResponse: FacebookLoginResponse;
+  constructor(
+    public formBuilder: FormBuilder,
+    private router: Router,
+    private http: HttpClient
+  ) {
+    this.setupFbLogin();
+  }
+
+  //facebook
+  fbLogin: FacebookLoginPlugin;
+  user = null;
+  token = null;
 
   // Form Builder -> parametros
   profileForm = this.formBuilder.group({
@@ -47,8 +62,58 @@ export class LoginPage implements OnInit {
     ],
   });
 
-  constructor(public formBuilder: FormBuilder, private router: Router, private loadingCtrl: LoadingController,
-    private facebook: Facebook,) {}
+  /********************Facebook Login*************************** */
+  async setupFbLogin() {
+    if (isPlatform('desktop')) {
+      this.fbLogin = FacebookLogin;
+    } else {
+      // Use the native implementation inside a real app!
+      const { FacebookLogin } = Plugins;
+      this.fbLogin = FacebookLogin;
+    }
+  }
+
+  async login() {
+    const FACEBOOK_PERMISSIONS = ['email', 'user_birthday'];
+    const result = await this.fbLogin.login({
+      permissions: FACEBOOK_PERMISSIONS,
+    });
+
+    if (result.accessToken && result.accessToken.userId) {
+      this.token = result.accessToken;
+      this.loadUserData();
+    } else if (result.accessToken && !result.accessToken.userId) {
+      // Web only gets the token but not the user ID
+      // Directly call get token to retrieve it now
+      this.getCurrentToken();
+    } else {
+      // Login failed
+    }
+  }
+
+  async getCurrentToken() {
+    const result = await this.fbLogin.getCurrentAccessToken();
+
+    if (result.accessToken) {
+      this.token = result.accessToken;
+      this.loadUserData();
+    } else {
+      // Not logged in.
+    }
+  }
+
+  async loadUserData() {
+    const url = `https://graph.facebook.com/${this.token.userId}?fields=id,name,picture.width(720),birthday,email&access_token=${this.token.token}`;
+    this.http.get(url).subscribe((res) => {
+      this.user = res;
+    });
+  }
+
+  async logout() {
+    await this.fbLogin.logout();
+    this.user = null;
+    this.token = null;
+  }
 
   ngOnInit() {}
 
@@ -102,21 +167,5 @@ export class LoginPage implements OnInit {
   public recuperarConta(): void {
     console.log('ola');
     this.router.navigate(['/recuperar-conta']);
-  }
-
-  //Facebook
-  async facebookLogin() {
-    this.loading = await this.loadingCtrl.create();
-    this.loading.present();
-
-    try {
-      const response: FacebookLoginResponse = await this.facebook.login(['email']);
-      this.loggedIn = true;
-      this.facebookResponse = response;
-      this.loading.dismiss();
-    } catch (error) {
-      console.log('facebookLogin', error);
-      this.loading.dismiss();
-    }
   }
 }
