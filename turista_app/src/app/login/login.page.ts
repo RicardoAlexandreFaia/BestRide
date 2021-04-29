@@ -82,12 +82,15 @@ export class LoginPage implements OnInit {
     if (result.accessToken && result.accessToken.userId) {
       this.token = result.accessToken;
       this.loadUserData();
+      this.router.navigate(['/menu']);
     } else if (result.accessToken && !result.accessToken.userId) {
       // Web only gets the token but not the user ID
       // Directly call get token to retrieve it now
+      this.router.navigate(['/menu']);
       this.getCurrentToken();
     } else {
       // Login failed
+      this.router.navigate(['/criar-conta']);
     }
   }
 

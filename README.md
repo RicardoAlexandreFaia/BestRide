@@ -41,3 +41,7 @@
 
 > Para Iniciar o login do Facebook ou da Google, e
 > aconselhavel emular o proprio usando o android studio (Android) ou o Xcode (IOS) ja que o browser nao consegue implementar as bibliotecas necessarias.
+
+## TODO :
+
+> 1. Sugestões no mapa para roteiros;
