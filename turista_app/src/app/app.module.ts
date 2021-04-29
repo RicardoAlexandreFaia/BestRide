@@ -10,7 +10,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 
-import { Facebook } from '@ionic-native/facebook/ngx';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -29,7 +28,6 @@ import { HttpClientModule } from '@angular/common/http';
     },
     Geolocation,
     NativeGeocoder,
-    Facebook,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent],

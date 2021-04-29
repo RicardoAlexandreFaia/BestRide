@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "386155875693",
+    "project_id": "best-ride-d3454",
+    "storage_bucket": "best-ride-d3454.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:386155875693:android:1ee4b9cadc35dfb487de64",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "386155875693-kr37stiq0vtc5fph42pbbo6dg8f5pq71.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.ionic.starter",
+            "certificate_hash": "58bfeba6aa517c27f4e3f9c425f3b892cf9da7b3"
+          }
+        },
+        {
+          "client_id": "386155875693-1sikqp2taljub79la0lele6v4o8vdjje.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0NPYTvsyG6e-jXtgTQ4EqXYM8DATsa5A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "386155875693-1sikqp2taljub79la0lele6v4o8vdjje.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

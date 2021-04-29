@@ -10,6 +10,9 @@ import { FacebookLoginPlugin } from '@capacitor-community/facebook-login';
 import { FacebookLogin } from '@capacitor-community/facebook-login';
 registerWebPlugin(FacebookLogin);
 
+//google login
+import '@codetrix-studio/capacitor-google-auth';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -21,19 +24,13 @@ export class LoginPage implements OnInit {
   ionicForm: FormGroup;
   name: string;
 
-  constructor(
-    public formBuilder: FormBuilder,
-    private router: Router,
-    private http: HttpClient
-  ) {
-    this.setupFbLogin();
-  }
-
   //facebook
   fbLogin: FacebookLoginPlugin;
   user = null;
   token = null;
 
+  //google
+  userInfo = null;
   // Form Builder -> parametros
   profileForm = this.formBuilder.group({
     email: '',
@@ -62,6 +59,14 @@ export class LoginPage implements OnInit {
     ],
   });
 
+  constructor(
+    public formBuilder: FormBuilder,
+    private router: Router,
+    private http: HttpClient
+  ) {
+    this.setupFbLogin();
+  }
+
   /********************Facebook Login*************************** */
   async setupFbLogin() {
     if (isPlatform('desktop')) {
@@ -88,6 +93,7 @@ export class LoginPage implements OnInit {
       // Directly call get token to retrieve it now
       this.router.navigate(['/menu']);
       this.getCurrentToken();
+      this.router.navigate(['/menu']);
     } else {
       // Login failed
       this.router.navigate(['/criar-conta']);
@@ -116,6 +122,13 @@ export class LoginPage implements OnInit {
     await this.fbLogin.logout();
     this.user = null;
     this.token = null;
+  }
+
+  //google login
+  async googleSignup() {
+    const googleUser = (await Plugins.GoogleAuth.signIn(null)) as any;
+    console.log('my user: ', googleUser);
+    this.userInfo = googleUser;
   }
 
   ngOnInit() {}
