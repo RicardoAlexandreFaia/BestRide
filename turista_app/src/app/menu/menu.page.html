@@ -4,13 +4,26 @@
     <ion-title>
       Best Ride
     </ion-title>
-    <ion-buttons slot="start">
-      <ion-menu-button menu="main-menu"></ion-menu-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div #map id="map"></div>
+  <div class="menu">
+    <div class="botoes">
+      <ion-fab-button color="primary" (click)="cir1()">
+        <ion-icon name="map"></ion-icon>
+        <label>Circuito 1</label>
+      </ion-fab-button>
 
+      <ion-fab-button color="secondary" (click)="cir2()">
+        <ion-icon name="map"></ion-icon>
+        <label>Circuito 2</label>
+      </ion-fab-button>
+    </div>
+
+    <br>
+
+    <div #map id="map"></div>
+
+  </div>
 </ion-content>

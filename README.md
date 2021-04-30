@@ -27,6 +27,14 @@
 1. Ionic
 2. Angular
 
+---
+
+## Para Executar em emulador Android:
+
+> ionic build --prod && npx cap copy && npx cap sync android && npx cap open android
+
+---
+
 #### Bibliotecas Implementadas a instalar:
 
 ```
@@ -38,11 +46,17 @@
 6. npm i @codetrix-studio/capacitor-google-auth
 ```
 
+---
+
 ## Nota :
 
 > Para Iniciar o login do Facebook ou da Google, e
 > aconselhavel emular o proprio usando o android studio (Android) ou o Xcode (IOS) ja que o browser nao consegue implementar as bibliotecas necessarias.
 
+---
+
 ## TODO :
 
 > 1. Sugestões no mapa para roteiros;
+> 2. Melhoria no memu
+> 3. Suporte de varios idiomas

@@ -96,6 +96,9 @@ MIT
 @ionic-native/geolocation
 MIT
 
+@ionic-native/google-maps
+MIT
+
 @ionic-native/native-geocoder
 MIT
 

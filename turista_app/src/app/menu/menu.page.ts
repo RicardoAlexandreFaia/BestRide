@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
-import { MarkerOptions } from '@ionic-native/google-maps';
+import { LatLngBounds, MarkerOptions } from '@ionic-native/google-maps';
 
 import {
   Geolocation,
@@ -10,6 +10,8 @@ import {
 } from '@ionic-native/geolocation/ngx';
 
 declare var google: any;
+var polyLine;
+var polyOptions;
 
 @Component({
   selector: 'app-menu',
@@ -20,30 +22,102 @@ export class MenuPage implements OnInit {
   @ViewChild('map', { static: false }) mapElement: ElementRef;
 
   map: any;
+
   options: GeolocationOptions;
   currentPos: Geoposition;
+  circuito1: any = [
+    {
+      titulo: 'SÉ', // inicio da  viagem
+      lat: 38.7098786,
+      lng: -9.132584400000042,
+    },
+    {
+      titulo: 'MIRADOURO PORTAS DO SOL',
+      lat: 38.711148,
+      lng: -9.133262000000059,
+    },
+    { titulo: 'ALFAMA', lat: 38.7125, lng: -9.132799999999975 },
+    {
+      titulo: 'VILA DO BAIRRO DO CASTELO',
+      lat: 38.7131963,
+      lng: -9.133408799999984,
+    },
+    {
+      titulo: 'MIRADOURO DA GRAÇA',
+      lat: 38.716272,
+      lng: -9.131524000000013,
+    },
+    {
+      titulo: 'GRAÇA',
+      lat: 38.71794939999999,
+      lng: -9.13039619999995,
+    },
+    {
+      titulo: 'MIRADOURO NOSSA SENHORA DO MONTE',
+      lat: 38.71906409127469,
+      lng: -9.132594176721227,
+    },
+  ];
+
+  circuito2: any = [
+    {
+      titulo: 'MIRADOURO DE S. PEDRO DE ALCÂNTARA',
+      lat: 38.7150612,
+      lng: -9.144405199999937,
+    },
+    {
+      titulo: 'BAIRRO ALTO',
+      lat: 38.7127532,
+      lng: -9.146295099999975,
+    },
+    {
+      titulo: 'CHIADO',
+      lat: 38.710202,
+      lng: -9.14223800000002,
+    },
+    {
+      titulo: 'SÉ',
+      lat: 38.7098786,
+      lng: -9.132584400000042,
+    },
+    {
+      titulo: 'ALFAMA',
+      lat: 38.7125,
+      lng: -9.132799999999975,
+    },
+    {
+      titulo: 'VILA DO BAIRRO DO CASTELO',
+      lat: 38.7131963,
+      lng: -9.133408799999984,
+    },
+  ];
 
   constructor(private geolocation: Geolocation) {}
 
   ngOnInit() {}
 
+  ngAfterViewInit() {}
+
   ionViewDidEnter() {
-    this.showMap();
+    this.getUserPosition();
   }
 
-  showMap() {
+  showMap(opcao) {
     const location = new google.maps.LatLng(
-      38.72834083680642,
-      -9.140636000004976
+      38.71847179326699,
+      -9.13719094695057
     );
+
     const options = {
       center: location,
       zoom: 18,
       disableDefaultUI: true,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      mapTypeId: google.maps.MapTypeId.TERRAIN,
     };
+
     this.map = new google.maps.Map(this.mapElement.nativeElement, options);
-    this.addMarker();
+
+    this.adicionaMarcadores(opcao);
   }
 
   getUserPosition() {
@@ -54,42 +128,65 @@ export class MenuPage implements OnInit {
       (pos: Geoposition) => {
         this.currentPos = pos;
 
-        console.log(pos);
-        this.addMap(pos.coords.latitude, pos.coords.longitude);
+        let latLng = new google.maps.LatLng(
+          this.currentPos.coords.latitude,
+          this.currentPos.coords.longitude
+        );
+
+        let marker = new google.maps.Marker({
+          map: this.map,
+          position: latLng,
+          latitude: this.currentPos.coords.latitude,
+          icon: { url: './assets/icon/gps.png' },
+          longitude: this.currentPos.coords.longitude,
+        });
       },
       (err: PositionError) => {
-        console.log('error : ' + err.message);
+        console.log('ERRO::: : ' + err.message);
       }
     );
   }
 
-  addMap(lat, long) {
-    let latLng = new google.maps.LatLng(lat, long);
-
-    let mapOptions = {
-      center: latLng,
-      zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-    };
-
-    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-    this.addMarker();
+  cir1() {
+    this.showMap(this.circuito1);
   }
 
-  addMarker() {
-    let marker = new google.maps.Marker({
-      map: this.map,
-      animation: google.maps.Animation.DROP,
-      position: this.map.getCenter(),
-    });
+  cir2() {
+    this.showMap(this.circuito2);
+  }
 
-    let content = '<p>This is your current position !</p>';
-    let infoWindow = new google.maps.InfoWindow({
-      content: content,
-    });
+  adicionaMarcadores(roteirosMarkers) {
+    for (let pos of roteirosMarkers) {
+      let posMarker = new google.maps.LatLng(pos.lat, pos.lng);
 
-    google.maps.event.addListener(marker, 'click', () => {
-      infoWindow.open(this.map, marker);
-    });
+      let marker = new google.maps.Marker({
+        map: this.map,
+        position: posMarker,
+        title: pos.title,
+        latitude: pos.lat,
+        longitude: pos.lng,
+        icon:
+          'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ddd',
+      });
+
+      const roteiros_trace = new google.maps.Polyline({
+        path: roteirosMarkers,
+        geodesic: true,
+        strokeColor: 'blue',
+        strokeOpacity: 1.0,
+        strokeWeight: 2,
+      });
+
+      roteiros_trace.setMap(this.map);
+
+      let content = '<p> ' + pos.titulo + '</p>';
+      let infoWindow = new google.maps.InfoWindow({
+        content: content,
+      });
+
+      google.maps.event.addListener(marker, 'click', () => {
+        infoWindow.open(this.map, marker);
+      });
+    }
   }
 }

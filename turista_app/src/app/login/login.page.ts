@@ -91,12 +91,10 @@ export class LoginPage implements OnInit {
     } else if (result.accessToken && !result.accessToken.userId) {
       // Web only gets the token but not the user ID
       // Directly call get token to retrieve it now
-      this.router.navigate(['/menu']);
       this.getCurrentToken();
       this.router.navigate(['/menu']);
     } else {
       // Login failed
-      this.router.navigate(['/criar-conta']);
     }
   }
 
@@ -106,6 +104,7 @@ export class LoginPage implements OnInit {
     if (result.accessToken) {
       this.token = result.accessToken;
       this.loadUserData();
+      this.router.navigate(['/menu']);
     } else {
       // Not logged in.
     }
@@ -129,6 +128,7 @@ export class LoginPage implements OnInit {
     const googleUser = (await Plugins.GoogleAuth.signIn(null)) as any;
     console.log('my user: ', googleUser);
     this.userInfo = googleUser;
+    this.router.navigate(['/menu']);
   }
 
   ngOnInit() {}
