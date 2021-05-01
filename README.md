@@ -54,6 +54,8 @@
 > Para Iniciar o login do Facebook ou da Google, e
 > aconselhavel emular o proprio usando o android studio (Android) ou o Xcode (IOS) ja que o browser nao consegue implementar as bibliotecas necessarias.
 
+>Ajuste no menu que aparecia no login, agora só aparece depois do login
+
 ---
 
 ## TODO :

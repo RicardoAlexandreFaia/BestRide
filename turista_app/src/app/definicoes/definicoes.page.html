@@ -21,4 +21,22 @@
 
     </ion-card-content>
   </ion-card>
+
+  <ion-tabs #menuTab id="menuTab">
+    <ion-tab-bar slot="bottom">
+
+      <ion-tab-button (click)="menu()">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-tab-button>
+
+      <ion-tab-button tab="">
+        <ion-icon name="map-outline"></ion-icon>
+      </ion-tab-button>
+
+      <ion-tab-button tab="definicoes">
+        <ion-icon name="settings-outline"></ion-icon>
+      </ion-tab-button>
+
+    </ion-tab-bar>
+  </ion-tabs>
 </ion-content>

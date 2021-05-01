@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { LatLngBounds, MarkerOptions } from '@ionic-native/google-maps';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 import {
   Geolocation,
@@ -95,7 +96,8 @@ export class MenuPage implements OnInit {
 
   constructor(
     private geolocation: Geolocation,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private router: Router
   ) {
     this.translateService.use(this.language);
   }
@@ -194,5 +196,10 @@ export class MenuPage implements OnInit {
         infoWindow.open(this.map, marker);
       });
     }
+  }
+
+  definicoes(){
+    console.log('ola');
+    this.router.navigate(['/definicoes']);
   }
 }
