@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-recuperar-conta',
@@ -8,6 +9,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class RecuperarContaPage implements OnInit {
   ionicForm: FormGroup;
+  language: string = this.translateService.currentLang;
 
   profileForm = this.formBuilder.group({
     email: '',
@@ -17,7 +19,10 @@ export class RecuperarContaPage implements OnInit {
     email: [''],
   });
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private translateService: TranslateService
+  ) {}
 
   ngOnInit() {}
 

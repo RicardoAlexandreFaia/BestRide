@@ -10,5 +10,14 @@
   "login": {
     "no_account": "No Account? Create one for free!",
     "recover_account": "Recover your account"
+  },
+  "recovery_account": {
+    "tabName": "Recover Account",
+    "button_text": "Recover Account"
+  },
+  "create_account": {
+    "tabName": "Create Account",
+    "text": "repeat Password",
+    "button_text": "Create Account"
   }
 }

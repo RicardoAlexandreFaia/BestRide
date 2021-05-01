@@ -197,9 +197,4 @@ export class MenuPage implements OnInit {
       });
     }
   }
-
-  definicoes(){
-    console.log('ola');
-    this.router.navigate(['/definicoes']);
-  }
 }

@@ -1,25 +1,21 @@
-<!--<ion-app>
-
-
-  <ion-tabs #menuTab id="menuTab">
-    <ion-tab-bar slot="bottom">
-
-      <ion-tab-button tab="menu">
-        <ion-icon name="home-outline"></ion-icon>
-      </ion-tab-button>
-
-      <ion-tab-button tab="">
-        <ion-icon name="map-outline"></ion-icon>
-      </ion-tab-button>
-
-      <ion-tab-button tab="definicoes">
-        <ion-icon name="settings-outline"></ion-icon>
-      </ion-tab-button>
-
-    </ion-tab-bar>
-  </ion-tabs>
-</ion-app>-->
-
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu menuId="main-menu" contentId="main" type="reveal" swipeGesture="false">
+    <ion-content>
+      <div class="menu-header-bg"></div>
+      <div class="header-content">
+        <img src="../assets/icon/favicon.png">
+        <ion-label>
+          <h2>User</h2>
+          <p>Best Ride</p>
+        </ion-label>
+      </div>
+
+      <ion-list class="menu-items" lines="none">
+        <ion-item (click)="goDefinitions()">
+          <ion-icon name="settings-outline"></ion-icon> Definições
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="main"></ion-router-outlet>
 </ion-app>

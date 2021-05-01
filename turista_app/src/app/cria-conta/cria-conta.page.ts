@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cria-conta',
@@ -10,6 +11,7 @@ import { AlertController } from '@ionic/angular';
 export class CriaContaPage implements OnInit {
   showPass = false;
   showPass2 = false;
+  language: string = this.translateService.currentLang;
 
   passwordIconToggle: String = 'eye';
   passwordIconToggle2: String = 'eye';
@@ -49,7 +51,8 @@ export class CriaContaPage implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit() {}

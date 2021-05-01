@@ -1,10 +1,23 @@
 {
   "definicoes": {
-    "tabName": "Definições",
-    "option_text": "Linguagem"
+    "tabName": "Definicoes",
+    "option_text": "Language"
   },
   "menu": {
-    "botao1": "what",
-    "botao2": "what2"
+    "botao1": "Circuito 1",
+    "botao2": "Circuito 2"
+  },
+  "login": {
+    "no_account": "Não tem Conta? Crie Gratuitamente",
+    "recover_account": "Recuperar Conta"
+  },
+  "recovery_account": {
+    "tabName": "Recuperar Conta",
+    "button_text": "Recuperar"
+  },
+  "create_account": {
+    "tabName": "Criar Conta",
+    "text": "repita Password",
+    "button_text": "Crie Conta"
   }
 }

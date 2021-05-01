@@ -40,7 +40,10 @@ const routes: Routes = [
   },
   {
     path: 'definicoes',
-    loadChildren: () => import('./definicoes/definicoes.module').then( m => m.DefinicoesPageModule)
+    loadChildren: () =>
+      import('./definicoes/definicoes.module').then(
+        (m) => m.DefinicoesPageModule
+      ),
   },
 ];
 

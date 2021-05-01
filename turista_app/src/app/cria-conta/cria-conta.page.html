@@ -4,7 +4,8 @@
       <ion-back-button text="voltar">
       </ion-back-button>
     </ion-buttons>
-    <ion-title style="text-align: center;">Cria Conta</ion-title>
+    <ion-title style="text-align: center;" translate [translateParams]="{ lang: language }">create_account.tabName
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -34,14 +35,15 @@
 
       <ion-card>
         <ion-item>
-          <ion-label>Repita Password</ion-label>
+          <ion-label translate [translateParams]="{ lang: language }">create_account.text</ion-label>
           <ion-input formControlName="passRepeat" [type]=" showPass2 ? 'text' : 'password'" required></ion-input>
           <ion-icon slot="end" [name]="passwordIconToggle2" (click)="togglePass2()"></ion-icon>
         </ion-item>
       </ion-card>
 
 
-      <ion-button [disabled]="!registrationForm.valid" color="primary" expand="block" type="submit">Criar Conta
+      <ion-button [disabled]="!registrationForm.valid" color="primary" expand="block" type="submit" translate
+        [translateParams]="{ lang: language }">create_account.button_text
       </ion-button>
 
     </form>

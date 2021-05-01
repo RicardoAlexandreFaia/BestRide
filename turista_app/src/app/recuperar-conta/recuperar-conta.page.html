@@ -4,7 +4,8 @@
       <ion-back-button>
       </ion-back-button>
     </ion-buttons>
-    <ion-title style="text-align: center;">Recuperar Conta</ion-title>
+    <ion-title style="text-align: center;" translate [translateParams]="{ lang: language }">recovery_account.tabName
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -22,7 +23,8 @@
         </ion-item>
       </ion-card>
 
-      <ion-button [disabled]="!registrationForm.valid" color="primary" expand="block" type="submit">Recuperar Conta
+      <ion-button [disabled]="!registrationForm.valid" color="primary" expand="block" type="submit" translate
+        [translateParams]="{ lang: language }">recovery_account.button_text
       </ion-button>
     </form>
 

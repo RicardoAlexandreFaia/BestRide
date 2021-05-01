@@ -12,7 +12,6 @@ registerWebPlugin(FacebookLogin);
 
 //google login
 import '@codetrix-studio/capacitor-google-auth';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
