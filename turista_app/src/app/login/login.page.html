@@ -6,6 +6,7 @@
 
 
 <ion-content>
+
   <ion-list class="conteudo">
     <img id="imagem" src="assets/BestRide.png" />
 
@@ -41,8 +42,10 @@
     </form>
 
     <div>
-      <h6 style="text-align: center;" (click)="navegar()">Não tem conta? Crie Gratuitamente</h6>
-      <h6 style="text-align: center;" (click)="recuperarConta()">Esqueceu-se da Palavra-Passe? Recupere aqui</h6>
+      <h6 style="text-align: center;" translate [translateParams]="{ lang: language }" (click)="navegar()">
+        login.no_account</h6>
+      <h6 style="text-align: center;" translate [translateParams]="{ lang: language }" (click)="recuperarConta()">
+        login.recover_account</h6>
     </div>
 
     <ion-button shape="round" color="tertiary" (click)="login()">

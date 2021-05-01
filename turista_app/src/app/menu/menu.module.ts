@@ -8,8 +8,27 @@ import { MenuPageRoutingModule } from './menu-routing.module';
 
 import { MenuPage } from './menu.page';
 
+import { HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/lang/', '.json');
+}
+
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, MenuPageRoutingModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    MenuPageRoutingModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient],
+      },
+    }),
+  ],
   declarations: [MenuPage],
 })
 export class MenuPageModule {}

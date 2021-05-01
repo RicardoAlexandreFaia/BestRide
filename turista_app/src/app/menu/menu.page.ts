@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { LatLngBounds, MarkerOptions } from '@ionic-native/google-maps';
+import { TranslateService } from '@ngx-translate/core';
 
 import {
   Geolocation,
@@ -22,7 +23,7 @@ export class MenuPage implements OnInit {
   @ViewChild('map', { static: false }) mapElement: ElementRef;
 
   map: any;
-
+  language: string = this.translateService.currentLang;
   options: GeolocationOptions;
   currentPos: Geoposition;
   circuito1: any = [
@@ -92,7 +93,12 @@ export class MenuPage implements OnInit {
     },
   ];
 
-  constructor(private geolocation: Geolocation) {}
+  constructor(
+    private geolocation: Geolocation,
+    private translateService: TranslateService
+  ) {
+    this.translateService.use(this.language);
+  }
 
   ngOnInit() {}
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-recuperar-conta',
@@ -17,10 +17,9 @@ export class RecuperarContaPage implements OnInit {
     email: [''],
   });
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public submit() {
     console.log(this.registrationForm.value);

@@ -12,12 +12,12 @@
     <div class="botoes">
       <ion-fab-button color="primary" (click)="cir1()">
         <ion-icon name="map"></ion-icon>
-        <label>Circuito 1</label>
+        <label translate [translateParams]="{ lang: language }">menu.botao1</label>
       </ion-fab-button>
 
       <ion-fab-button color="secondary" (click)="cir2()">
         <ion-icon name="map"></ion-icon>
-        <label>Circuito 2</label>
+        <label translate [translateParams]="{ lang: language }">menu.botao2</label>
       </ion-fab-button>
     </div>
 

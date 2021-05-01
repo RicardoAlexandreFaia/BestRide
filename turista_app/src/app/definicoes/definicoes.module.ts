@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { LoginPageRoutingModule } from './login-routing.module';
+import { DefinicoesPageRoutingModule } from './definicoes-routing.module';
 
-import { LoginPage } from './login.page';
+import { DefinicoesPage } from './definicoes.page';
 
 import { HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/lang/', '.json');
 }
@@ -21,9 +20,7 @@ export function createTranslateLoader(http: HttpClient) {
     CommonModule,
     FormsModule,
     IonicModule,
-    LoginPageRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
+    DefinicoesPageRoutingModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -32,6 +29,6 @@ export function createTranslateLoader(http: HttpClient) {
       },
     }),
   ],
-  declarations: [LoginPage],
+  declarations: [DefinicoesPage],
 })
-export class LoginPageModule {}
+export class DefinicoesPageModule {}

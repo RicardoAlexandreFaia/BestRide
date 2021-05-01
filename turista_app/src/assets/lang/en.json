@@ -1,0 +1,14 @@
+{
+  "definicoes": {
+    "tabName": "Definitions",
+    "option_text": "Language"
+  },
+  "menu": {
+    "botao1": "circuit 1",
+    "botao2": "circuit 2"
+  },
+  "login": {
+    "no_account": "No Account? Create one for free!",
+    "recover_account": "Recover your account"
+  }
+}

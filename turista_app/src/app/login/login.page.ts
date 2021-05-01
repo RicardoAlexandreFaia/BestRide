@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController, isPlatform } from '@ionic/angular';
 import { Plugins, registerWebPlugin } from '@capacitor/core';
-
+import { TranslateService } from '@ngx-translate/core';
 //facebook login
 import { HttpClient } from '@angular/common/http';
 import { FacebookLoginPlugin } from '@capacitor-community/facebook-login';
@@ -23,6 +23,7 @@ export class LoginPage implements OnInit {
   passwordIconToggle = 'eye';
   ionicForm: FormGroup;
   name: string;
+  language: string = this.translateService.currentLang;
 
   //facebook
   fbLogin: FacebookLoginPlugin;
@@ -62,8 +63,10 @@ export class LoginPage implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private translateService: TranslateService
   ) {
+    this.translateService.use(this.language);
     this.setupFbLogin();
   }
 

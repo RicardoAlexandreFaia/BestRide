@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title translate [translateParams]="{ lang: language }">definicoes.tabName</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+
+
+    <ion-card-content>
+
+      <ion-item>
+        <ion-label translate [translateParams]="{ lang: language }">definicoes.option_text</ion-label>
+        <ion-select [(ngModel)]='language' (ionChange)='mudarLinguagem()'
+          [placeholder]='"tab1.languageChangePlaceholder" | translate'>
+          <ion-select-option value='pt'>Portugues</ion-select-option>
+          <ion-select-option value='en'>Ingles</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>
