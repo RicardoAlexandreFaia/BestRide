@@ -44,6 +44,7 @@
 4. npm install --save @ionic-native/core@latest @ionic-native/google-maps@latest
 5. npm i --save @capacitor-community/facebook-login
 6. npm i @codetrix-studio/capacitor-google-auth
+7. npm install @ngx-translate/core @ngx-translate/http-loader --save
 ```
 
 ---
