@@ -12,16 +12,30 @@
 
 <ion-content [fullscreen]="true">
   <div class="menu">
-    <div class="botoes">
-      <ion-fab-button color="primary" (click)="cir1()">
-        <ion-icon name="map"></ion-icon>
-        <label translate [translateParams]="{ lang: language }">menu.botao1</label>
-      </ion-fab-button>
+    <div scrollY="true" class="botoes">
+      <ion-card (click)="cir1()">
+        <ion-card-header>
+          <ion-card-subtitle>Circuito 1</ion-card-subtitle>
+          <ion-card-title>Terreiro do Passo - Jeronimos</ion-card-title>
+        </ion-card-header>
+      
+        <ion-card-content>
+          Neste roteiro pode ver todas as maravilhas de Lisboa entre o Terreiro do Passo
+          e os Mosteiro dos Jeronimos.
+        </ion-card-content>
+      </ion-card>
 
-      <ion-fab-button color="secondary" (click)="cir2()">
-        <ion-icon name="map"></ion-icon>
-        <label translate [translateParams]="{ lang: language }">menu.botao2</label>
-      </ion-fab-button>
+      <ion-card  (click)="cir2()">
+        <ion-card-header>
+          <ion-card-subtitle>Circuito 2</ion-card-subtitle>
+          <ion-card-title>Terreiro do Passo - Sé</ion-card-title>
+        </ion-card-header>
+      
+        <ion-card-content>
+          Neste roteiro pode ver todas as maravilhas de Lisboa entre o Terreiro do Passo
+          e a Sé de Lisboa.
+        </ion-card-content>
+      </ion-card>
     </div>
 
     <br>

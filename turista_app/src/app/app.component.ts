@@ -19,4 +19,9 @@ export class AppComponent {
     console.log('this');
     this.router.navigate(['/definicoes']);
   }
+
+  goCalendario(){
+    console.log('this');
+    this.router.navigate(['/calendario']);
+  }
 }

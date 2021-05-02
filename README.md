@@ -2,9 +2,9 @@
 
 #### Alterações do ultimo commit:
 
-1. Recuperar Conta
-2. Alterações ao login para haver a possibilidade de recuperar conta
-3. Google Mapa no menu
+1. Correção do bug
+2. Melhoria do estilo do Menu 
+3. Criação da pagina Calendario para as agendas das viagens
 
 > Para Iniciar a app turista, execute os seguinte comandos:
 
@@ -45,6 +45,7 @@
 5. npm i --save @capacitor-community/facebook-login
 6. npm i @codetrix-studio/capacitor-google-auth
 7. npm install @ngx-translate/core @ngx-translate/http-loader --save
+8. npm i ion2-calendar@next moment
 ```
 
 ---
