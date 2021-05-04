@@ -1,7 +1,11 @@
 {
-  "name": "turista_app",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
+  "name": "New Ionic App",
+  "integrations": {},
+  "type": "angular",
+  "proxies": [
+    {
+      "path": "/calendario",
+      "proxyUrl": "http://localhost:8100/calendario"
+    }
+  ]
 }

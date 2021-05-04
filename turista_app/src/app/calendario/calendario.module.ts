@@ -14,8 +14,8 @@ import { CalendarioPage } from './calendario.page';
     FormsModule,
     IonicModule,
     CalendarModule,
-    CalendarioPageRoutingModule
+    CalendarioPageRoutingModule,
   ],
-  declarations: [CalendarioPage]
+  declarations: [CalendarioPage],
 })
 export class CalendarioPageModule {}
