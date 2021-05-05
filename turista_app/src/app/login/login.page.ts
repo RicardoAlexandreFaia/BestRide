@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoadingController, isPlatform } from '@ionic/angular';
+import { LoadingController, isPlatform, AlertController } from '@ionic/angular';
 import { Plugins, registerWebPlugin } from '@capacitor/core';
 import { TranslateService } from '@ngx-translate/core';
 //facebook login
@@ -63,7 +63,8 @@ export class LoginPage implements OnInit {
     public formBuilder: FormBuilder,
     private router: Router,
     private http: HttpClient,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private alertCtrl: AlertController
   ) {
     this.translateService.use(this.language);
     this.setupFbLogin();
@@ -89,12 +90,12 @@ export class LoginPage implements OnInit {
     if (result.accessToken && result.accessToken.userId) {
       this.token = result.accessToken;
       this.loadUserData();
-      this.router.navigate(['/menu']);
+      this.router.navigate(['/cria-conta']);
     } else if (result.accessToken && !result.accessToken.userId) {
       // Web only gets the token but not the user ID
       // Directly call get token to retrieve it now
       this.getCurrentToken();
-      this.router.navigate(['/menu']);
+      //this.router.navigate(['/cria-conta']);
     } else {
       // Login failed
     }
@@ -130,7 +131,17 @@ export class LoginPage implements OnInit {
     const googleUser = (await Plugins.GoogleAuth.signIn(null)) as any;
     console.log('my user: ', googleUser);
     this.userInfo = googleUser;
+    this.mostraDialogo();
     this.router.navigate(['/menu']);
+  }
+
+  async mostraDialogo() {
+    const alert = await this.alertCtrl.create({
+      header: 'Bem Vindo',
+      message: 'Começe as suas viagens',
+      buttons: ['OK'],
+    });
+    await alert.present();
   }
 
   ngOnInit() {}
