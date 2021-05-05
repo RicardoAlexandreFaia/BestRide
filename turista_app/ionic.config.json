@@ -4,8 +4,8 @@
   "type": "angular",
   "proxies": [
     {
-      "path": "/calendario",
-      "proxyUrl": "http://localhost:8100/calendario"
+      "path": "/employees",
+      "proxyUrl": "http://localhost:8000/api/employees"
     }
   ]
 }

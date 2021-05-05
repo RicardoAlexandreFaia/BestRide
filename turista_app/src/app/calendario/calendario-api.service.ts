@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
@@ -13,14 +13,40 @@ export class CalendarioApiService {
 
   constructor(private http: HttpClient) {}
 
-  public getEmployees(): Observable<any[]> {
-    let headers = new HttpHeaders();
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT');
-    headers.append('Accept', 'application/json');
-    headers.append('content-type', 'application/json');
-    return this.http.get<any[]>(`${environment.apiUrl}${this.url}`, {
-      headers: headers,
-    });
+  public getEmployees(): void {
+    /* let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json; charset=utf-8');
+    headers.append('Access-Control-Allow-Credentials', 'true');
+    headers.append('Upgrade-Insecure-Requests', '1');
+    headers.append('withCredentials', 'true');
+    headers.append('Access-Control-Allow-Origin', 'http://localhost:8100 73');
+    headers.append('Access-Control-Allow-Credentials', 'true');
+    headers.append(
+      'Access-Control-Allow-Methods',
+      'GET, POST, PUT, DELETE, OPTIONS'
+    );
+    headers.append(
+      'Access-Control-Allow-Headers',
+      'Content-Type,Authorization,Upgrade-Insecure-Requests'
+    );*/
+
+    this.http.get('http://localhost:8000/api/employees/').subscribe(
+      (data) => {
+        console.log(data);
+      },
+      (error) => {}
+    );
+
+    let postData = {
+      title: 'musica Xau',
+      seconds: '25h 54s',
+    };
+
+    this.http.post('http://127.0.0.1:8000/api/employees/', postData).subscribe(
+      (data) => {},
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 }

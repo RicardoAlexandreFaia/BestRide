@@ -17,9 +17,7 @@ export class CalendarioPage implements OnInit {
   constructor(public calendarioService: CalendarioApiService) {}
 
   ngOnInit() {
-    this.calendarioService
-      .getEmployees()
-      .subscribe((data) => console.log('Dados dos /api/employee', data));
+    this.calendarioService.getEmployees();
   }
 
   onChange($event) {
