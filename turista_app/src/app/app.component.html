@@ -11,11 +11,15 @@
       </div>
 
       <ion-list class="menu-items" lines="none">
-        <ion-item (click)="goDefinitions()">
+        <ion-item [routerLink]="['/menu']">
+          <ion-icon name="map-outline"></ion-icon>Mapa
+        </ion-item>
+
+        <ion-item [routerLink]="['/definicoes']">
           <ion-icon name="settings-outline"></ion-icon> Definições
         </ion-item>
 
-        <ion-item (click)="goCalendario()">
+        <ion-item [routerLink]="['/calendario']">
           <ion-icon name="calendar-outline"></ion-icon> Agenda
         </ion-item>
       </ion-list>

@@ -12,16 +12,7 @@ export class AppComponent {
   }
 
   initializacao(): void {
-    // app tem como predefinicao a linguagem PT
+    // app tem como predefinicao a linguagem PT (meter liguagem do telemovel)
     this.translate.setDefaultLang('pt');
-  }
-  goDefinitions(): void {
-    console.log('this');
-    this.router.navigate(['/definicoes']);
-  }
-
-  goCalendario(){
-    console.log('this');
-    this.router.navigate(['/calendario']);
   }
 }
