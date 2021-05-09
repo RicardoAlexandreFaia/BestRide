@@ -1,6 +1,6 @@
 {
   "appId": "io.ionic.starter",
-  "appName": "turista_app",
+  "appName": "BestRide",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
@@ -16,7 +16,7 @@
     "proxies": [
       {
         "path": "/*",
-        "proxyUrl": "http://localhost:8000/api/employees/"
+        "proxyUrl": "http://localhost:8080/api/"
       }
     ]
   },

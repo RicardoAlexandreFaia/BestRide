@@ -2,9 +2,7 @@
 
 #### Alterações do ultimo commit:
 
-1. Correção do bug
-2. Melhoria do estilo do Menu 
-3. Criação da pagina Calendario para as agendas das viagens
+- Criação do BackEnd para a app Turista
 
 > Para Iniciar a app turista, execute os seguinte comandos:
 
@@ -26,6 +24,9 @@
 
 1. Ionic
 2. Angular
+3. Python
+4. Django REST API
+5. MYSQL
 
 ---
 
@@ -55,12 +56,41 @@
 > Para Iniciar o login do Facebook ou da Google, e
 > aconselhavel emular o proprio usando o android studio (Android) ou o Xcode (IOS) ja que o browser nao consegue implementar as bibliotecas necessarias.
 
->Ajuste no menu que aparecia no login, agora só aparece depois do login
+> Ajuste no menu que aparecia no login, agora só aparece depois do login
 
 ---
 
 ## TODO :
 
-> 1. Sugestões no mapa para roteiros;
-> 2. Melhoria no memu
-> 3. Suporte de varios idiomas
+> ver Scrum
+
+<br>
+<br>
+<br>
+
+# Servidor Django REST API
+
+## Passos:
+
+1. Instalar o Python e definir como variavel do Sistema
+2. Instalar o pip
+
+- pip install django
+- pip install djangorestframework
+
+3. django-admin startproject BestRideApi
+4. cd BestRideApi
+5. python manage.py startapp best_ride
+
+## Para a Base de dados:
+
+- Iniciar o Wamp
+- correr o Script no phpMyAdmin para aceder a BD BestRide
+
+## Para Iniciar:
+
+> python manage.py runserver 0.0.0.0:8080
+
+> URLS:
+
+- https://127.0.0.1:8080/api/utilizadores

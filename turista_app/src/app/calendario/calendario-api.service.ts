@@ -30,7 +30,7 @@ export class CalendarioApiService {
       'Content-Type,Authorization,Upgrade-Insecure-Requests'
     );*/
 
-    this.http.get('http://localhost:8000/api/employees/').subscribe(
+    this.http.get('http://localhost:8080/api/utilizadores/').subscribe(
       (data) => {
         console.log(data);
       },
@@ -38,15 +38,19 @@ export class CalendarioApiService {
     );
 
     let postData = {
-      title: 'musica Xau',
-      seconds: '25h 54s',
+      nome: 'Rui',
+      password: 'KLOsdg123+*',
+      login_type: 0,
+      userinfo_iduserinfo: 0,
     };
 
-    this.http.post('http://127.0.0.1:8000/api/employees/', postData).subscribe(
-      (data) => {},
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.http
+      .post('http://localhost:8080/api/utilizadores/', postData)
+      .subscribe(
+        (data) => {},
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 }
