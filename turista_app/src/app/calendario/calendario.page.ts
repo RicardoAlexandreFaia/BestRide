@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Environment } from '@ionic-native/google-maps';
 import { CalendarComponentOptions } from 'ion2-calendar';
 import { CalendarioApiService } from './calendario-api.service';
 

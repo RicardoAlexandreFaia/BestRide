@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { LoadingController, isPlatform, AlertController } from '@ionic/angular';
 import { Plugins, registerWebPlugin } from '@capacitor/core';
 import { TranslateService } from '@ngx-translate/core';
+
 //facebook login
 import { HttpClient } from '@angular/common/http';
 import { FacebookLoginPlugin } from '@capacitor-community/facebook-login';
@@ -12,6 +13,11 @@ registerWebPlugin(FacebookLogin);
 
 //google login
 import '@codetrix-studio/capacitor-google-auth';
+
+//api
+import { LoginApiService } from './login-api.service';
+import { Environment } from '@ionic-native/google-maps';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -64,7 +70,8 @@ export class LoginPage implements OnInit {
     private router: Router,
     private http: HttpClient,
     private translateService: TranslateService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private loginApi: LoginApiService
   ) {
     this.translateService.use(this.language);
     this.setupFbLogin();
@@ -157,7 +164,7 @@ export class LoginPage implements OnInit {
     }
   }
 
-  public submit() {
+  public submeter_login() {
     console.log(this.registrationForm.value);
     if (
       (this.email.value == 'claudio@gmail.com' ||
@@ -188,13 +195,11 @@ export class LoginPage implements OnInit {
 
   //ir para a pagina - criar conta
   public navegar(): void {
-    console.log('ola');
     this.router.navigate(['/cria-conta']);
   }
 
   //ir para a pagina - criar conta
   public recuperarConta(): void {
-    console.log('ola');
     this.router.navigate(['/recuperar-conta']);
   }
 }
