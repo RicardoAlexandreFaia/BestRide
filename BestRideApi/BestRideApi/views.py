@@ -10,6 +10,7 @@ from django.contrib.auth.hashers import make_password, check_password
 class Utilizadores_operacoes(APIView):
 
     def get(self, request, password=None):
+        password = make_password(password,'pbkdf2_sha256')
         if password:
             try:
                 queryset = User.objects.get(password=password)
@@ -23,7 +24,7 @@ class Utilizadores_operacoes(APIView):
             return Response(serializer.data)
 
     def post(self, request, format=None):
-        request.data['password'] = make_password(request.data.get('password'))
+        request.data['password'] = make_password(request.data.get('password'),'pbkdf2_sha256')
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
