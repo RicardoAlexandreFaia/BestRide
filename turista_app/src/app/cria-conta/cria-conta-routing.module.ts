@@ -6,8 +6,8 @@ import { CriaContaPage } from './cria-conta.page';
 const routes: Routes = [
   {
     path: '',
-    component: CriaContaPage
-  }
+    component: CriaContaPage,
+  },
 ];
 
 @NgModule({

@@ -75,7 +75,6 @@ export class LoginPage implements OnInit {
   ) {
     this.translateService.use(this.language);
     this.setupFbLogin();
-    this.loginApi.mostraContas();
   }
 
   /********************Facebook Login*************************** */

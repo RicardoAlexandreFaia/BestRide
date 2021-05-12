@@ -10,11 +10,9 @@ from django.contrib.auth.hashers import make_password, check_password
 class Utilizadores_operacoes(APIView):
 
     def get(self, request, password=None):
-        password = make_password(password)
         if password:
             try:
-                if check_password(request.data['password'], password):
-                    queryset = User.objects.get(password=password)
+                queryset = User.objects.get(password=password)
             except User.DoesNotExist:
                 return Response({'Erro: Utilizador nao existe'}, status=400)
             read_serializer = UserSerializer(queryset)

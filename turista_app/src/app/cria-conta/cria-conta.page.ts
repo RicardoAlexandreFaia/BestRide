@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { CriaContaApiService } from '../cria-conta/cria-conta-api.service';
 
 @Component({
   selector: 'app-cria-conta',
@@ -50,10 +51,21 @@ export class CriaContaPage implements OnInit {
   );
 
   constructor(
-    private formBuilder: FormBuilder,
+    public formBuilder: FormBuilder,
     public alertCtrl: AlertController,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private api: CriaContaApiService
   ) {}
+
+  get email() {
+    return this.registrationForm.get('email');
+  }
+  get password() {
+    return this.registrationForm.get('pass');
+  }
+  get passwordRepeat() {
+    return this.registrationForm.get('passRepeat');
+  }
 
   ngOnInit() {}
 
@@ -90,7 +102,6 @@ export class CriaContaPage implements OnInit {
   }
 
   matchingPasswords(passwordKey: string, confirmPasswordKey: string) {
-    // TODO maybe use this https://github.com/yuyang041060120/ng2-validation#notequalto-1
     return (group: FormGroup): { [key: string]: any } => {
       let password = group.controls[passwordKey];
       let confirmPassword = group.controls[confirmPasswordKey];
@@ -104,12 +115,20 @@ export class CriaContaPage implements OnInit {
   }
 
   public submit() {
-    console.log(this.registrationForm.get('pass').value);
-    console.log(this.registrationForm.get('passRepeat').value);
+    var email: String = this.registrationForm.get('email').value;
+    var password: String = this.registrationForm.get('pass').value;
 
-    var pass: String = this.registrationForm.get('pass').value;
-    var passRepetida: String = this.registrationForm.get('passRepeat').value;
-
-    console.log(this.registrationForm.value);
+    this.api.criaConta(email, password);
   }
+
+  public errorMessages = {
+    password: [
+      { type: 'required', message: 'Password e necessária!' },
+      { type: 'maxlength', message: 'password is necessary' },
+    ],
+    email: [
+      { type: 'required', message: 'Email e necessário!' },
+      { type: 'pattern', message: 'Please enter a valid email address' },
+    ],
+  };
 }
