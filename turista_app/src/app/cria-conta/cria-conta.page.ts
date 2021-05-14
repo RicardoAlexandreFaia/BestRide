@@ -22,6 +22,8 @@ export class CriaContaPage implements OnInit {
     email: '',
     pass: '',
     passRepeat: '',
+    f_nome: '',
+    l_name: '',
   });
 
   registrationForm = this.formBuilder.group(
@@ -36,13 +38,14 @@ export class CriaContaPage implements OnInit {
           Validators.required,
         ]),
       ],
+      f_nome: [],
+      l_nome: [],
       pass: [
         '',
         Validators.compose([
           Validators.required,
           Validators.minLength(6),
           Validators.maxLength(12),
-          Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,12}$'),
         ]),
       ],
       passRepeat: ['', Validators.required],
@@ -56,6 +59,14 @@ export class CriaContaPage implements OnInit {
     private translateService: TranslateService,
     private api: CriaContaApiService
   ) {}
+
+  get primeiro_nome() {
+    return this.registrationForm.get('f_nome');
+  }
+
+  get ultimo_nome() {
+    return this.registrationForm.get('l_nome');
+  }
 
   get email() {
     return this.registrationForm.get('email');
@@ -117,8 +128,9 @@ export class CriaContaPage implements OnInit {
   public submit() {
     var email: String = this.registrationForm.get('email').value;
     var password: String = this.registrationForm.get('pass').value;
-
-    this.api.criaConta(email, password);
+    var f_name: string = this.registrationForm.get('f_nome').value;
+    var l_name: string = this.registrationForm.get('l_nome').value;
+    this.api.criaConta(email, password, f_name, l_name);
   }
 
   public errorMessages = {
@@ -128,7 +140,7 @@ export class CriaContaPage implements OnInit {
     ],
     email: [
       { type: 'required', message: 'Email e necessário!' },
-      { type: 'pattern', message: 'Please enter a valid email address' },
+      { type: 'pattern', message: 'Digite um email valido' },
     ],
   };
 }

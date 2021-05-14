@@ -134,21 +134,18 @@ export class LoginPage implements OnInit {
   }
 
   //google login
+  // "https://lh3.googleusercontent.com/a/AATXAJzbqwk2kkimyVlIHxZK59wgGl8Z2UxLMCZ9NDuH=s96-c"
   async googleSignup() {
     const googleUser = (await Plugins.GoogleAuth.signIn(null)) as any;
     console.log('my user: ', googleUser);
     this.userInfo = googleUser;
-    this.mostraDialogo();
-    this.router.navigate(['/menu']);
-  }
-
-  async mostraDialogo() {
-    const alert = await this.alertCtrl.create({
-      header: 'Bem Vindo',
-      message: 'Começe as suas viagens',
-      buttons: ['OK'],
-    });
-    await alert.present();
+    console.log(this.userInfo);
+    this.loginApi.criaContaGoogle(
+      this.userInfo['email'],
+      this.userInfo['familiacaetano'],
+      this.userInfo['name'],
+      this.userInfo['givenName']
+    );
   }
 
   ngOnInit() {}

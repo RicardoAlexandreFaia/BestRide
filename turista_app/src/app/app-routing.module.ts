@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'splash-screen',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
@@ -44,11 +44,14 @@ const routes: Routes = [
       import('./definicoes/definicoes.module').then(
         (m) => m.DefinicoesPageModule
       ),
-  },  {
-    path: 'calendario',
-    loadChildren: () => import('./calendario/calendario.module').then( m => m.CalendarioPageModule)
   },
-
+  {
+    path: 'calendario',
+    loadChildren: () =>
+      import('./calendario/calendario.module').then(
+        (m) => m.CalendarioPageModule
+      ),
+  },
 ];
 
 @NgModule({
