@@ -25,8 +25,9 @@
 1. Ionic
 2. Angular
 3. Python
-4. Django REST API
+4. Django
 5. MYSQL
+6. TypeScript
 
 ---
 
@@ -93,4 +94,4 @@
 
 > URLS:
 
-- https://127.0.0.1:8080/api/utilizadores
+- https://127.0.0.1:8000

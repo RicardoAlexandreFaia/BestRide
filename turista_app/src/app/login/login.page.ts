@@ -54,15 +54,7 @@ export class LoginPage implements OnInit {
         Validators.required,
       ]),
     ],
-    password: [
-      '',
-      Validators.compose([
-        Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(12),
-        Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,12}$'),
-      ]),
-    ],
+    password: ['', Validators.compose([Validators.required])],
   });
 
   constructor(
@@ -163,13 +155,16 @@ export class LoginPage implements OnInit {
 
   public submeter_login() {
     console.log(this.registrationForm.value);
-    if (
+    var email = this.registrationForm.get('email').value;
+    var password = this.registrationForm.get('password').value;
+    /*if (
       (this.email.value == 'claudio@gmail.com' ||
         this.email.value == 'ricardo@gmail.com') &&
       this.password.value == 'abc123+*A'
     ) {
       this.router.navigate(['/menu']);
-    }
+    }*/
+    this.loginApi.login_normal(email, password);
   }
 
   get email() {
