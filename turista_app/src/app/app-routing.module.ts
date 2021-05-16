@@ -51,7 +51,11 @@ const routes: Routes = [
       import('./calendario/calendario.module').then(
         (m) => m.CalendarioPageModule
       ),
+  },  {
+    path: 'dados-conta',
+    loadChildren: () => import('./dados-conta/dados-conta.module').then( m => m.DadosContaPageModule)
   },
+
 ];
 
 @NgModule({

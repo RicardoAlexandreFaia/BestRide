@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title style="text-align: center;">Dados Pessoais</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="main-menu"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+      <ion-list lines="none">
+        <ion-item>
+          <ion-avatar slot="start">
+            <img src=""/><!-- imagem de Perfil -->
+          </ion-avatar>
+          <ion-avatar slot="start">
+          </ion-avatar>
+          <ion-label>
+            <h1>Nome</h1>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="mail" slot="start"></ion-icon>
+          <ion-label>
+            <h2>Email</h2>
+            <p>example@email.com</p>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="call" slot="start"></ion-icon>
+          <ion-label>
+            <h2>Telemóvel</h2>
+            <p>960000000</p>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="mail" slot="start"></ion-icon>
+          <ion-label>
+            <h2>Password</h2>
+            <ion-label (click)="togglePass()">password do utilizador</ion-label>
+            <ion-icon slot="end" [name]="passwordIconToggle" (click)="togglePass()"></ion-icon>
+            
+          </ion-label>
+        </ion-item>
+      </ion-list>
+</ion-content>
