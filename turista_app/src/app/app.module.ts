@@ -16,6 +16,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/lang/', '.json');
 }
@@ -37,6 +39,7 @@ export function createTranslateLoader(http: HttpClient) {
     }),
   ],
   providers: [
+    NativeStorage,
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy,

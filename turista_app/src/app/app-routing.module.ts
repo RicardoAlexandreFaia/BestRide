@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'dados-conta',
     pathMatch: 'full',
   },
   {
@@ -51,11 +51,14 @@ const routes: Routes = [
       import('./calendario/calendario.module').then(
         (m) => m.CalendarioPageModule
       ),
-  },  {
-    path: 'dados-conta',
-    loadChildren: () => import('./dados-conta/dados-conta.module').then( m => m.DadosContaPageModule)
   },
-
+  {
+    path: 'dados-conta',
+    loadChildren: () =>
+      import('./dados-conta/dados-conta.module').then(
+        (m) => m.DadosContaPageModule
+      ),
+  },
 ];
 
 @NgModule({

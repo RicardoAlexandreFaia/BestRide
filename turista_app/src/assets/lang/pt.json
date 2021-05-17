@@ -9,7 +9,8 @@
   },
   "login": {
     "no_account": "Não tem Conta? Crie Gratuitamente",
-    "recover_account": "Recuperar Conta"
+    "recover_account": "Recuperar Conta",
+    "email_message": "Email Importante"
   },
   "recovery_account": {
     "tabName": "Recuperar Conta",

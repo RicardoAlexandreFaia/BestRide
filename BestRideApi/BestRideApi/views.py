@@ -51,9 +51,11 @@ class Utilizadores_Info_operacoes(APIView):
             serializer = UserInfoSerializaer(snippets, many=True)
             return Response(serializer.data)
 
-    @api_view(['GET'])
-    def login(request,email=None,password=None):
+    @api_view(['POST'])
+    def login(request):
         #Verifica o email
+        email = request.data['email']
+        password = request.data['password']
         if email:
             try:
                 queryset = UserInfo.objects.get(email=email)

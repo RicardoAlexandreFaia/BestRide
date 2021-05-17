@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { DadosContaApiService } from './dados-conta-api.service';
 
 @Component({
@@ -12,16 +12,18 @@ export class DadosContaPage implements OnInit {
   language: string = this.translateService.currentLang;
   showPass = false;
   passwordIconToggle = 'eye';
+  email_get: String;
 
   constructor(
     private translateService: TranslateService,
     private router: Router,
-    private dadosContaApi: DadosContaApiService) {
-      this.translateService.use(this.language);
-    }
-
-  ngOnInit() {
+    private dadosContaApi: DadosContaApiService
+  ) {
+    this.email_get = dadosContaApi.email_get;
+    this.translateService.use(this.language);
   }
+
+  ngOnInit() {}
 
   togglePass(): void {
     this.showPass = !this.showPass;
@@ -36,5 +38,4 @@ export class DadosContaPage implements OnInit {
   public getInfo() {
     this.dadosContaApi.getInfo();
   }
-
 }

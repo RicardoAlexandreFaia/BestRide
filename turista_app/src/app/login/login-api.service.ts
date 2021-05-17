@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,8 @@ export class LoginApiService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    public alertController: AlertController
+    public alertController: AlertController,
+    private nativeStorage: NativeStorage
   ) {}
 
   public criaContaGoogle(
@@ -65,16 +67,21 @@ export class LoginApiService {
   }
 
   public login_normal(email: String, password: String) {
-    this.http
-      .get(environment.apiUrl + this.url_login + email + ',' + password)
-      .subscribe(
-        (data) => {
-          this.router.navigate(['/menu']);
-        },
-        (erro) => {
-          this.showAlert();
-        }
-      );
+    let data = {
+      email: email,
+      password: password,
+    };
+
+    this.http.post(environment.apiUrl + this.url_login, data).subscribe(
+      (data) => {
+        console.log(data);
+        localStorage.setItem('id', data['userid']); // guarda o id do user
+        this.router.navigate(['/menu']);
+      },
+      (erro) => {
+        this.showAlert();
+      }
+    );
   }
 
   async showAlert() {

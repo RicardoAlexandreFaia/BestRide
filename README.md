@@ -48,6 +48,7 @@
 6. npm i @codetrix-studio/capacitor-google-auth
 7. npm install @ngx-translate/core @ngx-translate/http-loader --save
 8. npm i ion2-calendar@next moment
+9. npm install @ionic/storage-angular
 ```
 
 ---
