@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { DadosContaApiService } from './dados-conta-api.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-dados-conta',
@@ -17,13 +18,50 @@ export class DadosContaPage implements OnInit {
   constructor(
     private translateService: TranslateService,
     private router: Router,
-    private dadosContaApi: DadosContaApiService
+    private dadosContaApi: DadosContaApiService,
+    public alertController: AlertController
   ) {
-    this.email_get = dadosContaApi.email_get;
+    this.email_get = this.dadosContaApi.email_get;
     this.translateService.use(this.language);
   }
 
   ngOnInit() {}
+
+  alterarPass(): void {
+    this.showPrompt();
+  }
+
+  showPrompt() {
+    this.alertController
+      .create({
+        header: 'Atualizar Password',
+        message: 'Digite uma nova Password',
+        inputs: [
+          {
+            name: 'pass',
+            placeholder: 'digite a password',
+          },
+        ],
+        buttons: [
+          {
+            text: 'Cancelar',
+            handler: (data: any) => {
+              console.log('Canceled', data);
+            },
+          },
+          {
+            text: 'Atualizar',
+            handler: (data: any) => {
+              console.log('Saved Information', data);
+              this.dadosContaApi.atualizaPassword(data['pass']);
+            },
+          },
+        ],
+      })
+      .then((res) => {
+        res.present();
+      });
+  }
 
   togglePass(): void {
     this.showPass = !this.showPass;

@@ -16,33 +16,26 @@
       <ion-avatar slot="start">
       </ion-avatar>
       <ion-label>
-        <h1>{{email_get}}</h1>
+        <h1 id="nome_completo"></h1>
       </ion-label>
     </ion-item>
     <ion-item>
       <ion-icon name="mail" slot="start"></ion-icon>
       <ion-label>
-        <h2>Email</h2>
-        <p id="email_text">cladioi@gmail.com</p>
+        <h1>Email</h1>
+        <ion-input id="email" readonly="true"></ion-input>
       </ion-label>
     </ion-item>
-    <!-- <ion-item>
+    <ion-item>
       <ion-icon name="call" slot="start"></ion-icon>
       <ion-label>
         <h2>Telemóvel</h2>
-        <p>960000000</p>
+        <ion-input id="phone" inputmode="numeric" readonly="true">988122453</ion-input>
       </ion-label>
-    </ion-item>-->
-    <ion-item>
-      <ion-icon name="mail" slot="start"></ion-icon>
-
-      <ion-label>
-        <h2>Password</h2>
-        <ion-label (click)="togglePass()">password do utilizador</ion-label>
-        <ion-icon slot="end" [name]="passwordIconToggle" (click)="togglePass()"></ion-icon>
-      </ion-label>
-
-
     </ion-item>
+    <ion-button expand="block" (click)="alterarPass()">
+      <ion-icon name="create-outline"></ion-icon>
+      Alterar Password
+    </ion-button>
   </ion-list>
 </ion-content>
