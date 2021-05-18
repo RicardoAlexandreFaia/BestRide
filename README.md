@@ -96,3 +96,11 @@
 > URLS:
 
 - https://127.0.0.1:8000
+
+## TODO:
+
+quando clickar no botao, fazer zoom out para ver o mapa
+Melhorar o Mapa
+
+1. Nome da cidade
+2. Fazer Reserva
