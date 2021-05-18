@@ -103,4 +103,5 @@ quando clickar no botao, fazer zoom out para ver o mapa
 Melhorar o Mapa
 
 1. Nome da cidade
-2. Fazer Reserva
+2. Meter Reserva no card dos roteiros
+3. Mapa a abrir num Model
