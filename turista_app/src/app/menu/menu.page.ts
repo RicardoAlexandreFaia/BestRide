@@ -3,13 +3,14 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { LatLngBounds, MarkerOptions } from '@ionic-native/google-maps';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-
+import { Roteiro } from './roteiro';
 import {
   Geolocation,
   GeolocationOptions,
   Geoposition,
   PositionError,
 } from '@ionic-native/geolocation/ngx';
+import { LEADING_TRIVIA_CHARS } from '@angular/compiler/src/render3/view/template';
 
 declare var google: any;
 var polyLine;
@@ -23,74 +24,82 @@ var polyOptions;
 export class MenuPage implements OnInit {
   @ViewChild('map', { static: false }) mapElement: ElementRef;
 
+  selected: Roteiro;
   map: any;
   language: string = this.translateService.currentLang;
   options: GeolocationOptions;
   currentPos: Geoposition;
-  circuito1: any = [
+  roteiros: Array<Roteiro> = [
     {
-      titulo: 'SÉ', // inicio da  viagem
-      lat: 38.7098786,
-      lng: -9.132584400000042,
+      titulo: 'Circuito 1',
+      pontosInteresse: [
+        {
+          titulo: 'SÉ', // inicio da  viagem
+          lat: 38.7098786,
+          lng: -9.132584400000042,
+        },
+        {
+          titulo: 'MIRADOURO PORTAS DO SOL',
+          lat: 38.711148,
+          lng: -9.133262000000059,
+        },
+        { titulo: 'ALFAMA', lat: 38.7125, lng: -9.132799999999975 },
+        {
+          titulo: 'VILA DO BAIRRO DO CASTELO',
+          lat: 38.7131963,
+          lng: -9.133408799999984,
+        },
+        {
+          titulo: 'MIRADOURO DA GRAÇA',
+          lat: 38.716272,
+          lng: -9.131524000000013,
+        },
+        {
+          titulo: 'GRAÇA',
+          lat: 38.71794939999999,
+          lng: -9.13039619999995,
+        },
+        {
+          titulo: 'MIRADOURO NOSSA SENHORA DO MONTE',
+          lat: 38.71906409127469,
+          lng: -9.132594176721227,
+        },
+      ],
     },
     {
-      titulo: 'MIRADOURO PORTAS DO SOL',
-      lat: 38.711148,
-      lng: -9.133262000000059,
-    },
-    { titulo: 'ALFAMA', lat: 38.7125, lng: -9.132799999999975 },
-    {
-      titulo: 'VILA DO BAIRRO DO CASTELO',
-      lat: 38.7131963,
-      lng: -9.133408799999984,
-    },
-    {
-      titulo: 'MIRADOURO DA GRAÇA',
-      lat: 38.716272,
-      lng: -9.131524000000013,
-    },
-    {
-      titulo: 'GRAÇA',
-      lat: 38.71794939999999,
-      lng: -9.13039619999995,
-    },
-    {
-      titulo: 'MIRADOURO NOSSA SENHORA DO MONTE',
-      lat: 38.71906409127469,
-      lng: -9.132594176721227,
-    },
-  ];
-
-  circuito2: any = [
-    {
-      titulo: 'MIRADOURO DE S. PEDRO DE ALCÂNTARA',
-      lat: 38.7150612,
-      lng: -9.144405199999937,
-    },
-    {
-      titulo: 'BAIRRO ALTO',
-      lat: 38.7127532,
-      lng: -9.146295099999975,
-    },
-    {
-      titulo: 'CHIADO',
-      lat: 38.710202,
-      lng: -9.14223800000002,
-    },
-    {
-      titulo: 'SÉ',
-      lat: 38.7098786,
-      lng: -9.132584400000042,
-    },
-    {
-      titulo: 'ALFAMA',
-      lat: 38.7125,
-      lng: -9.132799999999975,
-    },
-    {
-      titulo: 'VILA DO BAIRRO DO CASTELO',
-      lat: 38.7131963,
-      lng: -9.133408799999984,
+      titulo: 'Circuito 2',
+      pontosInteresse: [
+        {
+          titulo: 'MIRADOURO DE S. PEDRO DE ALCÂNTARA',
+          lat: 38.7150612,
+          lng: -9.144405199999937,
+        },
+        {
+          titulo: 'BAIRRO ALTO',
+          lat: 38.7127532,
+          lng: -9.146295099999975,
+        },
+        {
+          titulo: 'CHIADO',
+          lat: 38.710202,
+          lng: -9.14223800000002,
+        },
+        {
+          titulo: 'SÉ',
+          lat: 38.7098786,
+          lng: -9.132584400000042,
+        },
+        {
+          titulo: 'ALFAMA',
+          lat: 38.7125,
+          lng: -9.132799999999975,
+        },
+        {
+          titulo: 'VILA DO BAIRRO DO CASTELO',
+          lat: 38.7131963,
+          lng: -9.133408799999984,
+        },
+      ],
     },
   ];
 
@@ -155,30 +164,25 @@ export class MenuPage implements OnInit {
     );
   }
 
-  cir1() {
-    this.showMap(this.circuito1);
+  public showRoteiro(roteiro: Roteiro): void {
+    this.selected = roteiro;
+    this.showMap(roteiro.pontosInteresse);
   }
 
-  cir2() {
-    this.showMap(this.circuito2);
-  }
-
-  adicionaMarcadores(roteirosMarkers) {
-    for (let pos of roteirosMarkers) {
+  adicionaMarcadores(roteiro: Roteiro) {
+    for (let pos of roteiro.pontosInteresse) {
       let posMarker = new google.maps.LatLng(pos.lat, pos.lng);
 
       let marker = new google.maps.Marker({
         map: this.map,
         position: posMarker,
-        title: pos.title,
+        title: roteiro.titulo,
         latitude: pos.lat,
         longitude: pos.lng,
-        icon:
-          'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ddd',
       });
 
       const roteiros_trace = new google.maps.Polyline({
-        path: roteirosMarkers,
+        path: roteiro.pontosInteresse,
         geodesic: true,
         strokeColor: 'blue',
         strokeOpacity: 1.0,
