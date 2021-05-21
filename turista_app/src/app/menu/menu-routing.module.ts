@@ -10,7 +10,10 @@ const routes: Routes = [
   },
   {
     path: 'modal-mapa',
-    loadChildren: () => import('./modal-mapa/modal-mapa.module').then( m => m.ModalMapaPageModule)
+    loadChildren: () =>
+      import('./modal-mapa/modal-mapa.module').then(
+        (m) => m.ModalMapaPageModule
+      ),
   },
 ];
 

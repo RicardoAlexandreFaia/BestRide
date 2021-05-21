@@ -32,17 +32,21 @@
         </ion-item>
       </ion-card>
 
+      <ion-card>
+        <ion-item>
+          <ion-label>Data. Nasc</ion-label>
+          <ion-datetime displayFormat="MM/DD/YYYY" value="2019-02-12">
+            <!-- falta obter este campo -->
+          </ion-datetime>
+        </ion-item>
+      </ion-card>
+
 
       <ion-card>
         <ion-item>
           <ion-label>Email</ion-label>
           <ion-input formControlName="email" type="email" required></ion-input>
         </ion-item>
-        <div *ngFor="let error of errorMessages.email">
-          <ng-container *ngIf="email.hasError(error.type) && (email.dirty || email.touched)">
-            <small class="error-message">{{error.message}}</small>
-          </ng-container>
-        </div>
       </ion-card>
 
       <ion-card>
@@ -51,11 +55,6 @@
           <ion-input formControlName="pass" [type]=" showPass ? 'text' : 'password'" required></ion-input>
           <ion-icon slot="end" [name]="passwordIconToggle" (click)="togglePass()"></ion-icon>
         </ion-item>
-        <div *ngFor="let error of errorMessages.password">
-          <ng-container *ngIf="password.hasError(error.type) && (password.dirty || password.touched)">
-            <small class="error-message">{{error.message}}</small>
-          </ng-container>
-        </div>
       </ion-card>
 
       <ion-card>
@@ -64,11 +63,6 @@
           <ion-input formControlName="passRepeat" [type]=" showPass2 ? 'text' : 'password'" required></ion-input>
           <ion-icon slot="end" [name]="passwordIconToggle2" (click)="togglePass2()"></ion-icon>
         </ion-item>
-        <div *ngFor="let error of errorMessages.password">
-          <ng-container *ngIf="passwordRepeat.hasError(error.type) && (passwordRepeat.dirty || passwordRepeat.touched)">
-            <small class="error-message">{{error.message}}</small>
-          </ng-container>
-        </div>
       </ion-card>
 
 
