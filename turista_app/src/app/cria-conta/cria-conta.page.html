@@ -20,21 +20,21 @@
 
       <ion-card>
         <ion-item>
-          <ion-label>Primeiro Nome</ion-label>
+          <ion-label translate [translateParams]="{ lang: language }">create_account.f_name_field</ion-label>
           <ion-input formControlName="f_nome" required></ion-input>
         </ion-item>
       </ion-card>
 
       <ion-card>
         <ion-item>
-          <ion-label>Ultimo Nome</ion-label>
+          <ion-label translate [translateParams]="{ lang: language }">create_account.l_name_field</ion-label>
           <ion-input formControlName="l_nome" required></ion-input>
         </ion-item>
       </ion-card>
 
       <ion-card>
         <ion-item>
-          <ion-label>Data. Nasc</ion-label>
+          <ion-label translate [translateParams]="{ lang: language }">create_account.Date_birth</ion-label>
           <ion-datetime displayFormat="MM/DD/YYYY" value="2019-02-12">
             <!-- falta obter este campo -->
           </ion-datetime>
