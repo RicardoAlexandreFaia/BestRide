@@ -29,4 +29,10 @@ export class RecuperarContaPage implements OnInit {
     var email = this.registrationForm.get('email').value;
     this.recuperarContaApi.recuperarConta(email)
   }
+
+  public submeter_email() {
+    console.log(this.registrationForm.value);
+    var email = this.registrationForm.get('email').value;
+    this.recuperarContaApi.recuperarConta(email);
+  }
 }

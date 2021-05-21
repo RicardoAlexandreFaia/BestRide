@@ -1,14 +1,17 @@
+from django.shortcuts import redirect
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.core.mail import send_mail
+from django.conf import settings
 
 
-from BestRideApi.models import User
-from BestRideApi.serializers import UserSerializer
-from BestRideApi.models import UserInfo
-from BestRideApi.serializers import UserInfoSerializaer
 
+from .models import User
+from .serializers import UserSerializer
+from .models import UserInfo
+from .serializers import UserInfoSerializaer
 from rest_framework import status
 
 from django.contrib.auth.hashers import make_password, check_password
@@ -108,3 +111,13 @@ class Utilizadores_Info_operacoes(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class Recuperar_Conta(APIView):
+#Para enviar email com o codigo para a recuperação da Pass
+    def email(request, email, code=None):
+        subject = "Código BestRide"
+        message = "O seu código para recuperar a sua conta Best Ride é:\n" + code + ""
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = email
+        send_mail(subject, message, email_from, recipient_list)
+        return redirect('redirect to a new page')

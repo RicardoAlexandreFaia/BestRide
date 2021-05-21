@@ -29,4 +29,14 @@ class UserInfo(models.Model):
         managed = False
         db_table = 'user_info'
 
+class RecuperarConta(models.Model):
+    idrecuperarconta = models.AutoField(db_column='recuperar_conta_id', primary_key=True)  # Field name made lowercase.
+    code = models.CharField(db_column='code', null=False)
+    # email = models.CharField(max_length=45, blank=True, null=True)
+    userid = models.ForeignKey(User, models.DO_NOTHING, db_column='UserID')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'recuperar_conta'
+
 

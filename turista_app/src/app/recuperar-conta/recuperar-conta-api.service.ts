@@ -8,8 +8,8 @@ import { AlertController } from '@ionic/angular';
   providedIn: 'root',
 })
 export class RecuperaContaApiService {
-    private url: String = '/utilizadores/';
-    private url_info: String = '/utilizadoresInfo/';
+    private code: Number = this.gerarCodigoRandom();
+    private url_recuperar: String = '/recuperar_conta/';
 
     constructor(private http: HttpClient, private router: Router, public alertController: AlertController) {}
 
@@ -17,10 +17,10 @@ export class RecuperaContaApiService {
         email: String,
       ) {
         this.http
-      .get(environment.apiUrl + this.url + email)
+      .get(environment.apiUrl + this.url_recuperar + email +"/" + this.code)
       .subscribe(
         (data) => {
-          //enviar email automatico com o random codigo e usar o local data ou a DB para guardar codigo
+          console.log(data);
         },
         (erro) => {
           this.showAlert();

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from BestRideApi.models import *
+from .models import *
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -10,4 +10,9 @@ class UserSerializer(serializers.ModelSerializer):
 class UserInfoSerializaer(serializers.ModelSerializer):
     class Meta:
         model = UserInfo
+        fields = ('__all__')
+
+class RecuperarContaSerializaer(serializers.ModelSerializer):
+    class Meta:
+        model = RecuperarConta
         fields = ('__all__')
