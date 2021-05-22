@@ -8,6 +8,10 @@ const routes: Routes = [
     path: '',
     component: MenuPage,
   },
+  {
+    path: 'modal-mapa',
+    loadChildren: () => import('./modal-mapa/modal-mapa.module').then( m => m.ModalMapaPageModule)
+  },
 ];
 
 @NgModule({
