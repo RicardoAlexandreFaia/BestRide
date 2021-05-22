@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RecuperaContaApiService } from './recuperar-conta-api.service';
+import { IntroduzirCodigoApiService } from './introduzir-codigo-api.service';
 
-describe('RecuperaContaApiService', () => {
-  let service: RecuperaContaApiService;
+describe('IntroduzirCodigoApiService', () => {
+  let service: IntroduzirCodigoApiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(RecuperaContaApiService);
+    service = TestBed.inject(IntroduzirCodigoApiService);
   });
 
   it('should be created', () => {
