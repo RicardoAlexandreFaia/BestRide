@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: RecuperarContaPage
+  },  {
+    path: 'introduzir-codigo',
+    loadChildren: () => import('./introduzir-codigo/introduzir-codigo.module').then( m => m.IntroduzirCodigoPageModule)
   }
+
 ];
 
 @NgModule({

@@ -3,6 +3,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { RecuperaContaApiService } from './recuperar-conta-api.service';
 
+import { IntroduzirCodigoPage } from './introduzir-codigo/introduzir-codigo.page';
+import { ModalController } from '@ionic/angular';
+
 @Component({
   selector: 'app-recuperar-conta',
   templateUrl: './recuperar-conta.page.html',
@@ -19,7 +22,8 @@ export class RecuperarContaPage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private translateService: TranslateService,
-    private recuperarContaApi: RecuperaContaApiService
+    private recuperarContaApi: RecuperaContaApiService,
+    private model_controller: ModalController
   ) {}
 
   ngOnInit() {}
@@ -28,11 +32,5 @@ export class RecuperarContaPage implements OnInit {
     console.log(this.registrationForm.value);
     var email = this.registrationForm.get('email').value;
     this.recuperarContaApi.recuperarConta(email)
-  }
-
-  public submeter_email() {
-    console.log(this.registrationForm.value);
-    var email = this.registrationForm.get('email').value;
-    this.recuperarContaApi.recuperarConta(email);
   }
 }

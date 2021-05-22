@@ -2,7 +2,7 @@
 
 #### Alterações do ultimo commit:
 
-- Criação do BackEnd para a app Turista
+    Ricardo: Recuperar conta teoricamente feito mas estou a ter problemas a executar o servidor
 
 > Para Iniciar a app turista, execute os seguinte comandos:
 

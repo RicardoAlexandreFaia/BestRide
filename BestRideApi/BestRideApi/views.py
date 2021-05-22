@@ -8,10 +8,8 @@ from django.conf import settings
 
 
 
-from .models import User
-from .serializers import UserSerializer
-from .models import UserInfo
-from .serializers import UserInfoSerializaer
+from .models import User, RecuperarConta,  UserInfo
+from .serializers import UserSerializer, UserInfoSerializaer, RecuperarContaSerializaer
 from rest_framework import status
 
 from django.contrib.auth.hashers import make_password, check_password
@@ -114,10 +112,29 @@ class Utilizadores_Info_operacoes(APIView):
 
 class Recuperar_Conta(APIView):
 #Para enviar email com o codigo para a recuperação da Pass
-    def email(request, email, code=None):
+    def email(request):
+        email = request.data['email']
+        code = request.data['code']
+        if email:
+            try:
+                queryset = UserInfo.objects.get(email=email)
+            except UserInfo.DoesNotExist:
+                return Response({'O Email nao Existe'}, status=400)
+
         subject = "Código BestRide"
-        message = "O seu código para recuperar a sua conta Best Ride é:\n" + code + ""
+        message = "O seu código para recuperar a sua conta Best Ride é:\n" + code
         email_from = settings.EMAIL_HOST_USER
         recipient_list = email
         send_mail(subject, message, email_from, recipient_list)
-        return redirect('redirect to a new page')
+        return redirect('./menu')
+
+    def verificarCodigo(request):
+        code = request.data['code']
+        try:
+            queryset = RecuperarConta.objects.get(code=code)
+        except UserInfo.DoesNotExist:
+            return Response({'Código Invalido'}, status=400)
+
+        read_serializer = RecuperarContaSerializaer(queryset)
+        return Response(read_serializer.data)
+
