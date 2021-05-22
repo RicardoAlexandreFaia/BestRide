@@ -28,9 +28,18 @@ export class RecuperarContaPage implements OnInit {
 
   ngOnInit() {}
 
+   //funcao para abri o model para visualizar o mapa
+  async presentModal() {
+    const modal = await this.model_controller.create({
+      component: IntroduzirCodigoPage,
+    });
+    return await modal.present();
+  }
+
   public submit() {
     console.log(this.registrationForm.value);
     var email = this.registrationForm.get('email').value;
     this.recuperarContaApi.recuperarConta(email)
+    this.presentModal();
   }
 }

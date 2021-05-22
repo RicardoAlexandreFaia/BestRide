@@ -8,7 +8,6 @@ import { AlertController } from '@ionic/angular';
   providedIn: 'root',
 })
 export class IntroduzirCodigoApiService {
-    private code: Number = this.gerarCodigoRandom();
     private url_recuperar: String = '/recuperar_conta/';
 
     constructor(private http: HttpClient, private router: Router, public alertController: AlertController) {}
@@ -17,11 +16,10 @@ export class IntroduzirCodigoApiService {
         code: Number,
       ) {
         this.http
-      .get(environment.apiUrl + this.url_recuperar + this.code)
+      .get(environment.apiUrl + this.url_recuperar + code)
       .subscribe(
         (data) => {
           console.log(data);
-          localStorage.setItem('email', data['email']);
         },
         (erro) => {
           this.showAlert();
@@ -29,13 +27,9 @@ export class IntroduzirCodigoApiService {
       );
     }
 
-    private gerarCodigoRandom(){
-        return Math.floor(Math.random() * (Math.floor(99999) - Math.ceil(10000))) + Math.ceil(10000);
-    }
-
     async showAlert() {
         const alert = await this.alertController.create({
-          header: 'E-mail Invalido',
+          header: 'Código errado',
           message: 'Introduza Novamente',
           buttons: ['Tentar de Novo'],
         });
