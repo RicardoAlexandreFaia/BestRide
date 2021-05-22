@@ -1,7 +1,8 @@
 {
   "definicoes": {
     "tabName": "Definitions",
-    "option_text": "Language"
+    "option_text": "Language",
+    "languageChangePlaceholder": "Choose your Language"
   },
   "menu": {
     "botao1": "circuit 1",
@@ -18,6 +19,15 @@
   "create_account": {
     "tabName": "Create Account",
     "text": "repeat Password",
+    "f_name_field": "First Name",
+    "l_name_field": "Last Name",
+    "Date_birth": "Birth date",
     "button_text": "Create Account"
+  },
+  "menu_navegacao": {
+    "map": "Home",
+    "definitions": "APP Settings",
+    "agend": "Schedule a Tour",
+    "personal": "User Settings"
   }
 }

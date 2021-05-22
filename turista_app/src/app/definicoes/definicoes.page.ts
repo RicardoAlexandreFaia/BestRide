@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 @Component({
   selector: 'app-definicoes',
@@ -12,12 +13,16 @@ export class DefinicoesPage implements OnInit {
 
   constructor(
     private translateService: TranslateService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private nativeStorage: NativeStorage
+  ) {
+    this.translateService.use(this.language);
+  }
 
   ngOnInit() {}
 
   mudarLinguagem() {
     this.translateService.use(this.language);
+    localStorage.setItem('lang', this.language);
   }
 }

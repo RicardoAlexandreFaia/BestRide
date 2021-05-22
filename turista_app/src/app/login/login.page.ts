@@ -17,6 +17,7 @@ import '@codetrix-studio/capacitor-google-auth';
 //api
 import { LoginApiService } from './login-api.service';
 import { Environment } from '@ionic-native/google-maps';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 @Component({
   selector: 'app-login',
@@ -54,7 +55,10 @@ export class LoginPage implements OnInit {
         Validators.required,
       ]),
     ],
-    password: ['', Validators.compose([Validators.required])],
+    password: [
+      '',
+      Validators.compose([Validators.required, Validators.minLength(6)]),
+    ],
   });
 
   constructor(
@@ -63,7 +67,8 @@ export class LoginPage implements OnInit {
     private http: HttpClient,
     private translateService: TranslateService,
     private alertCtrl: AlertController,
-    private loginApi: LoginApiService
+    private loginApi: LoginApiService,
+    private storage: NativeStorage
   ) {
     this.translateService.use(this.language);
     this.setupFbLogin();
@@ -154,17 +159,18 @@ export class LoginPage implements OnInit {
   }
 
   public submeter_login() {
-    console.log(this.registrationForm.value);
-    var email = this.registrationForm.get('email').value;
-    var password = this.registrationForm.get('password').value;
-    /*if (
-      (this.email.value == 'claudio@gmail.com' ||
-        this.email.value == 'ricardo@gmail.com') &&
-      this.password.value == 'abc123+*A'
-    ) {
-      this.router.navigate(['/menu']);
-    }*/
-    this.loginApi.login_normal(email, password);
+    if (!this.registrationForm.valid) {
+      const lang = localStorage.getItem('lang');
+      if (lang == 'en') {
+        this.showDialog('ERROR', 'Complete Fields Correctly', 'Try Again');
+      } else if (lang == 'pt') {
+        this.showDialog('ERRO', 'Campos Invalidos', 'Tente Novamente');
+      }
+    } else {
+      var email = this.registrationForm.get('email').value;
+      var password = this.registrationForm.get('password').value;
+      this.loginApi.login_normal(email, password);
+    }
   }
 
   get email() {
@@ -174,17 +180,6 @@ export class LoginPage implements OnInit {
     return this.registrationForm.get('password');
   }
 
-  public errorMessages = {
-    password: [
-      { type: 'required', message: 'Password e necessária!' },
-      { type: 'maxlength', message: 'password is necessary' },
-    ],
-    email: [
-      { type: 'required', message: 'Email e necessário!' },
-      { type: 'pattern', message: 'Please enter a valid email address' },
-    ],
-  };
-
   //ir para a pagina - criar conta
   public navegar(): void {
     this.router.navigate(['/cria-conta']);
@@ -193,5 +188,14 @@ export class LoginPage implements OnInit {
   //ir para a pagina - criar conta
   public recuperarConta(): void {
     this.router.navigate(['/recuperar-conta']);
+  }
+
+  async showDialog(head: String, msg: String, button_text: String) {
+    const alert = await this.alertCtrl.create({
+      header: '' + head,
+      message: '' + msg,
+      buttons: ['' + button_text],
+    });
+    alert.present();
   }
 }

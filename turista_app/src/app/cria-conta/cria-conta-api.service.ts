@@ -16,13 +16,12 @@ export class CriaContaApiService {
     email: String,
     password: String,
     f_name: string,
-    l_name: string
+    l_name: string,
+    date_birth: String
   ): void {
     console.log(f_name);
-    console.log(l_name);
 
     let postData = {
-      nome: f_name,
       password: password,
       login_type: '0',
     };
@@ -36,6 +35,7 @@ export class CriaContaApiService {
           primeiro_nome: f_name,
           ultimo_nome: l_name,
           userid: data['iduser'],
+          data_nasc: '2021-02-03',
         };
 
         //guardar em userInfo
