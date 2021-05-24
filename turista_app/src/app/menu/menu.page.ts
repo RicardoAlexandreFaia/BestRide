@@ -31,78 +31,267 @@ export class MenuPage implements OnInit {
   currentPos: Geoposition;
   roteiros: Array<Roteiro> = [
     {
-      titulo: 'Circuito 1',
+      titulo: 'Tour Historico',
+      duracao: 1,
+      preco: 6,
+      detalhes:
+        'Tuk Tuk Lisboa Tours – Visite de tuc tuc as colinas dos Bairros' +
+        'tipicos de Alfama, Graça e Mouraria. Sinta o verdadeiro coração das raizes de Lisboa. ' +
+        'Cujas tradições antigas perduram, o Castelo de São Jorge, a Catedral, os Santos populares e a sina do Fado…',
       pontosInteresse: [
         {
-          titulo: 'SÉ', // inicio da  viagem
-          lat: 38.7098786,
-          lng: -9.132584400000042,
+          titulo: 'Igreja da Sé',
+          lat: 38.71007950619046,
+          lng: -9.132638046455183,
         },
         {
-          titulo: 'MIRADOURO PORTAS DO SOL',
-          lat: 38.711148,
-          lng: -9.133262000000059,
-        },
-        { titulo: 'ALFAMA', lat: 38.7125, lng: -9.132799999999975 },
-        {
-          titulo: 'VILA DO BAIRRO DO CASTELO',
-          lat: 38.7131963,
-          lng: -9.133408799999984,
+          titulo: 'Castelo de S.Jorge',
+          lat: 38.71408,
+          lng: -9.13347,
         },
         {
-          titulo: 'MIRADOURO DA GRAÇA',
-          lat: 38.716272,
-          lng: -9.131524000000013,
+          titulo: 'Miradouro Portas do Sol',
+          lat: 38.71278,
+          lng: -9.13022,
         },
         {
-          titulo: 'GRAÇA',
-          lat: 38.71794939999999,
-          lng: -9.13039619999995,
+          titulo: 'Miradouro Nossa Senhora do Monte',
+          lat: 38.71937,
+          lng: -9.13282,
         },
         {
-          titulo: 'MIRADOURO NOSSA SENHORA DO MONTE',
-          lat: 38.71906409127469,
-          lng: -9.132594176721227,
+          titulo: 'Igreja de S. Vicente',
+          lat: 38.715,
+          lng: -9.12777,
+        },
+        {
+          titulo: 'Feira da Ladra',
+          lat: 38.7151,
+          lng: -9.12393,
+        },
+        {
+          titulo: 'Panteão Nacional',
+          lat: 38.71496,
+          lng: -9.12497,
+        },
+        {
+          titulo: 'Alfama',
+          lat: 38.71192,
+          lng: -9.13169,
+        },
+        {
+          titulo: 'Museu do Fado (Alfama)',
+          lat: 38.71136,
+          lng: -9.12761,
+        },
+        {
+          titulo: 'Casa dos Bicos',
+          lat: 38.70926,
+          lng: -9.13265,
+        },
+        {
+          titulo: 'Praça do Comércio',
+          lat: 38.70763,
+          lng: -9.13646,
         },
       ],
     },
     {
-      titulo: 'Circuito 2',
+      titulo: 'TOUR CIDADE ANTIGA',
+      duracao: 1.3,
+      preco: 6,
+      detalhes:
+        'Tuc Tuc Lisboa Tour – Visite de Tuk Tuk, O Chiado,' +
+        'Bairro Alto e Príncipe Real. O encanto cosmopolita Lisboeta, boémio sendo ' +
+        'um dos locais mais prestigiados de Lisboa. Está desde sempre ligado a uma forte ' +
+        'componente intelectual, liberal, modernista e também romântica.',
       pontosInteresse: [
         {
-          titulo: 'MIRADOURO DE S. PEDRO DE ALCÂNTARA',
-          lat: 38.7150612,
-          lng: -9.144405199999937,
+          titulo: 'Igreja da Sé',
+          lat: 38.71007950619046,
+          lng: -9.132638046455183,
         },
         {
-          titulo: 'BAIRRO ALTO',
-          lat: 38.7127532,
-          lng: -9.146295099999975,
+          titulo: 'Castelo de S.Jorge',
+          lat: 38.71408,
+          lng: -9.13347,
         },
         {
-          titulo: 'CHIADO',
-          lat: 38.710202,
-          lng: -9.14223800000002,
+          titulo: 'Miradouro Portas do Sol',
+          lat: 38.71278,
+          lng: -9.13022,
         },
         {
-          titulo: 'SÉ',
-          lat: 38.7098786,
-          lng: -9.132584400000042,
+          titulo: 'Miradouro Nossa Senhora do Monte',
+          lat: 38.71937,
+          lng: -9.13282,
         },
         {
-          titulo: 'ALFAMA',
-          lat: 38.7125,
-          lng: -9.132799999999975,
+          titulo: 'Igreja de S. Vicente',
+          lat: 38.715,
+          lng: -9.12777,
         },
         {
-          titulo: 'VILA DO BAIRRO DO CASTELO',
-          lat: 38.7131963,
-          lng: -9.133408799999984,
+          titulo: 'Feira da Ladra',
+          lat: 38.7151,
+          lng: -9.12393,
+        },
+        {
+          titulo: 'Panteão Nacional',
+          lat: 38.71496,
+          lng: -9.12497,
+        },
+        {
+          titulo: 'Alfama',
+          lat: 38.71192,
+          lng: -9.13169,
+        },
+        {
+          titulo: 'Museu do Fado (Alfama)',
+          lat: 38.71136,
+          lng: -9.12761,
+        },
+        {
+          titulo: 'Casa dos Bicos',
+          lat: 38.70926,
+          lng: -9.13265,
+        },
+        {
+          titulo: 'Chiado',
+          lat: 38.71131,
+          lng: -9.1422,
+        },
+        {
+          titulo: 'Largo do Carmo',
+          lat: 38.71214,
+          lng: -9.141102,
+        },
+        {
+          titulo: 'Rossio',
+          lat: 38.71411,
+          lng: -9.13905,
+        },
+        {
+          titulo: 'Largo do Carmo',
+          lat: 38.71214,
+          lng: -9.141102,
+        },
+        {
+          titulo: 'Rua Aurea',
+          lat: 38.71102,
+          lng: -9.13862,
+        },
+        {
+          titulo: 'Praça do Comércio',
+          lat: 38.70763,
+          lng: -9.13646,
+        },
+      ],
+    },
+    {
+      titulo: 'Tour Bairros',
+      duracao: 2,
+      preco: 6,
+      detalhes:
+        'TukTuk Lisboa Tours – Visite de tuk tuk, o Chiado, Bairro Alto e Príncipe Real, é o encanto cosmopolita Lisboeta, boémio…' +
+        'Um dos locais mais prestigiados de Lisboa, estando desde sempre ligado a uma ' +
+        'forte componente intelectual, liberal, modernista e também romântica.',
+      pontosInteresse: [
+        {
+          titulo: 'Igreja da Sé',
+          lat: 38.71007950619046,
+          lng: -9.132638046455183,
+        },
+        {
+          titulo: 'Castelo de S.Jorge',
+          lat: 38.71408,
+          lng: -9.13347,
+        },
+        {
+          titulo: 'Miradouro Portas do Sol',
+          lat: 38.71278,
+          lng: -9.13022,
+        },
+        {
+          titulo: 'Miradouro Nossa Senhora do Monte',
+          lat: 38.71937,
+          lng: -9.13282,
+        },
+        {
+          titulo: 'Igreja de S. Vicente',
+          lat: 38.715,
+          lng: -9.12777,
+        },
+        {
+          titulo: 'Feira da Ladra',
+          lat: 38.7151,
+          lng: -9.12393,
+        },
+        {
+          titulo: 'Panteão Nacional',
+          lat: 38.71496,
+          lng: -9.12497,
+        },
+        {
+          titulo: 'Alfama',
+          lat: 38.71192,
+          lng: -9.13169,
+        },
+        {
+          titulo: 'Museu do Fado (Alfama)',
+          lat: 38.71136,
+          lng: -9.12761,
+        },
+        {
+          titulo: 'Casa dos Bicos',
+          lat: 38.70926,
+          lng: -9.13265,
+        },
+        {
+          titulo: 'Chiado',
+          lat: 38.71131,
+          lng: -9.1422,
+        },
+        {
+          titulo: 'Largo Camões',
+          lat: 38.71176,
+          lng: -9.14178,
+        },
+        {
+          titulo: 'Bairro Alto (Rua da Rosa)',
+          lat: 38.71363,
+          lng: -9.14556,
+        },
+        {
+          titulo: 'Miradouro S. Pedro Alcantara',
+          lat: 38.71543,
+          lng: -9.14422,
+        },
+        {
+          titulo: 'Largo Carmo',
+          lat: 38.71208,
+          lng: -9.14103,
+        },
+        {
+          titulo: 'Rossio',
+          lat: 38.71416,
+          lng: -9.13902,
+        },
+        {
+          titulo: 'Rua Aurea',
+          lat: 38.71102,
+          lng: -9.13856,
+        },
+        {
+          titulo: 'Praça do Comércio',
+          lat: 38.70765,
+          lng: -9.13642,
         },
       ],
     },
   ];
 
+  badge_points: number;
   constructor(
     private geolocation: Geolocation,
     private translateService: TranslateService,
@@ -110,6 +299,7 @@ export class MenuPage implements OnInit {
     private model_controller: ModalController
   ) {
     this.translateService.use(this.language);
+    this.badge_points = 0;
   }
 
   ngOnInit() {}
@@ -118,24 +308,6 @@ export class MenuPage implements OnInit {
 
   ionViewDidEnter() {
     this.getUserPosition();
-  }
-
-  showMap(opcao) {
-    const location = new google.maps.LatLng(
-      38.71847179326699,
-      -9.13719094695057
-    );
-
-    const options = {
-      center: location,
-      zoom: 18,
-      disableDefaultUI: true,
-      mapTypeId: google.maps.MapTypeId.TERRAIN,
-    };
-
-    this.map = new google.maps.Map(this.mapElement.nativeElement, options);
-
-    this.adicionaMarcadores(opcao);
   }
 
   getUserPosition() {
@@ -171,7 +343,7 @@ export class MenuPage implements OnInit {
     for (let pos of roteiro.pontosInteresse) {
       console.log(pos.lat);
     }
-    //this.showMap(roteiro);
+    this.badge_points = this.badge_points + 1;
     this.presentModal(roteiro);
   }
 
@@ -185,38 +357,5 @@ export class MenuPage implements OnInit {
       },
     });
     return await modal.present();
-  }
-
-  adicionaMarcadores(roteiro: Roteiro) {
-    for (let pos of roteiro.pontosInteresse) {
-      let posMarker = new google.maps.LatLng(pos.lat, pos.lng);
-
-      let marker = new google.maps.Marker({
-        map: this.map,
-        position: posMarker,
-        title: roteiro.titulo,
-        latitude: pos.lat,
-        longitude: pos.lng,
-      });
-
-      /* const roteiros_trace = new google.maps.Polyline({
-        path: roteiro.pontosInteresse,
-        geodesic: true,
-        strokeColor: 'blue',
-        strokeOpacity: 1.0,
-        strokeWeight: 2,
-      });
-
-      roteiros_trace.setMap(this.map);*/
-
-      let content = '<p> ' + pos.titulo + '</p>';
-      let infoWindow = new google.maps.InfoWindow({
-        content: content,
-      });
-
-      google.maps.event.addListener(marker, 'click', () => {
-        infoWindow.open(this.map, marker);
-      });
-    }
   }
 }

@@ -38,13 +38,10 @@ export class ModalMapaPage implements OnInit {
   }
 
   showMap() {
+    //comecar pela origem do Tour
     const location = new google.maps.LatLng(
-      this.circuito.pontosInteresse[
-        this.circuito.pontosInteresse.length - 3
-      ].lat,
-      this.circuito.pontosInteresse[
-        this.circuito.pontosInteresse.length - 3
-      ].lng
+      this.circuito.pontosInteresse[0].lat,
+      this.circuito.pontosInteresse[0].lng
     );
 
     const options = {
