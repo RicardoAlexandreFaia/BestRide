@@ -100,18 +100,6 @@ export class CriaContaPage implements OnInit {
     }
   }
 
-  // alerta sobre as passwords nao coincidirem
-  async showAlert() {
-    const alert = await this.alertCtrl.create({
-      header: 'Erro',
-      message: 'As password não coincidem. Tente Novamente',
-      buttons: ['Tentar Novamente'],
-    });
-    await alert.present();
-    const result = await alert.onDidDismiss();
-    console.log(result);
-  }
-
   matchingPasswords(passwordKey: string, confirmPasswordKey: string) {
     return (group: FormGroup): { [key: string]: any } => {
       let password = group.controls[passwordKey];
@@ -130,7 +118,7 @@ export class CriaContaPage implements OnInit {
     var password: String = this.registrationForm.get('pass').value;
     var f_name: string = this.registrationForm.get('f_nome').value;
     var l_name: string = this.registrationForm.get('l_nome').value;
-    this.api.criaConta(email, password, f_name, l_name);
+    this.api.criaConta(email, password, f_name, l_name, '2012-02-12');
   }
 
   public errorMessages = {

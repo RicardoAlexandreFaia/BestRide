@@ -3,6 +3,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { DadosContaApiService } from './dados-conta-api.service';
 import { AlertController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
+import { ResetPasswordModalPage } from './reset-password-modal/reset-password-modal.page';
 
 @Component({
   selector: 'app-dados-conta',
@@ -19,7 +21,8 @@ export class DadosContaPage implements OnInit {
     private translateService: TranslateService,
     private router: Router,
     private dadosContaApi: DadosContaApiService,
-    public alertController: AlertController
+    public alertController: AlertController,
+    public modalController: ModalController
   ) {
     this.email_get = this.dadosContaApi.email_get;
     this.translateService.use(this.language);
@@ -28,10 +31,16 @@ export class DadosContaPage implements OnInit {
   ngOnInit() {}
 
   alterarPass(): void {
-    this.showPrompt();
+    this.presentModal();
   }
-
-  showPrompt() {
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: ResetPasswordModalPage,
+      cssClass: 'reset-password-modal.page.scss',
+    });
+    return await modal.present();
+  }
+  /*showPrompt() {
     this.alertController
       .create({
         header: 'Atualizar Password',
@@ -53,7 +62,7 @@ export class DadosContaPage implements OnInit {
             text: 'Atualizar',
             handler: (data: any) => {
               console.log('Saved Information', data);
-              this.dadosContaApi.atualizaPassword(data['pass']);
+              // this.dadosContaApi.atualizaPassword(data['pass']);
             },
           },
         ],
@@ -61,7 +70,7 @@ export class DadosContaPage implements OnInit {
       .then((res) => {
         res.present();
       });
-  }
+  }*/
 
   togglePass(): void {
     this.showPass = !this.showPass;

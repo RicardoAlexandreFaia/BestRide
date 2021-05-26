@@ -11,20 +11,21 @@
       </div>
 
       <ion-list class="menu-items" lines="none">
-        <ion-item [routerLink]="['/menu']">
-          <ion-icon name="map-outline"></ion-icon>Mapa
+        <ion-item [routerLink]="['/menu']" translate [translateParams]="{ lang: language }">
+          <ion-icon name="map-outline"></ion-icon>
+          menu_navegacao.map
         </ion-item>
 
-        <ion-item [routerLink]="['/definicoes']">
-          <ion-icon name="settings-outline"></ion-icon> Definições
+        <ion-item [routerLink]="['/definicoes']" translate [translateParams]="{ lang: language }">
+          <ion-icon name="settings-outline"></ion-icon> menu_navegacao.definitions
         </ion-item>
 
-        <ion-item [routerLink]="['/calendario']">
-          <ion-icon name="calendar-outline"></ion-icon> Agenda
+        <ion-item [routerLink]="['/calendario']" translate [translateParams]="{ lang: language }">
+          <ion-icon name="calendar-outline"></ion-icon> menu_navegacao.agend
         </ion-item>
 
-        <ion-item [routerLink]="['/dados-conta']">
-          <ion-icon name="person-outline"></ion-icon> Dados Pessoais
+        <ion-item [routerLink]="['/dados-conta']" translate [translateParams]="{ lang: language }">
+          <ion-icon name="person-outline"></ion-icon> menu_navegacao.personal
         </ion-item>
       </ion-list>
     </ion-content>

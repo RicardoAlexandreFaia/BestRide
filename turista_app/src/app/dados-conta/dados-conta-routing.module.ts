@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: DadosContaPage
+  },  {
+    path: 'reset-password-modal',
+    loadChildren: () => import('./reset-password-modal/reset-password-modal.module').then( m => m.ResetPasswordModalPageModule)
   }
+
 ];
 
 @NgModule({
