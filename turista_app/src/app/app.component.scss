@@ -1,18 +1,6 @@
 .menu-header-bg {
-  height: 180px;
+  height: 120px;
   width: 350px;
-  background-color: royalblue;
-  background: linear-gradient(
-    45deg,
-    rgb(250, 171, 0) 0%,
-    rgb(43, 218, 20) 100%
-  );
-  box-shadow: opx 1px 10px rgba(98, 140, 255, 0.5);
-  transform: rotate(-9deg);
-  border-radius: 10px 10px 10px 10px;
-  margin-left: -18px;
-  margin-top: -25px;
-  margin-bottom: 40px;
 }
 
 .header-content {
@@ -21,12 +9,10 @@
   left: 15px;
   display: flex;
   align-items: center;
-
   img {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    border: 2px solid brown;
     margin-right: 14px;
   }
 
@@ -62,7 +48,7 @@
 
 .menu-items {
   margin: 0px;
-
+  border-top: black 2px solid;
   ion-icon {
     margin-right: 20px;
     color: red;

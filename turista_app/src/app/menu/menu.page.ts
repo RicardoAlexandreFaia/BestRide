@@ -10,11 +10,11 @@ import {
   Geoposition,
   PositionError,
 } from '@ionic-native/geolocation/ngx';
-import { LEADING_TRIVIA_CHARS } from '@angular/compiler/src/render3/view/template';
+
+import { ModalMapaPage } from './modal-mapa/modal-mapa.page';
+import { ModalController } from '@ionic/angular';
 
 declare var google: any;
-var polyLine;
-var polyOptions;
 
 @Component({
   selector: 'app-menu',
@@ -106,7 +106,8 @@ export class MenuPage implements OnInit {
   constructor(
     private geolocation: Geolocation,
     private translateService: TranslateService,
-    private router: Router
+    private router: Router,
+    private model_controller: ModalController
   ) {
     this.translateService.use(this.language);
   }
@@ -166,7 +167,24 @@ export class MenuPage implements OnInit {
 
   public showRoteiro(roteiro: Roteiro): void {
     this.selected = roteiro;
-    this.showMap(roteiro.pontosInteresse);
+    console.log(roteiro);
+    for (let pos of roteiro.pontosInteresse) {
+      console.log(pos.lat);
+    }
+    //this.showMap(roteiro);
+    this.presentModal(roteiro);
+  }
+
+  //funcao para abri o model para visualizar o mapa
+  async presentModal(roteiro: Roteiro) {
+    const modal = await this.model_controller.create({
+      component: ModalMapaPage,
+      cssClass: './modal-mapa/modal-mapa.scss',
+      componentProps: {
+        circuito: roteiro,
+      },
+    });
+    return await modal.present();
   }
 
   adicionaMarcadores(roteiro: Roteiro) {
@@ -181,7 +199,7 @@ export class MenuPage implements OnInit {
         longitude: pos.lng,
       });
 
-      const roteiros_trace = new google.maps.Polyline({
+      /* const roteiros_trace = new google.maps.Polyline({
         path: roteiro.pontosInteresse,
         geodesic: true,
         strokeColor: 'blue',
@@ -189,7 +207,7 @@ export class MenuPage implements OnInit {
         strokeWeight: 2,
       });
 
-      roteiros_trace.setMap(this.map);
+      roteiros_trace.setMap(this.map);*/
 
       let content = '<p> ' + pos.titulo + '</p>';
       let infoWindow = new google.maps.InfoWindow({
