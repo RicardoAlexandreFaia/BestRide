@@ -9,7 +9,6 @@ from django.db import models
 
 class User(models.Model):
     iduser = models.AutoField(db_column='idUser', primary_key=True)  # Field name made lowercase.
-    nome = models.CharField(max_length=45)
     password = models.CharField(unique=True, max_length=255, blank=True, null=True)
     login_type = models.CharField(max_length=45, blank=True, null=True)
 
@@ -27,13 +26,12 @@ class UserInfo(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'user_info'
+        db_table = 'turist_info'
 
 class RecuperarConta(models.Model):
-    idrecuperarconta = models.AutoField(db_column='recuperar_conta_id', primary_key=True)  # Field name made lowercase.
-    code = models.CharField(db_column='code', null=False)
-    # email = models.CharField(max_length=45, blank=True, null=True)
-    userid = models.ForeignKey(User, models.DO_NOTHING, db_column='UserID')  # Field name made lowercase.
+    idrecuperarconta = models.AutoField(db_column='recupera_conta_id', primary_key=True)  # Field name made lowercase.
+    code = models.CharField(max_length=10, db_column='code', null=False)
+    email = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
         managed = False

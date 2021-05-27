@@ -112,22 +112,50 @@ class Utilizadores_Info_operacoes(APIView):
 
 class Recuperar_Conta(APIView):
 #Para enviar email com o codigo para a recuperação da Pass
+
+    def get(self, request, id=None):
+        if id:
+            try:
+                queryset = RecuperarConta.objects.get(idrecuperarconta=id)
+            except RecuperarConta.DoesNotExist:
+                return Response({'Erro: Info sobre o Utilizador nao existe'}, status=400)
+            read_serializer = RecuperarContaSerializaer(queryset)
+            return Response(read_serializer.data)
+        else:
+            snippets = RecuperarConta.objects.all()
+            serializer = RecuperarContaSerializaer(snippets, many=True)
+            return Response(serializer.data)
+
+    def post(self, request, format=None):
+        try:
+            queryset = UserInfo.objects.get(email=request.data['email'])
+        except UserInfo.DoesNotExist:
+            return Response({'O Email nao Existe'}, status=400)
+
+        serializer = RecuperarContaSerializaer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @api_view(['POST'])
     def email(request):
         email = request.data['email']
         code = request.data['code']
-        if email:
-            try:
-                queryset = UserInfo.objects.get(email=email)
-            except UserInfo.DoesNotExist:
-                return Response({'O Email nao Existe'}, status=400)
+
+        try:
+            queryset = UserInfo.objects.get(email=request.data['email'])
+        except UserInfo.DoesNotExist:
+            return Response({'O Email nao Existe'}, status=400)
 
         subject = "Código BestRide"
-        message = "O seu código para recuperar a sua conta Best Ride é:\n" + code
+        message = "O seu código para recuperar a sua conta Best Ride é:\n" + str(code)
         email_from = settings.EMAIL_HOST_USER
-        recipient_list = email
+        recipient_list = [email]
         send_mail(subject, message, email_from, recipient_list)
-        return redirect('./menu')
+        return redirect()
 
+    @api_view(['POST'])
     def verificarCodigo(request):
         code = request.data['code']
         try:

@@ -8,7 +8,7 @@ import { AlertController } from '@ionic/angular';
   providedIn: 'root',
 })
 export class IntroduzirCodigoApiService {
-    private url_recuperar: String = '/recuperar_conta/';
+    private url_recuperar: String = '/recuperarConta/verificar';
 
     constructor(private http: HttpClient, private router: Router, public alertController: AlertController) {}
 
@@ -16,7 +16,7 @@ export class IntroduzirCodigoApiService {
         code: Number,
       ) {
         this.http
-      .get(environment.apiUrl + this.url_recuperar + code)
+      .post(environment.apiUrl + this.url_recuperar, code)
       .subscribe(
         (data) => {
           console.log(data);
