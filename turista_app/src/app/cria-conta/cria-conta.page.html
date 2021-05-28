@@ -20,27 +20,62 @@
 
       <ion-card>
         <ion-item>
-          <ion-label translate [translateParams]="{ lang: language }">create_account.f_name_field</ion-label>
-          <ion-input formControlName="f_nome" required></ion-input>
+          <ion-label translate [translateParams]="{ lang: language }">create_account.name</ion-label>
+          <ion-input formControlName="name" required></ion-input>
         </ion-item>
       </ion-card>
 
-      <ion-card>
-        <ion-item>
-          <ion-label translate [translateParams]="{ lang: language }">create_account.l_name_field</ion-label>
-          <ion-input formControlName="l_nome" required></ion-input>
-        </ion-item>
-      </ion-card>
 
       <ion-card>
         <ion-item>
           <ion-label translate [translateParams]="{ lang: language }">create_account.Date_birth</ion-label>
-          <ion-datetime displayFormat="MM/DD/YYYY" value="2019-02-12">
-            <!-- falta obter este campo -->
+          <ion-datetime displayFormat="MM/DD/YYYY" value="2019-02-12" formControlName="dob">
           </ion-datetime>
         </ion-item>
       </ion-card>
 
+      <ion-card>
+        <ion-item>
+          <ion-label translate [translateParams]="{ lang: language }">create_account.cellphone</ion-label>
+          <ion-input type="number" formControlName="cellphone" required></ion-input>
+        </ion-item>
+      </ion-card>
+
+      <ion-card>
+        <ion-item>
+          <ion-label translate [translateParams]="{ lang: language }">create_account.postal</ion-label>
+          <ion-input type="number" formControlName="postal" required></ion-input>
+        </ion-item>
+      </ion-card>
+
+      <ion-card>
+        <ion-item>
+          <ion-label translate [translateParams]="{ lang: language }">create_account.sex</ion-label>
+          <ion-select okText="OK" cancelText="Cancelar" formControlName="gender">
+            <ion-select-option value="male" translate [translateParams]="{ lang: language }">create_account.sex_male
+            </ion-select-option>
+            <ion-select-option value="female" translate [translateParams]="{ lang: language }">create_account.sex_female
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-card>
+
+      <ion-card>
+        <ion-item>
+          <ion-label translate [translateParams]="{ lang: language }">create_account.address</ion-label>
+          <ion-input formControlName="address" required></ion-input>
+        </ion-item>
+      </ion-card>
+
+      <ion-card>
+        <ion-item>
+          <ion-label translate [translateParams]="{ lang: language }">create_account.city</ion-label>
+          <ion-select okText="OK" cancelText="Cancelar" formControlName="city">
+            <ion-select-option value="Lisbon">Lisboa</ion-select-option>
+            <ion-select-option value="Sintra">Sintra</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-card>
 
       <ion-card>
         <ion-item>
@@ -66,8 +101,8 @@
       </ion-card>
 
 
-      <ion-button [disabled]="!registrationForm.valid" color="primary" expand="block" type="submit" translate
-        [translateParams]="{ lang: language }">create_account.button_text
+      <ion-button color="primary" expand="full" type="submit" translate [translateParams]="{ lang: language }">
+        create_account.button_text
       </ion-button>
 
     </form>

@@ -16,9 +16,15 @@
   "create_account": {
     "tabName": "Criar Conta",
     "text": "repita Password",
-    "f_name_field": "Primeiro Nome",
-    "l_name_field": "último Nome",
+    "name": "Nome",
+    "cellphone": "Telemovel",
+    "city": "Cidade",
+    "sex": "Genero",
+    "sex_male": "Masculini",
+    "sex_female": "Feminino",
+    "address": "morada",
     "Date_birth": "Data Nascimento",
+    "postal": "Codigo Postal",
     "button_text": "Criar Conta"
   },
   "menu_navegacao": {

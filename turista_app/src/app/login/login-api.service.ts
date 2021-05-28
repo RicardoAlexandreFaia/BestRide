@@ -74,8 +74,7 @@ export class LoginApiService {
 
     this.http.post(environment.apiUrl + this.url_login, data).subscribe(
       (data) => {
-        console.log(data);
-        localStorage.setItem('id', data['userid']); // guarda o id do user
+        localStorage.setItem('id', data['user_iduser']); // guarda o id do user
         this.router.navigate(['/menu']);
       },
       (erro) => {

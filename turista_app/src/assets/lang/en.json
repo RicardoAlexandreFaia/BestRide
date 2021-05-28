@@ -18,10 +18,16 @@
   },
   "create_account": {
     "tabName": "Create Account",
-    "text": "repeat Password",
-    "f_name_field": "First Name",
-    "l_name_field": "Last Name",
-    "Date_birth": "Birth date",
+    "text": "Repeat Password",
+    "name": "Name",
+    "cellphone": "Phone Number",
+    "city": "City",
+    "sex": "Gender",
+    "sex_male": "Male",
+    "sex_female": "Female",
+    "address": "address",
+    "postal": "Postal Code",
+    "Date_birth": "Date of Birth",
     "button_text": "Create Account"
   },
   "menu_navegacao": {

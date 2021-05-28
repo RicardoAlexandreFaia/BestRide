@@ -13,16 +13,19 @@ export class CriaContaApiService {
   constructor(private http: HttpClient, private router: Router) {}
 
   public criaConta(
+    name: String,
+    dob: String,
+    phone: String,
+    address: String,
+    postal: String,
+    gender: String,
+    city: String,
     email: String,
-    password: String,
-    f_name: string,
-    l_name: string,
-    date_birth: String
+    pass: String,
+    passRepeat: String
   ): void {
-    console.log(f_name);
-
     let postData = {
-      password: password,
+      password: pass,
       login_type: '0',
     };
 
@@ -30,12 +33,17 @@ export class CriaContaApiService {
       (data) => {
         console.log(data['iduser']);
 
+        let id_user = data['iduser'];
         let postDataInfo = {
+          user_iduser: id_user,
           email: email,
-          primeiro_nome: f_name,
-          ultimo_nome: l_name,
-          userid: data['iduser'],
-          data_nasc: '2021-02-03',
+          name: name,
+          dob: dob,
+          city: city,
+          gender: gender,
+          phone_number: phone,
+          adress: address,
+          postal_code: postal,
         };
 
         //guardar em userInfo

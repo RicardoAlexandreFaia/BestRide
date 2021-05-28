@@ -19,15 +19,27 @@ export class CriaContaPage implements OnInit {
   ionicForm: FormGroup;
 
   profileForm = this.formBuilder.group({
+    name: '',
+    dob: '',
+    cellphone: '',
+    address: '',
+    postal: '',
+    gender: '',
+    city: '',
     email: '',
     pass: '',
     passRepeat: '',
-    f_nome: '',
-    l_name: '',
   });
 
   registrationForm = this.formBuilder.group(
     {
+      name: ['', Validators.required],
+      dob: ['', Validators.required],
+      cellphone: ['', Validators.required],
+      address: ['', Validators.required],
+      postal: ['', Validators.required],
+      gender: ['', Validators.required],
+      city: ['', Validators.required],
       email: [
         '',
         Validators.compose([
@@ -38,8 +50,6 @@ export class CriaContaPage implements OnInit {
           Validators.required,
         ]),
       ],
-      f_nome: [],
-      l_nome: [],
       pass: [
         '',
         Validators.compose([
@@ -59,24 +69,6 @@ export class CriaContaPage implements OnInit {
     private translateService: TranslateService,
     private api: CriaContaApiService
   ) {}
-
-  get primeiro_nome() {
-    return this.registrationForm.get('f_nome');
-  }
-
-  get ultimo_nome() {
-    return this.registrationForm.get('l_nome');
-  }
-
-  get email() {
-    return this.registrationForm.get('email');
-  }
-  get password() {
-    return this.registrationForm.get('pass');
-  }
-  get passwordRepeat() {
-    return this.registrationForm.get('passRepeat');
-  }
 
   ngOnInit() {}
 
@@ -114,11 +106,39 @@ export class CriaContaPage implements OnInit {
   }
 
   public submit() {
-    var email: String = this.registrationForm.get('email').value;
-    var password: String = this.registrationForm.get('pass').value;
-    var f_name: string = this.registrationForm.get('f_nome').value;
-    var l_name: string = this.registrationForm.get('l_nome').value;
-    this.api.criaConta(email, password, f_name, l_name, '2012-02-12');
+    var name: String = this.registrationForm.get('name').value;
+    var dob: String = this.registrationForm.get('dob').value;
+    var phone: string = this.registrationForm.get('cellphone').value;
+    var address: string = this.registrationForm.get('address').value;
+    var postal: string = this.registrationForm.get('postal').value;
+    var gender: string = this.registrationForm.get('gender').value;
+    var city: string = this.registrationForm.get('city').value;
+    var email: string = this.registrationForm.get('email').value;
+    var pass: string = this.registrationForm.get('pass').value;
+    var passRepeat: string = this.registrationForm.get('passRepeat').value;
+
+    console.log(name);
+    console.log(dob);
+    console.log(phone);
+    console.log(address);
+    console.log(postal);
+    console.log(gender);
+    console.log(city);
+    console.log(email);
+    console.log(pass);
+    console.log(passRepeat);
+    this.api.criaConta(
+      name,
+      dob,
+      phone,
+      address,
+      postal,
+      gender,
+      city,
+      email,
+      pass,
+      passRepeat
+    );
   }
 
   public errorMessages = {
