@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 export class CriaContaApiService {
   private url: String = '/utilizadores/';
   private url_info: String = '/utilizadoresInfo/';
+  private url_add_turist: String = '/utilizadores/add_to_turist_role';
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -34,6 +35,23 @@ export class CriaContaApiService {
         console.log(data['iduser']);
 
         let id_user = data['iduser'];
+
+        let postRoles = {
+          user_iduser: id_user,
+          roles_id_roles: 0,
+        };
+        //guarda em user_roles
+        this.http
+          .post(environment.apiUrl + this.url_add_turist, postRoles)
+          .subscribe(
+            (data) => {
+              console.log(data);
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+
         let postDataInfo = {
           user_iduser: id_user,
           email: email,
@@ -45,7 +63,6 @@ export class CriaContaApiService {
           adress: address,
           postal_code: postal,
         };
-
         //guardar em userInfo
         this.http
           .post(environment.apiUrl + this.url_info, postDataInfo)

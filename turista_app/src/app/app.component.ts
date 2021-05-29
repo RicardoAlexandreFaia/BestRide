@@ -11,6 +11,8 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
 export class AppComponent {
   language: string = this.translate.currentLang;
 
+  user_email: String;
+
   constructor(
     private translate: TranslateService,
     private router: Router,
@@ -25,5 +27,6 @@ export class AppComponent {
     } else {
       this.translate.setDefaultLang('en');
     }
+    this.user_email = localStorage.getItem('email');
   }
 }

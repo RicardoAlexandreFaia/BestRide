@@ -138,9 +138,14 @@ export class LoginPage implements OnInit {
     this.userInfo = googleUser;
     console.log(this.userInfo);
     this.loginApi.criaContaGoogle(
+      this.userInfo['givenName'],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
       this.userInfo['email'],
-      this.userInfo['familiacaetano'],
-      this.userInfo['name'],
       this.userInfo['givenName']
     );
   }

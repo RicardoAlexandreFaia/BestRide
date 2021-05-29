@@ -20,7 +20,7 @@
     "cellphone": "Telemovel",
     "city": "Cidade",
     "sex": "Genero",
-    "sex_male": "Masculini",
+    "sex_male": "Masculino",
     "sex_female": "Feminino",
     "address": "morada",
     "Date_birth": "Data Nascimento",
@@ -34,9 +34,14 @@
     "personal": "Perfil"
   },
   "personal_data_page": {
-    "user": "Utilizador",
+    "tab": "Dados Pessoais",
+    "user": "Nome",
     "email": "email",
+    "city": "Cidade",
+    "address": "Morada",
+    "postal": "Codigo Postal",
     "phone": "Telemovel",
+    "button_update": "Guardar Campos",
     "button_change_pass": "Alterar Password"
   }
 }

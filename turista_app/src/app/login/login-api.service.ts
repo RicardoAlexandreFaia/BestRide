@@ -12,6 +12,7 @@ export class LoginApiService {
   //endpoint da Api
   private url: String = '/utilizadores/';
   private url_info: String = '/utilizadoresInfo/';
+  private url_add_turist: String = '/utilizadores/add_to_turist_role';
   private url_login: String = '/utilizadores/login/';
 
   constructor(
@@ -22,31 +23,54 @@ export class LoginApiService {
   ) {}
 
   public criaContaGoogle(
+    name: String,
+    dob: String,
+    phone: String,
+    address: String,
+    postal: String,
+    gender: String,
+    city: String,
     email: String,
-    password: string,
-    f_name: string,
-    l_name: string
+    pass: String
   ): void {
-    console.log(f_name);
-    console.log(l_name);
-
     let postData = {
-      nome: f_name,
-      password: password,
-      login_type: '0',
+      password: pass,
+      login_type: '1',
     };
 
     this.http.post(environment.apiUrl + this.url, postData).subscribe(
       (data) => {
         console.log(data['iduser']);
 
-        let postDataInfo = {
-          email: email,
-          primeiro_nome: f_name,
-          ultimo_nome: l_name,
-          userid: data['iduser'],
-        };
+        let id_user = data['iduser'];
 
+        let postRoles = {
+          user_iduser: id_user,
+          roles_id_roles: 0,
+        };
+        //guarda em user_roles
+        this.http
+          .post(environment.apiUrl + this.url_add_turist, postRoles)
+          .subscribe(
+            (data) => {
+              console.log(data);
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+
+        let postDataInfo = {
+          user_iduser: id_user,
+          email: email,
+          name: name,
+          dob: dob,
+          city: city,
+          gender: gender,
+          phone_number: phone,
+          adress: address,
+          postal_code: postal,
+        };
         //guardar em userInfo
         this.http
           .post(environment.apiUrl + this.url_info, postDataInfo)
@@ -75,6 +99,7 @@ export class LoginApiService {
     this.http.post(environment.apiUrl + this.url_login, data).subscribe(
       (data) => {
         localStorage.setItem('id', data['user_iduser']); // guarda o id do user
+        localStorage.setItem('email', data['email']); // guarda o id do user
         this.router.navigate(['/menu']);
       },
       (erro) => {

@@ -24,6 +24,7 @@ export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/lang/', '.json');
 }
 
+import { User } from './dados-conta/user';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

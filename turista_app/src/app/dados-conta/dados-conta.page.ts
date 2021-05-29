@@ -15,7 +15,15 @@ export class DadosContaPage implements OnInit {
   language: string = this.translateService.currentLang;
   showPass = false;
   passwordIconToggle = 'eye';
-  email_get: String;
+
+  public name: string;
+  public email: string;
+  public city: string;
+  public phone: string;
+  public address: string;
+  public postal: string;
+
+  valor: boolean;
 
   constructor(
     private translateService: TranslateService,
@@ -23,16 +31,37 @@ export class DadosContaPage implements OnInit {
     private dadosContaApi: DadosContaApiService,
     public alertController: AlertController,
     public modalController: ModalController
-  ) {
-    this.email_get = this.dadosContaApi.email_get;
-    this.translateService.use(this.language);
+  ) {}
+
+  ngOnInit() {
+    this.valor = !this.valor;
   }
 
-  ngOnInit() {}
+  ionViewDidEnter() {
+    this.name = this.dadosContaApi.name;
+    this.city = this.dadosContaApi.city;
+    this.email = this.dadosContaApi.email;
+    this.phone = this.dadosContaApi.phone;
+    this.address = this.dadosContaApi.address;
+    this.postal = this.dadosContaApi.postal;
+    this.translateService.use(this.language);
+  }
 
   alterarPass(): void {
     this.presentModal();
   }
+
+  public alterarCampos(): void {
+    this.dadosContaApi.atualizaCampos(
+      this.name,
+      this.city,
+      this.email,
+      this.phone,
+      this.address,
+      this.postal
+    );
+  }
+
   async presentModal() {
     const modal = await this.modalController.create({
       component: ResetPasswordModalPage,
@@ -40,37 +69,6 @@ export class DadosContaPage implements OnInit {
     });
     return await modal.present();
   }
-  /*showPrompt() {
-    this.alertController
-      .create({
-        header: 'Atualizar Password',
-        message: 'Digite uma nova Password',
-        inputs: [
-          {
-            name: 'pass',
-            placeholder: 'digite a password',
-          },
-        ],
-        buttons: [
-          {
-            text: 'Cancelar',
-            handler: (data: any) => {
-              console.log('Canceled', data);
-            },
-          },
-          {
-            text: 'Atualizar',
-            handler: (data: any) => {
-              console.log('Saved Information', data);
-              // this.dadosContaApi.atualizaPassword(data['pass']);
-            },
-          },
-        ],
-      })
-      .then((res) => {
-        res.present();
-      });
-  }*/
 
   togglePass(): void {
     this.showPass = !this.showPass;

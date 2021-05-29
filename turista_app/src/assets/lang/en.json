@@ -35,5 +35,16 @@
     "definitions": "APP Settings",
     "agend": "Schedule a Tour",
     "personal": "User Settings"
+  },
+  "personal_data_page": {
+    "tab": "User Data",
+    "user": "Nome",
+    "email": "email",
+    "city": "city",
+    "address": "address",
+    "postal": "Postal Code",
+    "phone": "Phone Number",
+    "button_update": "Update Account",
+    "button_change_pass": "Change Password"
   }
 }
