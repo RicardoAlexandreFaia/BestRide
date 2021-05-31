@@ -56,4 +56,8 @@ export class DadosContaApiService {
       (erro) => {}
     );
   }
+
+  public eliminaConta(){
+    var id = localStorage.getItem('id');
+  }
 }

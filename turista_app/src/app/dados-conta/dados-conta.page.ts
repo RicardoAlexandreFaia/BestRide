@@ -85,4 +85,8 @@ export class DadosContaPage implements OnInit {
   public getInfo() {
     this.dadosContaApi.getInfo();
   }
+
+  public eliminarConta(){
+    this.dadosContaApi.eliminaConta();
+  }
 }
