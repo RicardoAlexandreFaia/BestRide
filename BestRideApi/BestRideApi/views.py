@@ -113,7 +113,7 @@ class Utilizadores_Info_operacoes(APIView):
 class Recuperar_Conta(APIView):
 #Para enviar email com o codigo para a recuperação da Pass
 
-    def get(self, request, id=None):
+    def get(self, request, id):
         if id:
             try:
                 queryset = RecuperarConta.objects.get(idrecuperarconta=id)
@@ -139,7 +139,7 @@ class Recuperar_Conta(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @api_view(['POST'])
-    def email(request):
+    def sendEmail(request):
         email = request.data['email']
         code = request.data['code']
 
@@ -155,13 +155,11 @@ class Recuperar_Conta(APIView):
         send_mail(subject, message, email_from, recipient_list)
         return Response({'O Email enviado'}, status=200)
 
-    @api_view(['GET'])
-    def verificarCodigo(self, request, code=None):
+    @api_view(['POST'])
+    def codeVerification(request):
         try:
-            queryset = RecuperarConta.objects.get(code=code)
+            queryset = RecuperarConta.objects.get(code=request.data['code'])
         except RecuperarConta.DoesNotExist:
-            return Response({'Código Invalido'}, status=400)
-
-        read_serializer = RecuperarContaSerializaer(queryset)
-        return Response(read_serializer.data)
+            return Response({'Erro: Info sobre o Codigo nao existe'}, status=400)
+        return Response({'O codigo foi aceite'}, status=200)
 

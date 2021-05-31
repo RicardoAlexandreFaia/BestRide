@@ -28,7 +28,7 @@ export class RecuperarContaPage implements OnInit {
 
   ngOnInit() {}
 
-   //funcao para abri o model para visualizar o mapa
+   //funcao para abri o model para abrir modal
   async presentModal() {
     const modal = await this.model_controller.create({
       component: IntroduzirCodigoPage,

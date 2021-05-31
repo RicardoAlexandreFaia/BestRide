@@ -30,12 +30,12 @@ export class RecuperaContaApiService {
                 console.log(data);
               },
               (error) => {
-                this.showAlert();
+                console.log(error);
               }
             );
           },
           (error) => {
-            this.showAlert();
+            console.log(error);
           }
         );
 
