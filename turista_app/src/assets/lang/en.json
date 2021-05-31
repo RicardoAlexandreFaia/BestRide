@@ -32,9 +32,9 @@
   },
   "menu_navegacao": {
     "map": "Home",
-    "definitions": "APP Settings",
-    "agend": "Schedule a Tour",
-    "personal": "User Settings"
+    "definitions_user": "Definitions User",
+    "agend": "Trip's",
+    "definitions_app": "Definitions App"
   },
   "personal_data_page": {
     "tab": "User Data",

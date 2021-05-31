@@ -28,10 +28,10 @@
     "button_text": "Criar Conta"
   },
   "menu_navegacao": {
-    "map": "mapa",
-    "definitions": "Definições",
+    "map": "Mapa",
+    "definitions_user": "Definições",
     "agend": "Agenda",
-    "personal": "Perfil"
+    "definitions_app": "Perfil"
   },
   "personal_data_page": {
     "tab": "Dados Pessoais",

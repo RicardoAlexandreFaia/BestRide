@@ -13,5 +13,6 @@ export class SplashScreenPage implements OnInit {
     setTimeout(() => {
       this.router.navigate(['/login']);
     }, 2000);
+    document.getElementById('tabs').style.display = 'none';
   }
 }

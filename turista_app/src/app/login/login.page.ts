@@ -70,6 +70,7 @@ export class LoginPage implements OnInit {
     private loginApi: LoginApiService,
     private storage: NativeStorage
   ) {
+    document.getElementById('tabs').style.display = 'none';
     this.translateService.use(this.language);
     this.setupFbLogin();
   }
