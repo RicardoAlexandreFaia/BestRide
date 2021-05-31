@@ -153,14 +153,13 @@ class Recuperar_Conta(APIView):
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [email]
         send_mail(subject, message, email_from, recipient_list)
-        return redirect()
+        return Response({'O Email enviado'}, status=200)
 
-    @api_view(['POST'])
-    def verificarCodigo(request):
-        code = request.data['code']
+    @api_view(['GET'])
+    def verificarCodigo(self, request, code=None):
         try:
             queryset = RecuperarConta.objects.get(code=code)
-        except UserInfo.DoesNotExist:
+        except RecuperarConta.DoesNotExist:
             return Response({'Código Invalido'}, status=400)
 
         read_serializer = RecuperarContaSerializaer(queryset)
