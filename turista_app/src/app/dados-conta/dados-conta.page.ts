@@ -87,6 +87,9 @@ export class DadosContaPage implements OnInit {
   }
 
   public eliminarConta(){
-    this.dadosContaApi.eliminaConta();
+    this.dadosContaApi.eliminaContaUserInfo();
+    this.dadosContaApi.eliminaContaUser();
+    this.router.navigate(['/login']);
+    localStorage.removeItem('id')
   }
 }

@@ -33,7 +33,7 @@ export class DadosContaApiService {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   public atualizaPassword(pass: string) {
     var id = localStorage.getItem('id');
@@ -53,11 +53,41 @@ export class DadosContaApiService {
       (data) => {
         data.toString();
       },
-      (erro) => {}
+      (erro) => { }
     );
   }
 
-  public eliminaConta(){
+  public eliminaContaUserInfo() {
     var id = localStorage.getItem('id');
+    var url_info_delete: String = '/utilizadoresInfo/deleteAccount';
+
+
+    var data = {
+      id: id,
+    };
+
+    this.http
+      .post(environment.apiUrl + url_info_delete, data)
+      .subscribe((resposta) => {
+        console.log(resposta);
+      }
+    );
+  }
+
+  public eliminaContaUser() {
+    var id = localStorage.getItem('id');
+    var url_delete: String = '/utilizadores/deleteAccount';
+
+
+    var data = {
+      id: id,
+    };
+
+    this.http
+      .post(environment.apiUrl + url_delete, data)
+      .subscribe((resposta) => {
+        console.log(resposta);
+      }
+    );
   }
 }

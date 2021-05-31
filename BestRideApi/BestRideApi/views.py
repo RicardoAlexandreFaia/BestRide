@@ -64,6 +64,15 @@ class Utilizadores_operacoes(APIView):
         # If the update data is not valid, return an error response
         return Response(update_serializer.errors, status=400)
 
+    @api_view(['POST'])
+    def deleteAccount(request):
+        id = request.data['id']
+        try:
+            queryset = User.objects.filter(pk=id).delete()
+        except UserInfo.DoesNotExist:
+            return Response({'Erro: Info sobre o Utilizador nao existe'}, status=400)
+        return Response({'Erro: Info sobre o Utilizador foi eliminada'}, status=101)
+
 
 class Utilizadores_Info_operacoes(APIView):
 
@@ -109,6 +118,15 @@ class Utilizadores_Info_operacoes(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @api_view(['POST'])
+    def deleteAccount(request):
+        id = request.data['id']
+        try:
+            queryset = UserInfo.objects.filter(userid=id).delete()
+        except UserInfo.DoesNotExist:
+            return Response({'Erro: Info sobre o Utilizador nao existe'}, status=400)
+        return Response({'Erro: Info sobre o Utilizador foi eliminada'}, status=101)
 
 class Recuperar_Conta(APIView):
 #Para enviar email com o codigo para a recuperação da Pass
