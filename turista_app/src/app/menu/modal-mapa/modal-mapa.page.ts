@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import {
   Geolocation,
   GeolocationOptions,
@@ -21,8 +22,11 @@ export class ModalMapaPage implements OnInit {
   private map: any;
   @Input() circuito_rec: Roteiro;
   private circuito: Roteiro;
-
-  constructor(private modalCtr: ModalController) {}
+  public language: string = this.translate.currentLang;
+  constructor(
+    private modalCtr: ModalController,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {}
 

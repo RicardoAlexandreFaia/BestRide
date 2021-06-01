@@ -63,5 +63,10 @@
     "header": "Erro",
     "message": "Introduza um email valido",
     "buttons": ["Ok"]
+  },
+  "modal_map_form": {
+    "tab_name": "Mapa",
+    "date": "Data Para Reserva?",
+    "people": "Quantas Pessoas?"
   }
 }

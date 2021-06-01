@@ -66,5 +66,10 @@
     "header": "Error",
     "message": "Try a valid email",
     "buttons": ["Ok"]
+  },
+  "modal_map_form": {
+    "tab_name": "Map",
+    "date": "What Date?",
+    "people": "How much people?"
   }
 }
