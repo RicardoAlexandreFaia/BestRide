@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { AlertController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root',
@@ -20,14 +21,24 @@ export class DadosContaApiService {
   public phone: string;
   public address: string;
   public postal: string;
+  public id = localStorage.getItem('id');
+  private data_user_alert_text = {};
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private nativeStorage: NativeStorage,
-    public alertController: AlertController
+    public alertController: AlertController,
+    private translateService: TranslateService
   ) {
-    var id = localStorage.getItem('id');
+    this.translateService.get('alert_data_user').subscribe((data) => {
+      this.data_user_alert_text = {
+        header: data['header'],
+        message: data['message'],
+        buttons: data['buttons'][0],
+      };
+    });
+    let id = localStorage.getItem('id');
     this.http.get(environment.apiUrl + this.url_info + id).subscribe((data) => {
       console.log(data);
       this.name = data['name'];
@@ -36,7 +47,6 @@ export class DadosContaApiService {
       this.phone = data['phone_number'];
       this.address = data['adress'];
       this.postal = data['postal_code'];
-
       this.http
         .get(environment.apiUrl + this.url + id)
         .subscribe((data_user) => {
@@ -47,62 +57,40 @@ export class DadosContaApiService {
 
   ngOnInit() {}
 
-  public atualizaPassword(pass: string) {
-    var id = localStorage.getItem('id');
-    var data = {
+  public atualizaPassword(pass: string): void {
+    let data = {
       password: pass,
     };
     this.http
-      .put(environment.apiUrl + this.url + id + '/', data)
+      .put(environment.apiUrl + this.url + this.id + '/', data)
       .subscribe((resposta) => {
         console.log(resposta);
       });
   }
 
-  public atualizaCampos(
-    name: string,
-    email: string,
-    city: string,
-    phone: string,
-    address: string,
-    postal: string
-  ) {
-    console.log(name);
-    console.log(city);
-    console.log(email);
-    console.log(phone);
-    console.log(address);
-    console.log(postal);
-
-    var id = localStorage.getItem('id');
-    var data = {
-      email: email,
-      name: name,
-      city: city,
-      phone_number: phone,
-      adress: address,
-      postal_code: postal,
-      user_iduser: id,
+  public atualizaCampos(data_account): void {
+    const data = {
+      email: data_account['email'],
+      name: data_account['name'],
+      city: data_account['city'],
+      phone_number: data_account['phone'],
+      adress: data_account['address'],
+      postal_code: data_account['postal'],
+      user_iduser: this.id,
     };
-
+    this.presentAlert();
     this.http
-      .put(environment.apiUrl + this.url_info + id, data)
+      .put(environment.apiUrl + this.url_info + this.id, data)
       .subscribe((resposta) => {
-        console.log(resposta);
-
-        if (localStorage.getItem('lang') == 'pt') {
-          this.presentAlert('Sucesso', 'Os campos foram alterados!');
-        } else if (localStorage.getItem('lang') == 'en') {
-          this.presentAlert('Sucess', 'Fields have been changed!');
-        }
+        //console.log(resposta);
       });
   }
 
-  async presentAlert(header: string, message: string) {
+  async presentAlert() {
     const alert = await this.alertController.create({
-      header: header,
-      message: message,
-      buttons: ['OK'],
+      header: this.data_user_alert_text['header'],
+      message: this.data_user_alert_text['message'],
+      buttons: [this.data_user_alert_text['buttons']],
     });
     await alert.present();
   }

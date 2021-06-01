@@ -21,7 +21,7 @@ export class DefinicoesPage implements OnInit {
 
   ngOnInit() {}
 
-  mudarLinguagem() {
+  changeLanguage() {
     this.translateService.use(this.language);
     localStorage.setItem('lang', this.language);
   }

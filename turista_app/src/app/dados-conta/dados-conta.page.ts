@@ -12,9 +12,8 @@ import { ResetPasswordModalPage } from './reset-password-modal/reset-password-mo
   styleUrls: ['./dados-conta.page.scss'],
 })
 export class DadosContaPage implements OnInit {
-  language: string = this.translateService.currentLang;
-  showPass = false;
-  passwordIconToggle = 'eye';
+  public showPass = false;
+  public passwordIconToggle = 'eye';
 
   public name: string;
   public email: string;
@@ -23,6 +22,7 @@ export class DadosContaPage implements OnInit {
   public address: string;
   public postal: string;
 
+  public language: string = this.translateService.currentLang;
   valor: boolean;
 
   constructor(
@@ -44,7 +44,6 @@ export class DadosContaPage implements OnInit {
     this.phone = this.dadosContaApi.phone;
     this.address = this.dadosContaApi.address;
     this.postal = this.dadosContaApi.postal;
-    this.translateService.use(this.language);
   }
 
   alterarPass(): void {
@@ -52,14 +51,15 @@ export class DadosContaPage implements OnInit {
   }
 
   public alterarCampos(): void {
-    this.dadosContaApi.atualizaCampos(
-      this.name,
-      this.city,
-      this.email,
-      this.phone,
-      this.address,
-      this.postal
-    );
+    let dados_conta_dict = {
+      name: this.name,
+      city: this.city,
+      email: this.email,
+      phone: this.phone,
+      address: this.address,
+      postal: this.postal,
+    };
+    this.dadosContaApi.atualizaCampos(dados_conta_dict);
   }
 
   async presentModal() {
@@ -70,7 +70,7 @@ export class DadosContaPage implements OnInit {
     return await modal.present();
   }
 
-  togglePass(): void {
+  private togglePass(): void {
     this.showPass = !this.showPass;
 
     if (this.passwordIconToggle == 'eye') {
@@ -78,9 +78,5 @@ export class DadosContaPage implements OnInit {
     } else {
       this.passwordIconToggle = 'eye';
     }
-  }
-
-  public getInfo() {
-    this.dadosContaApi.getInfo();
   }
 }

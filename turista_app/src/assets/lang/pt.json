@@ -43,5 +43,25 @@
     "phone": "Telemovel",
     "button_update": "Guardar Campos",
     "button_change_pass": "Alterar Password"
+  },
+  "alert_login": {
+    "header": "Erro",
+    "message": "Credenciais Inválidas, tente novamente.",
+    "buttons": ["Ok"]
+  },
+  "alert_data_user": {
+    "header": "Sucesso",
+    "message": "Os campos foram alterados!",
+    "buttons": ["Ok"]
+  },
+  "reset_page_modal": {
+    "header": "Erro",
+    "message": "Valide Corretamente os Dados",
+    "buttons": ["Ok"]
+  },
+  "recover_account": {
+    "header": "Erro",
+    "message": "Introduza um email valido",
+    "buttons": ["Ok"]
   }
 }

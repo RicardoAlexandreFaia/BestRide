@@ -19,7 +19,7 @@
 
       <ion-item>
         <ion-label translate [translateParams]="{ lang: language }">definicoes.option_text</ion-label>
-        <ion-select [(ngModel)]='language' (ionChange)='mudarLinguagem()'
+        <ion-select [(ngModel)]='language' (ionChange)='changeLanguage()'
           [placeholder]='"definicoes.languageChangePlaceholder" | translate'>
           <ion-select-option value='pt'>Portugues</ion-select-option>
           <ion-select-option value='en'>Ingles</ion-select-option>

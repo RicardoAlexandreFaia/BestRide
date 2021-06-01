@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { CriaContaApiService } from '../cria-conta/cria-conta-api.service';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-cria-conta',
@@ -10,15 +11,15 @@ import { CriaContaApiService } from '../cria-conta/cria-conta-api.service';
   styleUrls: ['./cria-conta.page.scss'],
 })
 export class CriaContaPage implements OnInit {
-  showPass = false;
-  showPass2 = false;
-  language: string = this.translateService.currentLang;
+  public showPass = false;
+  public showPass2 = false;
+  public language: string = this.translateService.currentLang;
 
-  passwordIconToggle: String = 'eye';
-  passwordIconToggle2: String = 'eye';
-  ionicForm: FormGroup;
+  public passwordIconToggle: String = 'eye';
+  public passwordIconToggle2: String = 'eye';
+  public ionicForm: FormGroup;
 
-  profileForm = this.formBuilder.group({
+  public profileForm = this.formBuilder.group({
     name: '',
     dob: '',
     cellphone: '',
@@ -31,7 +32,7 @@ export class CriaContaPage implements OnInit {
     passRepeat: '',
   });
 
-  registrationForm = this.formBuilder.group(
+  public registrationForm = this.formBuilder.group(
     {
       name: ['', Validators.required],
       dob: ['', Validators.required],
@@ -67,8 +68,11 @@ export class CriaContaPage implements OnInit {
     public formBuilder: FormBuilder,
     public alertCtrl: AlertController,
     private translateService: TranslateService,
-    private api: CriaContaApiService
-  ) {}
+    private api: CriaContaApiService,
+    private comp: AppComponent
+  ) {
+    comp.hide_tab = true;
+  }
 
   ngOnInit() {}
 
@@ -106,49 +110,19 @@ export class CriaContaPage implements OnInit {
   }
 
   public submit() {
-    var name: String = this.registrationForm.get('name').value;
-    var dob: String = this.registrationForm.get('dob').value;
-    var phone: string = this.registrationForm.get('cellphone').value;
-    var address: string = this.registrationForm.get('address').value;
-    var postal: string = this.registrationForm.get('postal').value;
-    var gender: string = this.registrationForm.get('gender').value;
-    var city: string = this.registrationForm.get('city').value;
-    var email: string = this.registrationForm.get('email').value;
-    var pass: string = this.registrationForm.get('pass').value;
-    var passRepeat: string = this.registrationForm.get('passRepeat').value;
+    const create_account = {
+      name: this.registrationForm.get('name').value,
+      dob: this.registrationForm.get('dob').value,
+      phone: this.registrationForm.get('cellphone').value,
+      address: this.registrationForm.get('address').value,
+      postal: this.registrationForm.get('postal').value,
+      gender: this.registrationForm.get('gender').value,
+      city: this.registrationForm.get('city').value,
+      email: this.registrationForm.get('email').value,
+      pass: this.registrationForm.get('pass').value,
+      passRepeat: this.registrationForm.get('passRepeat').value,
+    };
 
-    console.log(name);
-    console.log(dob);
-    console.log(phone);
-    console.log(address);
-    console.log(postal);
-    console.log(gender);
-    console.log(city);
-    console.log(email);
-    console.log(pass);
-    console.log(passRepeat);
-    this.api.criaConta(
-      name,
-      dob,
-      phone,
-      address,
-      postal,
-      gender,
-      city,
-      email,
-      pass,
-      passRepeat
-    );
+    this.api.criaConta(create_account);
   }
-
-  public errorMessages = {
-    password: [
-      { type: 'required', message: 'Password e necessária!' },
-      { type: 'maxlength', message: 'password is necessary' },
-    ],
-    email: [
-      { type: 'required', message: 'Email e necessário!' },
-      { type: 'pattern', message: 'Digite um email valido' },
-    ],
-  };
 }

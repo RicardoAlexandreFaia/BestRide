@@ -16,18 +16,17 @@ declare var google: any;
   styleUrls: ['./modal-mapa.page.scss'],
 })
 export class ModalMapaPage implements OnInit {
-  ZOOM_LEVEL: number = 16.5; // Zoom do mapa
+  private ZOOM_LEVEL: number = 16.5; // Zoom do mapa
   @ViewChild('map', { static: false }) mapElement: ElementRef;
-  map: any;
+  private map: any;
   @Input() circuito_rec: Roteiro;
-  circuito: Roteiro;
+  private circuito: Roteiro;
 
   constructor(private modalCtr: ModalController) {}
 
   ngOnInit() {}
 
   ionViewDidEnter() {
-    console.log(this.circuito.pontosInteresse);
     this.circuito = this.circuito;
     this.showMap();
   }
@@ -37,7 +36,7 @@ export class ModalMapaPage implements OnInit {
     await this.modalCtr.dismiss(closeModal);
   }
 
-  showMap() {
+  private showMap(): void {
     const location = new google.maps.LatLng(
       this.circuito.pontosInteresse[
         this.circuito.pontosInteresse.length - 3
@@ -56,8 +55,7 @@ export class ModalMapaPage implements OnInit {
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, options);
 
-    //  adicionar marcadores no mapa
-
+    //  ADICIONAR MARCADORES AO MAPA
     for (let pos of this.circuito.pontosInteresse) {
       let posMarker = new google.maps.LatLng(pos.lat, pos.lng);
 

@@ -13,23 +13,61 @@ export class CriaContaApiService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  public criaConta(
-    name: String,
-    dob: String,
-    phone: String,
-    address: String,
-    postal: String,
-    gender: String,
-    city: String,
-    email: String,
-    pass: String,
-    passRepeat: String
-  ): void {
+  public criaConta(data_dict): void {
     let postData = {
-      password: pass,
+      password: data_dict['pass'],
       login_type: '0',
     };
 
+    this.http.post(environment.apiUrl + this.url, postData).subscribe(
+      (data) => {
+        let id_user = data['iduser'];
+
+        let postRoles = {
+          user_iduser: id_user,
+          roles_id_roles: 0,
+        };
+        //guarda em user_roles
+        this.http
+          .post(environment.apiUrl + this.url_add_turist, postRoles)
+          .subscribe(
+            (data) => {},
+            (error) => {}
+          );
+        let postDataInfo = {
+          user_iduser: id_user,
+          email: data_dict['email'],
+          name: data_dict['name'],
+          dob: data_dict['dob'],
+          city: data_dict['vity'],
+          gender: data_dict['gender'],
+          phone_number: data_dict['phone'],
+          adress: data_dict['address'],
+          postal_code: data_dict['postal'],
+        };
+        //guardar em userInfo
+        this.http
+          .post(environment.apiUrl + this.url_info, postDataInfo)
+          .subscribe(
+            (data) => {
+              this.router.navigate(['/login']);
+            },
+            (error) => {}
+          );
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  public criaContaGoogle(dados_dict: any): void {
+    let postData = {
+      password: dados_dict['password'],
+      login_type: '1',
+    };
+
+    console.log(dados_dict);
     this.http.post(environment.apiUrl + this.url, postData).subscribe(
       (data) => {
         console.log(data['iduser']);
@@ -54,14 +92,14 @@ export class CriaContaApiService {
 
         let postDataInfo = {
           user_iduser: id_user,
-          email: email,
-          name: name,
-          dob: dob,
-          city: city,
-          gender: gender,
-          phone_number: phone,
-          adress: address,
-          postal_code: postal,
+          email: dados_dict['dados_email'],
+          name: dados_dict['dados_nome'],
+          dob: null,
+          city: null,
+          gender: null,
+          phone_number: null,
+          adress: null,
+          postal_code: null,
         };
         //guardar em userInfo
         this.http
@@ -69,7 +107,7 @@ export class CriaContaApiService {
           .subscribe(
             (data) => {
               console.log(data);
-              this.router.navigate(['/login']);
+              this.router.navigate(['/menu']);
             },
             (error) => {
               console.log(error);

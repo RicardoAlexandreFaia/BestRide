@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { LoadingController, isPlatform, AlertController } from '@ionic/angular';
 import { Plugins, registerWebPlugin } from '@capacitor/core';
 import { TranslateService } from '@ngx-translate/core';
-
 //facebook login
 import { HttpClient } from '@angular/common/http';
 import { FacebookLoginPlugin } from '@capacitor-community/facebook-login';
@@ -16,8 +15,10 @@ import '@codetrix-studio/capacitor-google-auth';
 
 //api
 import { LoginApiService } from './login-api.service';
+import { CriaContaApiService } from '../cria-conta/cria-conta-api.service';
 import { Environment } from '@ionic-native/google-maps';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-login',
@@ -25,26 +26,26 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  showPass = false;
-  passwordIconToggle = 'eye';
-  ionicForm: FormGroup;
-  name: string;
-  language: string = this.translateService.currentLang;
+  public showPass = false;
+  public passwordIconToggle = 'eye';
+  public ionicForm: FormGroup;
+  public name: string;
+  public language: string = this.translateService.currentLang;
 
   //facebook
-  fbLogin: FacebookLoginPlugin;
-  user = null;
-  token = null;
+  private fbLogin: FacebookLoginPlugin;
+  private user = null;
+  private token = null;
 
   //google
-  userInfo = null;
+  private userInfo = null;
   // Form Builder -> parametros
-  profileForm = this.formBuilder.group({
+  private profileForm = this.formBuilder.group({
     email: '',
     password: '',
   });
 
-  registrationForm = this.formBuilder.group({
+  public registrationForm = this.formBuilder.group({
     email: [
       '',
       Validators.compose([
@@ -61,6 +62,8 @@ export class LoginPage implements OnInit {
     ],
   });
 
+  private login_alert_text = {};
+
   constructor(
     public formBuilder: FormBuilder,
     private router: Router,
@@ -68,11 +71,19 @@ export class LoginPage implements OnInit {
     private translateService: TranslateService,
     private alertCtrl: AlertController,
     private loginApi: LoginApiService,
-    private storage: NativeStorage
+    private storage: NativeStorage,
+    private comp: AppComponent,
+    private account_api: CriaContaApiService
   ) {
-    document.getElementById('tabs').style.display = 'none';
-    this.translateService.use(this.language);
     this.setupFbLogin();
+    comp.hide_tab = true;
+    this.translateService.get('alert_login').subscribe((data) => {
+      this.login_alert_text = {
+        header: data['header'],
+        message: data['message'],
+        buttons: data['buttons'][0],
+      };
+    });
   }
 
   /********************Facebook Login*************************** */
@@ -135,20 +146,14 @@ export class LoginPage implements OnInit {
   // "https://lh3.googleusercontent.com/a/AATXAJzbqwk2kkimyVlIHxZK59wgGl8Z2UxLMCZ9NDuH=s96-c"
   async googleSignup() {
     const googleUser = (await Plugins.GoogleAuth.signIn(null)) as any;
-    console.log('my user: ', googleUser);
     this.userInfo = googleUser;
-    console.log(this.userInfo);
-    this.loginApi.criaContaGoogle(
-      this.userInfo['givenName'],
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      this.userInfo['email'],
-      this.userInfo['givenName']
-    );
+    let dados_criar = {
+      dados_nome: this.userInfo['givenName'],
+      dados_email: this.userInfo['email'],
+      password: this.userInfo['givenName'],
+    };
+
+    this.account_api.criaContaGoogle(dados_criar);
   }
 
   ngOnInit() {}
@@ -164,17 +169,12 @@ export class LoginPage implements OnInit {
     }
   }
 
-  public submeter_login() {
+  public submeter_login(): void {
     if (!this.registrationForm.valid) {
-      const lang = localStorage.getItem('lang');
-      if (lang == 'en') {
-        this.showDialog('ERROR', 'Complete Fields Correctly', 'Try Again');
-      } else if (lang == 'pt') {
-        this.showDialog('ERRO', 'Campos Invalidos', 'Tente Novamente');
-      }
+      this.showDialog();
     } else {
-      var email = this.registrationForm.get('email').value;
-      var password = this.registrationForm.get('password').value;
+      let email = this.registrationForm.get('email').value;
+      let password = this.registrationForm.get('password').value;
       this.loginApi.login_normal(email, password);
     }
   }
@@ -196,11 +196,11 @@ export class LoginPage implements OnInit {
     this.router.navigate(['/recuperar-conta']);
   }
 
-  async showDialog(head: String, msg: String, button_text: String) {
+  async showDialog() {
     const alert = await this.alertCtrl.create({
-      header: '' + head,
-      message: '' + msg,
-      buttons: ['' + button_text],
+      header: '' + this.login_alert_text['header'],
+      message: '' + this.login_alert_text['message'],
+      buttons: ['' + this.login_alert_text['buttons']],
     });
     alert.present();
   }

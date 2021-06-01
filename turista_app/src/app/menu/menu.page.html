@@ -13,19 +13,19 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <h2> Lisboa </h2>
+  <h2> Roteiros de Lisboa </h2>
   <div class="menu">
     <div scrollY="true" class="botoes">
       <ion-card *ngFor="let roteiro of roteiros" (click)="showRoteiro(roteiro)">
         <ion-card-header>
-          <ion-card-subtitle>{{roteiro.titulo}}</ion-card-subtitle>
+          <ion-card-subtitle>Preco : {{ roteiro.preco }} € Duracao : {{ roteiro.duracao}}</ion-card-subtitle>
           <ion-card-title>Terreiro do Paço - Jerónimos</ion-card-title>
         </ion-card-header>
 
         <ion-card-content>
           Neste roteiro pode ver todas as maravilhas de Lisboa entre o Terreiro do Paço
           e o Mosteiro dos Jerónimos.
-          <ion-button color="medium">Reservar</ion-button>
+          <ion-button expand="full" color="medium" color="danger">Reservar Tour</ion-button>
         </ion-card-content>
       </ion-card>
     </div>

@@ -24,14 +24,14 @@ declare var google: any;
 export class MenuPage implements OnInit {
   @ViewChild('map', { static: false }) mapElement: ElementRef;
 
-  selected: Roteiro;
-  map: any;
-  language: string = this.translateService.currentLang;
-  options: GeolocationOptions;
-  currentPos: Geoposition;
-  roteiros: Array<Roteiro> = [
+  public selected: Roteiro;
+  public language: string = this.translateService.currentLang;
+  private currentPos: Geoposition;
+  public roteiros: Array<Roteiro> = [
     {
       titulo: 'Circuito 1',
+      duracao: ' 3 h',
+      preco: 6,
       pontosInteresse: [
         {
           titulo: 'SÉ', // inicio da  viagem
@@ -68,6 +68,8 @@ export class MenuPage implements OnInit {
     },
     {
       titulo: 'Circuito 2',
+      duracao: ' 1 h',
+      preco: 2,
       pontosInteresse: [
         {
           titulo: 'MIRADOURO DE S. PEDRO DE ALCÂNTARA',
@@ -109,35 +111,16 @@ export class MenuPage implements OnInit {
     private router: Router,
     private model_controller: ModalController
   ) {
-    this.translateService.use(this.language);
+    //this.translateService.use(this.language);
   }
 
   ngOnInit() {}
 
   ngAfterViewInit() {}
 
-  ionViewDidEnter() {
-    this.getUserPosition();
-  }
+  ionViewDidEnter() {}
 
-  showMap(opcao) {
-    const location = new google.maps.LatLng(
-      38.71847179326699,
-      -9.13719094695057
-    );
-
-    const options = {
-      center: location,
-      zoom: 18,
-      disableDefaultUI: true,
-      mapTypeId: google.maps.MapTypeId.TERRAIN,
-    };
-
-    this.map = new google.maps.Map(this.mapElement.nativeElement, options);
-
-    this.adicionaMarcadores(opcao);
-  }
-
+  /* Para futuro Sprint
   getUserPosition() {
     this.options = {
       enableHighAccuracy: false,
@@ -163,15 +146,10 @@ export class MenuPage implements OnInit {
         console.log('ERRO::: : ' + err.message);
       }
     );
-  }
+  }*/
 
   public showRoteiro(roteiro: Roteiro): void {
     this.selected = roteiro;
-    console.log(roteiro);
-    for (let pos of roteiro.pontosInteresse) {
-      console.log(pos.lat);
-    }
-    //this.showMap(roteiro);
     this.presentModal(roteiro);
   }
 
@@ -185,38 +163,5 @@ export class MenuPage implements OnInit {
       },
     });
     return await modal.present();
-  }
-
-  adicionaMarcadores(roteiro: Roteiro) {
-    for (let pos of roteiro.pontosInteresse) {
-      let posMarker = new google.maps.LatLng(pos.lat, pos.lng);
-
-      let marker = new google.maps.Marker({
-        map: this.map,
-        position: posMarker,
-        title: roteiro.titulo,
-        latitude: pos.lat,
-        longitude: pos.lng,
-      });
-
-      /* const roteiros_trace = new google.maps.Polyline({
-        path: roteiro.pontosInteresse,
-        geodesic: true,
-        strokeColor: 'blue',
-        strokeOpacity: 1.0,
-        strokeWeight: 2,
-      });
-
-      roteiros_trace.setMap(this.map);*/
-
-      let content = '<p> ' + pos.titulo + '</p>';
-      let infoWindow = new google.maps.InfoWindow({
-        content: content,
-      });
-
-      google.maps.event.addListener(marker, 'click', () => {
-        infoWindow.open(this.map, marker);
-      });
-    }
   }
 }

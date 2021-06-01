@@ -9,9 +9,9 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  language: string = this.translate.currentLang;
-
-  user_email: String;
+  public language: string = this.translate.currentLang;
+  private user_email: String;
+  public hide_tab: boolean = false;
 
   constructor(
     private translate: TranslateService,
@@ -27,6 +27,5 @@ export class AppComponent {
     } else {
       this.translate.setDefaultLang('en');
     }
-    this.user_email = localStorage.getItem('email');
   }
 }

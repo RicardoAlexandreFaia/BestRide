@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
 import { DadosContaApiService } from '../dados-conta-api.service';
 import { ModalController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reset-password-modal',
@@ -10,21 +11,31 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./reset-password-modal.page.scss'],
 })
 export class ResetPasswordModalPage implements OnInit {
-  ionicForm: FormGroup;
-  isSubmitted = false;
+  public ionicForm: FormGroup;
+  public isSubmitted = false;
+  private reset_alert_text = {};
 
   constructor(
     public formBuilder: FormBuilder,
     public alertController: AlertController,
     private dadosContaApi: DadosContaApiService,
-    private modalCtr: ModalController
-  ) {}
+    private modalCtr: ModalController,
+    public translate: TranslateService
+  ) {
+    this.translate.get('reset_page_modal').subscribe((data) => {
+      this.reset_alert_text = {
+        header: data['header'],
+        message: data['message'],
+        buttons: data['buttons'][0],
+      };
+    });
+  }
 
-  async alert(msg: String, body: String) {
+  async alert() {
     const alert = await this.alertController.create({
-      header: '' + msg,
-      message: '' + body,
-      buttons: ['OK'],
+      header: '' + this.reset_alert_text['header'],
+      message: '' + this.reset_alert_text['message'],
+      buttons: ['' + this.reset_alert_text['buttons']],
     });
 
     await alert.present();
@@ -33,17 +44,16 @@ export class ResetPasswordModalPage implements OnInit {
   submitForm() {
     this.isSubmitted = true;
     if (!this.ionicForm.valid) {
-      this.alert('Erro', 'Valide Corretamente os Dados');
+      this.alert();
       return false;
     } else {
-      var pass = this.ionicForm.get('pass').value;
-      var pass_new = this.ionicForm.get('pass_repeat').value;
+      const pass = this.ionicForm.get('pass').value;
+      const pass_new = this.ionicForm.get('pass_repeat').value;
       if (pass != pass_new) {
-        this.alert('Erro', 'As Password nao coincidem!');
+        this.alert();
       } else {
         //atualiza password
         this.dadosContaApi.atualizaPassword(pass_new);
-        this.alert('Sucesso', 'Password alterada !');
         this.modalCtr.dismiss();
       }
     }

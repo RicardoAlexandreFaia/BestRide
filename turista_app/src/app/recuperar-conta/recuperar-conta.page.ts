@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { RecuperaContaApiService } from './recuperar-conta-api.service';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-recuperar-conta',
@@ -19,14 +20,16 @@ export class RecuperarContaPage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private translateService: TranslateService,
-    private recuperarContaApi: RecuperaContaApiService
-  ) {}
+    private recuperarContaApi: RecuperaContaApiService,
+    private comp: AppComponent
+  ) {
+    comp.hide_tab = true;
+  }
 
   ngOnInit() {}
 
   public submit() {
-    console.log(this.registrationForm.value);
-    var email = this.registrationForm.get('email').value;
-    this.recuperarContaApi.recuperarConta(email)
+    let email = this.registrationForm.get('email').value;
+    this.recuperarContaApi.recuperarConta(email);
   }
 }

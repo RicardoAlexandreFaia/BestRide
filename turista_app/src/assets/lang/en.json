@@ -38,7 +38,7 @@
   },
   "personal_data_page": {
     "tab": "User Data",
-    "user": "Nome",
+    "user": "Name",
     "email": "email",
     "city": "city",
     "address": "address",
@@ -46,5 +46,25 @@
     "phone": "Phone Number",
     "button_update": "Update Account",
     "button_change_pass": "Change Password"
+  },
+  "alert_login": {
+    "header": "Error",
+    "message": "Invalid credentials, try again",
+    "buttons": ["OK"]
+  },
+  "alert_data_user": {
+    "header": "Sucess",
+    "message": "Fields have been changed!",
+    "buttons": ["Ok"]
+  },
+  "reset_page_modal": {
+    "header": "Error",
+    "message": "Validate Data Correctly",
+    "buttons": ["Ok"]
+  },
+  "recover_account": {
+    "header": "Error",
+    "message": "Try a valid email",
+    "buttons": ["Ok"]
   }
 }
