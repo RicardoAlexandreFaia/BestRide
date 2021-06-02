@@ -1,18 +1,17 @@
+from django.http import JsonResponse
 from rest_framework.decorators import api_view
-from rest_framework.parsers import JSONParser
+from rest_framework.parsers import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 
-from BestRideApi.models import User
-from BestRideApi.serializers import UserSerializer
-from BestRideApi.models import UserInfo
-from BestRideApi.serializers import UserInfoSerializaer
-
+from BestRideApi.models import *
+from BestRideApi.serializers import *
 from rest_framework import status
 
 from django.contrib.auth.hashers import make_password, check_password
 
+import boto3
 
 class Utilizadores_operacoes(APIView):
     def get(self, request, id=None):
@@ -64,18 +63,26 @@ class Utilizadores_operacoes(APIView):
         return Response(update_serializer.errors, status=400)
 
 
+class UserRole(APIView):
+    def post(self, request, format=None):
+        serializer = UserRoleSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class Utilizadores_Info_operacoes(APIView):
 
     def get(self, request, id=None):
         if id:
             try:
-                queryset = UserInfo.objects.get(iduserinfo=id)
-            except UserInfo.DoesNotExist:
+                queryset = TuristInfo.objects.get(user_iduser=id)
+            except TuristInfo.DoesNotExist:
                 return Response({'Erro: Info sobre o Utilizador nao existe'}, status=400)
             read_serializer = UserInfoSerializaer(queryset)
             return Response(read_serializer.data)
         else:
-            snippets = UserInfo.objects.all()
+            snippets = TuristInfo.objects.all()
             serializer = UserInfoSerializaer(snippets, many=True)
             return Response(serializer.data)
 
@@ -86,8 +93,8 @@ class Utilizadores_Info_operacoes(APIView):
         password = request.data['password']
         if email:
             try:
-                queryset = UserInfo.objects.get(email=email)
-            except UserInfo.DoesNotExist:
+                queryset = TuristInfo.objects.get(email=email)
+            except TuristInfo.DoesNotExist:
                 return Response({'O Email nao Existe'}, status=400)
 
         #Verifica o password
@@ -108,3 +115,23 @@ class Utilizadores_Info_operacoes(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self,request,id=None):
+        snippet = TuristInfo.objects.get(user_iduser=id)
+        serializer = UserInfoSerializaer(snippet, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class TranslateAWS():
+
+    @api_view(['POST'])
+    def translate(request):
+        client = boto3.client('translate')
+        response = client.translate_text(
+            Text=request.data['text'], SourceLanguageCode=request.data['sourceLang'], TargetLanguageCode=request.data['outputLang'])
+
+        return JsonResponse({
+            "translated_text":response['TranslatedText']
+        })

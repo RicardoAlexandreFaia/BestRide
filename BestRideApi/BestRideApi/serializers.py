@@ -9,5 +9,10 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserInfoSerializaer(serializers.ModelSerializer):
     class Meta:
-        model = UserInfo
+        model = TuristInfo
+        fields = ('__all__')
+
+class UserRoleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserRoles
         fields = ('__all__')
