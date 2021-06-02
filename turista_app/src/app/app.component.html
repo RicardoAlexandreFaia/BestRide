@@ -35,28 +35,28 @@
 
   <ion-tab-bar slot="bottom" [hidden]="hide_tab">
 
-    <!-- Mapa -->
-    <ion-tab-button tab="menu">
+    <!-- Map -->
+    <ion-tab-button tab="home_tab">
       <ion-icon name="map-outline"></ion-icon>
       <ion-label>{{'Home' | customTranslate | async}}</ion-label>
     </ion-tab-button>
 
-    <!-- Reservas -->
-    <ion-tab-button tab="calendario">
+    <!-- Reserves -->
+    <ion-tab-button tab="callendar">
       <ion-icon name="analytics-outline"></ion-icon>
-      <ion-label translate [translateParams]="{ lang: language }">menu_navegacao.agend</ion-label>
+      <ion-label> {{'reserves' | customTranslate | async}}</ion-label>
     </ion-tab-button>
 
-    <!-- Definicoes da app -->
-    <ion-tab-button tab="definicoes">
+    <!-- App definitions -->
+    <ion-tab-button tab="definitions_tab">
       <ion-icon name="settings-outline"></ion-icon>
-      <ion-label translate [translateParams]="{ lang: language }">menu_navegacao.definitions_app</ion-label>
+      <ion-label>{{'Definitions' | customTranslate | async}}</ion-label>
     </ion-tab-button>
 
-    <!-- Definicoes de utilizador -->
-    <ion-tab-button tab="dados-conta">
+    <!-- User definitions -->
+    <ion-tab-button tab="user_tab">
       <ion-icon name="person-circle-outline"></ion-icon>
-      <ion-label translate [translateParams]="{ lang: language }">menu_navegacao.definitions_user</ion-label>
+      <ion-label>{{'User' | customTranslate | async}}</ion-label>
     </ion-tab-button>
 
 

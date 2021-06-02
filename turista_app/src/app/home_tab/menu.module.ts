@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { LoginPageRoutingModule } from './login-routing.module';
+import { MenuPageRoutingModule } from './menu-routing.module';
 
-import { LoginPage } from './login.page';
-
+import { MenuPage } from './menu.page';
+import { SharedModule } from '../shared/shared.module';
 import { HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { SharedModule } from '../shared/shared.module';
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/lang/', '.json');
 }
@@ -20,10 +19,9 @@ export function createTranslateLoader(http: HttpClient) {
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
-    LoginPageRoutingModule,
-    ReactiveFormsModule,
     SharedModule,
+    IonicModule,
+    MenuPageRoutingModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -32,6 +30,6 @@ export function createTranslateLoader(http: HttpClient) {
       },
     }),
   ],
-  declarations: [LoginPage],
+  declarations: [MenuPage],
 })
-export class LoginPageModule {}
+export class MenuPageModule {}

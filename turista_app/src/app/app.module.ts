@@ -24,7 +24,7 @@ export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/lang/', '.json');
 }
 
-import { User } from './dados-conta/user';
+import { User } from './user_tab/user';
 import { CustomTranslatePipe } from './shared/pipes/custom-translate.pipe';
 import { SharedModule } from './shared/shared.module';
 @NgModule({

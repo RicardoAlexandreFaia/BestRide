@@ -10,10 +10,10 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
 })
 export class LoginApiService {
   //endpoint da Api
-  private url: String = '/utilizadores/';
-  private url_info: String = '/utilizadoresInfo/';
-  private url_add_turist: String = '/utilizadores/add_to_turist_role';
-  private url_login: String = '/utilizadores/login/';
+  private url: String = '/users/';
+  private url_info: String = '/userInfo/';
+  private url_add_turist: String = '/userInfo/add_to_turist_role';
+  private url_login: String = '/users/login/';
 
   constructor(
     private http: HttpClient,
@@ -32,7 +32,7 @@ export class LoginApiService {
       (data) => {
         localStorage.setItem('id', data['user_iduser']); // guarda o id do user
         localStorage.setItem('email', data['email']); // guarda o id do user
-        this.router.navigate(['/menu']);
+        this.router.navigate(['/home_tab']);
       },
       (erro) => {
         this.showAlert();

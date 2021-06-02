@@ -4,14 +4,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { LoginPageRoutingModule } from './login-routing.module';
+import { RecuperarContaPageRoutingModule } from './recover-account-routing.module';
 
-import { LoginPage } from './login.page';
-
+import { RecuperarContaPage } from './recover-account.page';
+import { SharedModule } from '../shared/shared.module';
 import { HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { SharedModule } from '../shared/shared.module';
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/lang/', '.json');
 }
@@ -21,9 +20,10 @@ export function createTranslateLoader(http: HttpClient) {
     CommonModule,
     FormsModule,
     IonicModule,
-    LoginPageRoutingModule,
-    ReactiveFormsModule,
+    RecuperarContaPageRoutingModule,
+    FormsModule,
     SharedModule,
+    ReactiveFormsModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -32,6 +32,6 @@ export function createTranslateLoader(http: HttpClient) {
       },
     }),
   ],
-  declarations: [LoginPage],
+  declarations: [RecuperarContaPage],
 })
-export class LoginPageModule {}
+export class RecuperarContaPageModule {}

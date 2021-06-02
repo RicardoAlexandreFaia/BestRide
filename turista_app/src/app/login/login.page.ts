@@ -15,7 +15,7 @@ import '@codetrix-studio/capacitor-google-auth';
 
 //api
 import { LoginApiService } from './login-api.service';
-import { CriaContaApiService } from '../cria-conta/cria-conta-api.service';
+import { CriaContaApiService } from '../create_account/create-account-api.service';
 import { Environment } from '@ionic-native/google-maps';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { AppComponent } from '../app.component';
@@ -188,12 +188,12 @@ export class LoginPage implements OnInit {
 
   //ir para a pagina - criar conta
   public navegar(): void {
-    this.router.navigate(['/cria-conta']);
+    this.router.navigate(['/create_account']);
   }
 
   //ir para a pagina - criar conta
   public recuperarConta(): void {
-    this.router.navigate(['/recuperar-conta']);
+    this.router.navigate(['/recover_account']);
   }
 
   async showDialog() {

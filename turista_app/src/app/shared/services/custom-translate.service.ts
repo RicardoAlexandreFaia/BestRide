@@ -14,7 +14,7 @@ export class CustomTranslateService {
   constructor(private http: HttpClient) {}
 
   public translateText(text: string): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/traducao/`, {
+    return this.http.post<any>(`${environment.apiUrl}/translate/`, {
       text,
       outputLang: this.currentLang.value,
       sourceLang: 'en',
