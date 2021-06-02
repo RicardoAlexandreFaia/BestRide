@@ -29,9 +29,13 @@ export class MenuPage implements OnInit {
   private currentPos: Geoposition;
   public roteiros: Array<Roteiro> = [
     {
-      titulo: 'Circuito 1',
+      titulo: 'TOUR DESCOBERTAS',
       duracao: ' 3 h',
       preco: 6,
+      descricao:
+        'Visite de tuk tuk, as margens do Tejo de onde Vasco da Gama e outros navegadores partiram em viagens épicas, celebradas aqui através' +
+        'de majestosos monumentos, tais como: Torre de Belém, Mosteiro de Jerónimos ' +
+        '(ambos patrimonio Mundial) e Padrão dos Descobrimentos. Assim como seus museus sublimes.',
       pontosInteresse: [
         {
           titulo: 'SÉ', // inicio da  viagem
@@ -67,9 +71,13 @@ export class MenuPage implements OnInit {
       ],
     },
     {
-      titulo: 'Circuito 2',
+      titulo: 'TOUR BAIRROS TÍPICOS',
       duracao: ' 1 h',
       preco: 2,
+      descricao:
+        'Visite de tuk tuk, o Chiado, Bairro Alto e Príncipe Real, é o encanto cosmopolita Lisboeta, boémio… ' +
+        'Um dos locais mais prestigiados de Lisboa, estando desde sempre ligado a uma forte componente ' +
+        'intelectual, liberal, modernista e também romântica.',
       pontosInteresse: [
         {
           titulo: 'MIRADOURO DE S. PEDRO DE ALCÂNTARA',

@@ -25,6 +25,8 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 import { User } from './dados-conta/user';
+import { CustomTranslatePipe } from './shared/pipes/custom-translate.pipe';
+import { SharedModule } from './shared/shared.module';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -42,6 +44,7 @@ import { User } from './dados-conta/user';
         deps: [HttpClient],
       },
     }),
+    SharedModule,
   ],
   providers: [
     NativeStorage,

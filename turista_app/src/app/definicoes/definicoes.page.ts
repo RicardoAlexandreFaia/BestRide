@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { CustomTranslateService } from '../shared/services/custom-translate.service';
 
 @Component({
   selector: 'app-definicoes',
@@ -13,6 +14,7 @@ export class DefinicoesPage implements OnInit {
 
   constructor(
     private translateService: TranslateService,
+    private customTranslateService: CustomTranslateService,
     private router: Router,
     private nativeStorage: NativeStorage
   ) {
@@ -23,6 +25,8 @@ export class DefinicoesPage implements OnInit {
 
   changeLanguage() {
     this.translateService.use(this.language);
+    localStorage.setItem('old-lang', localStorage.getItem('lang')); // GUARDA O IDIOMA ANTERIOR
     localStorage.setItem('lang', this.language);
+    this.customTranslateService.currentLang.next(this.language);
   }
 }

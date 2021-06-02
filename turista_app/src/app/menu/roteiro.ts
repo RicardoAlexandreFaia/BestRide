@@ -3,6 +3,7 @@ export interface Roteiro {
   pontosInteresse: Array<PontoInteresse>;
   duracao: string;
   preco: number;
+  descricao: string;
 }
 
 export interface PontoInteresse {
