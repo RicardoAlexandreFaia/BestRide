@@ -55,9 +55,7 @@ const routes: Routes = [
   {
     path: 'user_tab',
     loadChildren: () =>
-      import('./user_tab/recover-account.module').then(
-        (m) => m.DadosContaPageModule
-      ),
+      import('./user_tab/user-tab.module').then((m) => m.DadosContaPageModule),
   },
 ];
 

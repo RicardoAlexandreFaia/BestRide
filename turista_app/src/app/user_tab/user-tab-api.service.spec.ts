@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DadosContaApiService } from './recover-account-api.service';
+import { DadosContaApiService } from './user-tab-api.service';
 
 describe('DadosContaApiService', () => {
   let service: DadosContaApiService;

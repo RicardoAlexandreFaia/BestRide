@@ -4,14 +4,14 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { DadosContaPageRoutingModule } from './recover-account-routing.module';
+import { DadosContaPageRoutingModule } from './user-tab-routing.module';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/lang/', '.json');
 }
 import { SharedModule } from '../shared/shared.module';
-import { DadosContaPage } from './recover-account.page';
+import { DadosContaPage } from './user-tab.page';
 
 @NgModule({
   imports: [

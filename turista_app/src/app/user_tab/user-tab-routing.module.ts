@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { DadosContaPage } from './recover-account.page';
+import { DadosContaPage } from './user-tab.page';
 const routes: Routes = [
   {
     path: '',

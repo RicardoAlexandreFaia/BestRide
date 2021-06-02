@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { DadosContaApiService } from './recover-account-api.service';
+import { DadosContaApiService } from './user-tab-api.service';
 import { AlertController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { ResetPasswordModalPage } from './reset-password-modal/reset-password-modal.page';
 
 @Component({
   selector: 'app-dados-conta',
-  templateUrl: './recover-account.page.html',
-  styleUrls: ['./recover-account.page.scss'],
+  templateUrl: './user-tab.page.html',
+  styleUrls: ['./user-tab.page.scss'],
 })
 export class DadosContaPage implements OnInit {
   public showPass = false;
@@ -21,6 +21,9 @@ export class DadosContaPage implements OnInit {
   public phone: string;
   public address: string;
   public postal: string;
+
+  public control_input: boolean = true;
+  public icon_input: string = 'create-outline';
 
   public language: string = this.translateService.currentLang;
   valor: boolean;
@@ -46,7 +49,20 @@ export class DadosContaPage implements OnInit {
     this.postal = this.dadosContaApi.postal;
   }
 
-  alterarPass(): void {
+  public changeInputStatus(): void {
+    this.control_input = !this.control_input;
+    if (this.icon_input == 'create-outline') {
+      this.icon_input = 'close-outline';
+    } else {
+      this.icon_input = 'create-outline';
+    }
+  }
+
+  public function(): void {
+    alert('oals');
+  }
+
+  public alterarPass(): void {
     this.presentModal();
   }
 
