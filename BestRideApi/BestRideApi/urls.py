@@ -3,9 +3,11 @@ from . import views
 
 
 urlpatterns = [
-    path('utilizadores/', views.Utilizadores_operacoes.as_view()),
-    path('utilizadores/<int:id>/', views.Utilizadores_operacoes.as_view()),
-    path('utilizadores/login/',views.Utilizadores_Info_operacoes.login),
-    path('utilizadoresInfo/', views.Utilizadores_Info_operacoes.as_view()),
-    path('utilizadoresInfo/<int:id>', views.Utilizadores_Info_operacoes.as_view())
+    path('users/', views.Utilizadores_operacoes.as_view()),
+    path('users/<int:id>/', views.Utilizadores_operacoes.as_view()),
+    path('users/login/',views.Utilizadores_Info_operacoes.login),
+    path('userInfo/', views.Utilizadores_Info_operacoes.as_view()),
+    path('userInfo/<int:id>', views.Utilizadores_Info_operacoes.as_view()),
+    path('userInfo/add_to_turist_role',views.UserRole.as_view()),
+    path('translate/',views.TranslateAWS.translate)
 ]

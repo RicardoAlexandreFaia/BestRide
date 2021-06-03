@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'cria-conta',
+    redirectTo: 'splash-screen',
     pathMatch: 'full',
   },
   {
@@ -13,9 +13,9 @@ const routes: Routes = [
       import('./login/login.module').then((m) => m.LoginPageModule),
   },
   {
-    path: 'recuperar-conta',
+    path: 'recover_account',
     loadChildren: () =>
-      import('./recuperar-conta/recuperar-conta.module').then(
+      import('./recover_account/recover-account.module').then(
         (m) => m.RecuperarContaPageModule
       ),
   },
@@ -27,37 +27,35 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'cria-conta',
+    path: 'create_account',
     loadChildren: () =>
-      import('./cria-conta/cria-conta.module').then(
+      import('./create_account/create-account.module').then(
         (m) => m.CriaContaPageModule
       ),
   },
   {
-    path: 'menu',
+    path: 'home_tab',
     loadChildren: () =>
-      import('./menu/menu.module').then((m) => m.MenuPageModule),
+      import('./home_tab/menu.module').then((m) => m.MenuPageModule),
   },
   {
-    path: 'definicoes',
+    path: 'definitions_tab',
     loadChildren: () =>
-      import('./definicoes/definicoes.module').then(
+      import('./app_definitions/definitions.module').then(
         (m) => m.DefinicoesPageModule
       ),
   },
   {
-    path: 'calendario',
+    path: 'callendar',
     loadChildren: () =>
-      import('./calendario/calendario.module').then(
+      import('./callendar/callendar.module').then(
         (m) => m.CalendarioPageModule
       ),
   },
   {
-    path: 'dados-conta',
+    path: 'user_tab',
     loadChildren: () =>
-      import('./dados-conta/dados-conta.module').then(
-        (m) => m.DadosContaPageModule
-      ),
+      import('./user_tab/user-tab.module').then((m) => m.DadosContaPageModule),
   },
 ];
 

@@ -7,9 +7,35 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
+
+class Roles(models.Model):
+    id_roles = models.IntegerField(primary_key=True)
+    role = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'roles'
+
+
+class TuristInfo(models.Model):
+    email = models.CharField(max_length=45, blank=True, null=True)
+    name = models.CharField(max_length=45, blank=True, null=True)
+    dob = models.CharField(max_length=45, blank=True, null=True)
+    city = models.CharField(max_length=45, blank=True, null=True)
+    gender = models.CharField(max_length=45, blank=True, null=True)
+    phone_number = models.CharField(max_length=45, blank=True, null=True)
+    adress = models.CharField(max_length=45, blank=True, null=True)
+    postal_code = models.CharField(max_length=45, blank=True, null=True)
+    user_iduser = models.ForeignKey('User', models.DO_NOTHING, db_column='User_idUser')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'turist_info'
+        unique_together = (('id', 'user_iduser'),)
+
+
 class User(models.Model):
     iduser = models.AutoField(db_column='idUser', primary_key=True)  # Field name made lowercase.
-    nome = models.CharField(max_length=45)
     password = models.CharField(unique=True, max_length=255, blank=True, null=True)
     login_type = models.CharField(max_length=45, blank=True, null=True)
 
@@ -18,15 +44,10 @@ class User(models.Model):
         db_table = 'user'
 
 
-class UserInfo(models.Model):
-    iduserinfo = models.AutoField(db_column='idUserInfo', primary_key=True)  # Field name made lowercase.
-    email = models.CharField(max_length=45, blank=True, null=True)
-    primeiro_nome = models.CharField(max_length=45, blank=True, null=True)
-    ultimo_nome = models.CharField(max_length=45, blank=True, null=True)
-    userid = models.ForeignKey(User, models.DO_NOTHING, db_column='UserID')  # Field name made lowercase.
+class UserRoles(models.Model):
+    roles_id_roles = models.ForeignKey(Roles, models.DO_NOTHING, db_column='roles_id_roles')
+    user_iduser = models.ForeignKey(User, models.DO_NOTHING, db_column='User_idUser')  # Field name made lowercase.
 
     class Meta:
         managed = False
-        db_table = 'user_info'
-
-
+        db_table = 'user_roles'

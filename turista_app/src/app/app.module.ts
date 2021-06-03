@@ -24,6 +24,9 @@ export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/lang/', '.json');
 }
 
+import { User } from './user_tab/user';
+import { CustomTranslatePipe } from './shared/pipes/custom-translate.pipe';
+import { SharedModule } from './shared/shared.module';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -41,6 +44,7 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient],
       },
     }),
+    SharedModule,
   ],
   providers: [
     NativeStorage,

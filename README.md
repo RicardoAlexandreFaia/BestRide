@@ -28,6 +28,7 @@
 4. Django
 5. MYSQL
 6. TypeScript
+7. AWS
 
 ---
 
@@ -35,7 +36,7 @@
 
 > ionic build --prod && npx cap copy && npx cap sync android && npx cap open android
 
----
+---d
 
 #### Bibliotecas Implementadas a instalar:
 
@@ -97,11 +98,8 @@
 
 - https://127.0.0.1:8000
 
-## TODO:
+## Instalações:
 
-quando clickar no botao, fazer zoom out para ver o mapa
-Melhorar o Mapa
+# AWS
 
-1. Nome da cidade
-2. Meter Reserva no card dos roteiros
-3. Mapa a abrir num Model
+> pip install boto3
