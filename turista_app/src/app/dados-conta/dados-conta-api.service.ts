@@ -54,8 +54,12 @@ export class DadosContaApiService {
     const id = localStorage.getItem('id');
     const url_info_delete: String = '/utilizadoresInfo/deleteAccount';
 
+    let postData = {
+      id  : id,
+    };
+
     this.http
-      .post(environment.apiUrl + url_info_delete, id)
+      .post(environment.apiUrl + url_info_delete, postData)
       .subscribe((resposta) => {
         console.log(resposta);
       }
@@ -66,8 +70,12 @@ export class DadosContaApiService {
     const id = localStorage.getItem('id');
     const url_delete: String = '/utilizadores/deleteAccount';
 
+    let postData = {
+      id  : id,
+    };
+
     this.http
-      .post(environment.apiUrl + url_delete, id)
+      .post(environment.apiUrl + url_delete, postData)
       .subscribe((resposta) => {
         console.log(resposta);
       }

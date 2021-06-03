@@ -31,7 +31,7 @@ export class IntroduzirCodigoPage implements OnInit {
   public submit()  : void {
     console.log(this.registrationForm.value);
     var code = this.registrationForm.get('code').value;
-    this.introduzirCodigoApi.recuperarConta(code)
+    this.introduzirCodigoApi.codeVerification(code)
     this.presentModal();
     this.close();
   }

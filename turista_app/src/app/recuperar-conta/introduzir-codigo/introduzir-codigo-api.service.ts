@@ -11,12 +11,15 @@ export class IntroduzirCodigoApiService {
   private url: String = '/utilizadores/';
   private url_recuperar: String = '/recuperarConta/verificar';
 
-  constructor(private http: HttpClient, private router: Router, public alertController: AlertController) { }
+  constructor(private http: HttpClient, private router: Router, public alertController: AlertController) {}
 
-  public recuperarConta( code: String,) : void
- {
+  public codeVerification( code: String,) : void {
+    let postData = {
+      code: code,
+    };
+
     this.http
-      .post(environment.apiUrl + this.url_recuperar, code)
+      .post(environment.apiUrl + this.url_recuperar, postData)
       .subscribe(
         (data) => {
           console.log(data);
