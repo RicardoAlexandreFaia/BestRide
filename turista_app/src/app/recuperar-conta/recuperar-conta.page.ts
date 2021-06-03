@@ -28,7 +28,7 @@ export class RecuperarContaPage implements OnInit {
 
   ngOnInit() {}
 
-   //funcao para abri o model para abrir modal
+  //funcao para abri o model para abrir modal
   async presentModal() {
     const modal = await this.model_controller.create({
       component: IntroduzirCodigoPage,
@@ -36,7 +36,7 @@ export class RecuperarContaPage implements OnInit {
     return await modal.present();
   }
 
-  public submit() {
+  public submit() : void {
     console.log(this.registrationForm.value);
     var email = this.registrationForm.get('email').value;
     this.recuperarContaApi.recuperarConta(email)

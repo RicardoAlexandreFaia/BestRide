@@ -24,7 +24,7 @@ export class DadosContaPage implements OnInit {
     public alertController: AlertController,
     public modalController: ModalController
   ) {
-    this.email_get = this.dadosContaApi.email_get;
+    //this.email_get = this.dadosContaApi.email_get;?????
     this.translateService.use(this.language);
   }
 
@@ -86,7 +86,7 @@ export class DadosContaPage implements OnInit {
     this.dadosContaApi.getInfo();
   }
 
-  public eliminarConta(){
+  public eliminarConta() : void{
     this.dadosContaApi.eliminaContaUserInfo();
     this.dadosContaApi.eliminaContaUser();
     this.router.navigate(['/login']);

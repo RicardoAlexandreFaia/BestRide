@@ -13,14 +13,10 @@ export class IntroduzirCodigoApiService {
 
   constructor(private http: HttpClient, private router: Router, public alertController: AlertController) { }
 
-  public recuperarConta(
-    code: String,
-  ) {
-    let postData = {
-      code: code,
-    };
+  public recuperarConta( code: String,) : void
+ {
     this.http
-      .post(environment.apiUrl + this.url_recuperar, postData)
+      .post(environment.apiUrl + this.url_recuperar, code)
       .subscribe(
         (data) => {
           console.log(data);
@@ -42,7 +38,7 @@ export class IntroduzirCodigoApiService {
     await alert.present();
   }
 
-  public atualizaPassword(pass: string) {
+  public atualizaPassword(pass: string)  : void{
     var id = localStorage.getItem('id');
     var data = {
       nome: 'teste',

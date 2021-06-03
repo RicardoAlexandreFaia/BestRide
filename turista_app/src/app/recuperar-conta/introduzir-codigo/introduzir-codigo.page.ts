@@ -28,7 +28,7 @@ export class IntroduzirCodigoPage implements OnInit {
 
   ngOnInit() {}
 
-  public submit() {
+  public submit()  : void {
     console.log(this.registrationForm.value);
     var code = this.registrationForm.get('code').value;
     this.introduzirCodigoApi.recuperarConta(code)
@@ -36,8 +36,8 @@ export class IntroduzirCodigoPage implements OnInit {
     this.close();
   }
 
-   //funcao para abri o model para abrir modal
-   async presentModal() {
+  //funcao para abri o model para abrir modal
+  async presentModal() {
     const modal = await this.model_controller.create({
       component: ResetPasswordModalPage,
     });

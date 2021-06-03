@@ -20,17 +20,17 @@ export class ResetPasswordModalPage implements OnInit {
     private modalCtr: ModalController
   ) {}
 
-  async alert(msg: String, body: String) {
+  async alert(msg: string, body: string) {
     const alert = await this.alertController.create({
-      header: '' + msg,
-      message: '' + body,
+      header: msg,
+      message: body,
       buttons: ['OK'],
     });
 
     await alert.present();
   }
 
-  submitForm() {
+  submitForm() : boolean{
     this.isSubmitted = true;
     if (!this.ionicForm.valid) {
       this.alert('Erro', 'Valide Corretamente os Dados');
@@ -47,6 +47,7 @@ export class ResetPasswordModalPage implements OnInit {
         this.modalCtr.dismiss();
       }
     }
+    return true;
   }
 
   ngOnInit() {

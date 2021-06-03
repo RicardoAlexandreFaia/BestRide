@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Router } from '@angular/router';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 @Injectable({
   providedIn: 'root',
@@ -11,16 +9,13 @@ export class DadosContaApiService {
   private url: String = '/utilizadores/';
   private url_info: String = '/utilizadoresInfo/';
 
-  email_get: string;
+  private email_get: string;
 
   constructor(
     private http: HttpClient,
-    private router: Router,
-    private nativeStorage: NativeStorage
   ) {
-    var id = localStorage.getItem('id');
-    var email: string;
-    console.log(localStorage.getItem('id'));
+    const id = localStorage.getItem('id');
+    let email: string;
     this.http.get(environment.apiUrl + this.url_info + id).subscribe((data) => {
       document.getElementById('nome_completo').innerText =
         'Utilizador:' + data['primeiro_nome'] + ' ' + data['ultimo_nome'];
@@ -33,11 +28,9 @@ export class DadosContaApiService {
     });
   }
 
-  ngOnInit() { }
-
-  public atualizaPassword(pass: string) {
-    var id = localStorage.getItem('id');
-    var data = {
+  public atualizaPassword(pass: string) : void {
+    const id = localStorage.getItem('id');
+    const data = {
       nome: 'teste',
       password: pass,
     };
@@ -48,7 +41,7 @@ export class DadosContaApiService {
       });
   }
 
-  public getInfo() {
+  public getInfo() : void {
     this.http.get(environment.apiUrl + this.url).subscribe(
       (data) => {
         data.toString();
@@ -57,34 +50,24 @@ export class DadosContaApiService {
     );
   }
 
-  public eliminaContaUserInfo() {
-    var id = localStorage.getItem('id');
-    var url_info_delete: String = '/utilizadoresInfo/deleteAccount';
-
-
-    var data = {
-      id: id,
-    };
+  public eliminaContaUserInfo() : void {
+    const id = localStorage.getItem('id');
+    const url_info_delete: String = '/utilizadoresInfo/deleteAccount';
 
     this.http
-      .post(environment.apiUrl + url_info_delete, data)
+      .post(environment.apiUrl + url_info_delete, id)
       .subscribe((resposta) => {
         console.log(resposta);
       }
     );
   }
 
-  public eliminaContaUser() {
-    var id = localStorage.getItem('id');
-    var url_delete: String = '/utilizadores/deleteAccount';
-
-
-    var data = {
-      id: id,
-    };
+  public eliminaContaUser() : void {
+    const id = localStorage.getItem('id');
+    const url_delete: String = '/utilizadores/deleteAccount';
 
     this.http
-      .post(environment.apiUrl + url_delete, data)
+      .post(environment.apiUrl + url_delete, id)
       .subscribe((resposta) => {
         console.log(resposta);
       }
