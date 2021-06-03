@@ -2,8 +2,6 @@
 
 #### Alterações do ultimo commit:
 
-    Ricardo: Recuperar conta teoricamente feito mas estou a ter problemas a executar o servidor para testar as alterações feitas
-
 > Para Iniciar a app turista, execute os seguinte comandos:
 
 ```
