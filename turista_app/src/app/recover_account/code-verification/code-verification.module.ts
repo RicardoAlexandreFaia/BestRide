@@ -4,10 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { RecoverAccountPageRoutingModule } from './recover-account-routing.module';
+import { CodeVerificationPageRoutingModule } from './code-verification-routing.module';
 
-import { RecoverAccountPage } from './recover-account.page';
-import { SharedModule } from '../shared/shared.module';
+import { CodeVerificationPage } from './code-verification.page';
+
 import { HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -20,9 +20,8 @@ export function createTranslateLoader(http: HttpClient) {
     CommonModule,
     FormsModule,
     IonicModule,
-    RecoverAccountPageRoutingModule,
+    CodeVerificationPageRoutingModule,
     FormsModule,
-    SharedModule,
     ReactiveFormsModule,
     TranslateModule.forChild({
       loader: {
@@ -32,6 +31,6 @@ export function createTranslateLoader(http: HttpClient) {
       },
     }),
   ],
-  declarations: [RecoverAccountPage],
+  declarations: [CodeVerificationPage],
 })
-export class RecuperarContaPageModule {}
+export class CodeVerificationPageModule {}

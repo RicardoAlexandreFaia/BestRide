@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button>
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title style="text-align: center;">Code Validation
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list class="conteudo">
+
+    <img id="imagem" src="assets/BestRide.png" />
+
+    <form class="form" [formGroup]="registrationForm" (ngSubmit)="submit()">
+      <ion-card>
+        <ion-item>
+
+          <ion-label>Código</ion-label>
+          <ion-input formControlName="code" type="code" required></ion-input>
+        </ion-item>
+      </ion-card>
+
+      <ion-button [disabled]="!registrationForm.valid" color="primary" expand="block" type="submit" translate
+        [translateParams]="{ lang: language }">recovery_account.button_text
+      </ion-button>
+    </form>
+
+  </ion-list>
+
+</ion-content>

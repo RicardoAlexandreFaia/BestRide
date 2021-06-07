@@ -8,11 +8,10 @@ import { TranslateService } from '@ngx-translate/core';
 @Injectable({
   providedIn: 'root',
 })
-export class RecuperaContaApiService {
-  private url: String = '/users/';
-  private url_info: String = '/userInfo/';
+export class RecoverAccountApiService {
+  private url: String = '/recuperarConta/';
+  private url_recuperacao: String = '/recuperarConta/recuperacao';
   private recover_alert_text = {};
-
   public language: string = this.trans.currentLang;
 
   constructor(
@@ -31,12 +30,24 @@ export class RecuperaContaApiService {
   }
 
   public recuperarConta(email: String) {
-    this.http.get(environment.apiUrl + this.url + email).subscribe(
+    let postData = {
+      email: email,
+      code: this.gerarCodigoRandom(),
+    };
+
+    this.http.post(environment.apiUrl + this.url, postData).subscribe(
       (data) => {
-        //enviar email automatico com o random codigo e usar o local data ou a DB para guardar codigo
+        this.http.post(environment.apiUrl + this.url_recuperacao, postData).subscribe(
+          (data) => {
+            console.log(data)
+          },
+          (error) => {
+            console.log(error);
+            
+          }
+        );
       },
-      (erro) => {
-        this.showAlert();
+      (error) => {
       }
     );
   }

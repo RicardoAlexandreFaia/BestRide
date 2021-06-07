@@ -106,7 +106,7 @@ export class LoginPage implements OnInit {
     if (result.accessToken && result.accessToken.userId) {
       this.token = result.accessToken;
       this.loadUserData();
-      this.router.navigate(['/cria-conta']);
+      this.router.navigate(['/create-account']);
     } else if (result.accessToken && !result.accessToken.userId) {
       // Web only gets the token but not the user ID
       // Directly call get token to retrieve it now

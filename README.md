@@ -2,8 +2,6 @@
 
 #### Alterações do ultimo commit:
 
-- Criação do BackEnd para a app Turista
-
 > Para Iniciar a app turista, execute os seguinte comandos:
 
 ```

@@ -1,12 +1,15 @@
+from django.shortcuts import redirect
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.parsers import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.core.mail import send_mail
+from django.conf import settings
 
 
-from BestRideApi.models import *
-from BestRideApi.serializers import *
+from .models import User, RecoverAccount,  TuristInfo
+from .serializers import UserSerializer, UserInfoSerializaer, RecoverAccountSerializaer, UserRoleSerializer
 from rest_framework import status
 
 from django.contrib.auth.hashers import make_password, check_password
@@ -62,6 +65,15 @@ class Utilizadores_operacoes(APIView):
         # If the update data is not valid, return an error response
         return Response(update_serializer.errors, status=400)
 
+    @api_view(['POST'])
+    def deleteAccount(request):
+        id = request.data['id']
+        try:
+            queryset = User.objects.filter(pk=id).delete()
+        except User.DoesNotExist:
+            return Response({'Erro: Info sobre o Utilizador nao existe'}, status=400)
+        return Response({'Erro: Info sobre o Utilizador foi eliminada'}, status=101)
+
 
 class UserRole(APIView):
     def post(self, request, format=None):
@@ -116,13 +128,69 @@ class Utilizadores_Info_operacoes(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self,request,id=None):
-        snippet = TuristInfo.objects.get(user_iduser=id)
-        serializer = UserInfoSerializaer(snippet, data=request.data)
+    @api_view(['POST'])
+    def deleteAccount(request):
+        email = request.data['email']
+        try:
+            queryset = TuristInfo.objects.filter(email=email).delete()
+        except TuristInfo.DoesNotExist:
+            return Response({'Erro: Info sobre o Utilizador nao existe'}, status=400)
+        return Response({'Erro: Info sobre o Utilizador foi eliminada'}, status=101)
+
+class Recover_Account(APIView):
+#Para enviar email com o codigo para a recuperação da Pass
+
+    def get(self, request, id):
+        if id:
+            try:
+                queryset = RecoverAccount.objects.get(idrecuperarconta=id)
+            except RecoverAccount.DoesNotExist:
+                return Response({'Erro: Info sobre o Utilizador nao existe'}, status=400)
+            read_serializer = RecoverAccountSerializaer(queryset)
+            return Response(read_serializer.data)
+        else:
+            snippets = RecoverAccount.objects.all()
+            serializer = RecoverAccountSerializaer(snippets, many=True)
+            return Response(serializer.data)
+
+    def post(self, request, format=None):
+        email = request.data['email']
+        try:
+            queryset = TuristInfo.objects.get(email=email)
+        except TuristInfo.DoesNotExist:
+            return Response({'O Email nao Existe'}, status=400)
+
+        serializer = RecoverAccountSerializaer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @api_view(['POST'])
+    def sendEmail(request):
+        email = request.data['email']
+        code = request.data['code']
+
+        try:
+            queryset = TuristInfo.objects.get(email=email)
+        except TuristInfo.DoesNotExist:
+            return Response({'O Email nao Existe'}, status=400)
+
+        subject = "Código BestRide"
+        message = "O seu código para recuperar a sua conta Best Ride é:\n" + str(code)
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [email]
+        send_mail(subject, message, email_from, recipient_list)
+        return Response({'O Email enviado'}, status=200)
+
+    @api_view(['POST'])
+    def codeVerification(request):
+        try:
+            queryset = RecoverAccount.objects.get(code=request.data['code'])
+        except RecoverAccount.DoesNotExist:
+            return Response({'Erro: Info sobre o Codigo nao existe'}, status=400)
+        return Response({'O codigo foi aceite'}, status=200)
+
 
 class TranslateAWS():
 
@@ -130,8 +198,9 @@ class TranslateAWS():
     def translate(request):
         client = boto3.client('translate')
         response = client.translate_text(
-            Text=request.data['text'], SourceLanguageCode=request.data['sourceLang'], TargetLanguageCode=request.data['outputLang'])
+            Text=request.data['text'], SourceLanguageCode=request.data['sourceLang'],
+            TargetLanguageCode=request.data['outputLang'])
 
         return JsonResponse({
-            "translated_text":response['TranslatedText']
+            "translated_text": response['TranslatedText']
         })

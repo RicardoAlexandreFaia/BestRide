@@ -95,4 +95,11 @@ export class DadosContaPage implements OnInit {
       this.passwordIconToggle = 'eye';
     }
   }
+
+  public eliminarConta() : void {
+    this.dadosContaApi.eliminaContaUserInfo();
+    this.dadosContaApi.eliminaContaUser();
+    this.router.navigate(['/login']);
+    localStorage.removeItem('id')
+  }
 }

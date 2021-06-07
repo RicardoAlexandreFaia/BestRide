@@ -103,4 +103,36 @@ export class DadosContaApiService {
       (erro) => {}
     );
   }
+
+  public eliminaContaUserInfo() : void {
+    const email = localStorage.getItem('email');
+    const url_info_delete: String = '/userInfo/deleteAccount';
+
+    let postData = {
+      email  : email,
+    };
+
+    this.http
+      .post(environment.apiUrl + url_info_delete, postData)
+      .subscribe((resposta) => {
+        console.log(resposta);
+      }
+    );
+  }
+
+  public eliminaContaUser() : void {
+    const id = localStorage.getItem('id');
+    const url_delete: String = '/users/deleteAccount';
+
+    let postData = {
+      id  : id,
+    };
+
+    this.http
+      .post(environment.apiUrl + url_delete, postData)
+      .subscribe((resposta) => {
+        console.log(resposta);
+      }
+    );
+  }
 }

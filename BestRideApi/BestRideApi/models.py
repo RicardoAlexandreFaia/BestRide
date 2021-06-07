@@ -18,7 +18,7 @@ class Roles(models.Model):
 
 
 class TuristInfo(models.Model):
-    email = models.CharField(max_length=45, blank=True, null=True)
+    email = models.CharField(max_length=45, blank=True, null=True, unique=True)
     name = models.CharField(max_length=45, blank=True, null=True)
     dob = models.CharField(max_length=45, blank=True, null=True)
     city = models.CharField(max_length=45, blank=True, null=True)
@@ -50,4 +50,13 @@ class UserRoles(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'user_roles'
+        db_table = 'turist_info'
+
+class RecoverAccount(models.Model):
+    idrecuperarconta = models.AutoField(db_column='recupera_conta_id', primary_key=True)  # Field name made lowercase.
+    code = models.CharField(max_length=10, db_column='code', null=False)
+    email = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'recuperar_conta'

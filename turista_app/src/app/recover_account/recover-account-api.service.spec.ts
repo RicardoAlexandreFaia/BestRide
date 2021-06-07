@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RecuperaContaApiService } from './recover-account-api.service';
+import { RecoverAccountApiService } from './recover-account-api.service';
 
 describe('RecuperaContaApiService', () => {
-  let service: RecuperaContaApiService;
+  let service: RecoverAccountApiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(RecuperaContaApiService);
+    service = TestBed.inject(RecoverAccountApiService);
   });
 
   it('should be created', () => {
