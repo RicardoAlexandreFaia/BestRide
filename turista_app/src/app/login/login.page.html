@@ -32,10 +32,10 @@
     </form>
 
     <div>
-      <h6 style="text-align: center;" translate [translateParams]="{ lang: language }" (click)="navegar()">
-        login.no_account</h6>
-      <h6 style="text-align: center;" translate [translateParams]="{ lang: language }" (click)="recuperarConta()">
-        login.recover_account</h6>
+      <h6 style="text-align: center;" (click)="navegar()">
+        {{'No Account? Create a account now!' | customTranslate | async}}</h6>
+      <h6 style="text-align: center;" (click)="recuperarConta()">
+        {{'Recover your account' | customTranslate | async}}</h6>
     </div>
 
     <ion-button shape="round" color="tertiary" (click)="login()">

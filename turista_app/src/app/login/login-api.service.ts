@@ -10,9 +10,10 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
 })
 export class LoginApiService {
   //endpoint da Api
-  private url: String = '/utilizadores/';
-  private url_info: String = '/utilizadoresInfo/';
-  private url_login: String = '/utilizadores/login/';
+  private url: String = '/users/';
+  private url_info: String = '/userInfo/';
+  private url_add_turist: String = '/userInfo/add_to_turist_role';
+  private url_login: String = '/users/login/';
 
   constructor(
     private http: HttpClient,
@@ -20,51 +21,6 @@ export class LoginApiService {
     public alertController: AlertController,
     private nativeStorage: NativeStorage
   ) {}
-
-  public criaContaGoogle(
-    email: String,
-    password: string,
-    f_name: string,
-    l_name: string
-  ): void {
-    console.log(f_name);
-    console.log(l_name);
-
-    let postData = {
-      nome: f_name,
-      password: password,
-      login_type: '0',
-    };
-
-    this.http.post(environment.apiUrl + this.url, postData).subscribe(
-      (data) => {
-        console.log(data['iduser']);
-
-        let postDataInfo = {
-          email: email,
-          primeiro_nome: f_name,
-          ultimo_nome: l_name,
-          userid: data['iduser'],
-        };
-
-        //guardar em userInfo
-        this.http
-          .post(environment.apiUrl + this.url_info, postDataInfo)
-          .subscribe(
-            (data) => {
-              console.log(data);
-              this.router.navigate(['/menu']);
-            },
-            (error) => {
-              console.log(error);
-            }
-          );
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
 
   public login_normal(email: String, password: String) {
     let data = {
@@ -74,9 +30,9 @@ export class LoginApiService {
 
     this.http.post(environment.apiUrl + this.url_login, data).subscribe(
       (data) => {
-        console.log(data);
-        localStorage.setItem('id', data['userid']); // guarda o id do user
-        this.router.navigate(['/menu']);
+        localStorage.setItem('id', data['user_iduser']); // guarda o id do user
+        localStorage.setItem('email', data['email']); // guarda o id do user
+        this.router.navigate(['/home_tab']);
       },
       (erro) => {
         this.showAlert();

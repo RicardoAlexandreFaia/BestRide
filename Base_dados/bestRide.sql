@@ -197,18 +197,13 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `bestride`.`recuperar_conta`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bestride`.`recuperar_conta` (
+CREATE TABLE IF NOT EXISTS `BestRide`.`recuperar_conta` (
   `recupera_conta_id` INT NOT NULL AUTO_INCREMENT,
-  `code` VARCHAR(45) NULL,
-  `User_idUser` INT NOT NULL,
-  PRIMARY KEY (`recupera_conta_id`),
-  INDEX `fk_recuperar_conta_User1_idx` (`User_idUser` ASC),
-  CONSTRAINT `fk_recuperar_conta_User1`
-    FOREIGN KEY (`User_idUser`)
-    REFERENCES `bestride`.`User` (`idUser`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  `code` VARCHAR(6) NULL,
+  `email` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`recupera_conta_id`))
 ENGINE = InnoDB;
+
 
 
 -- -----------------------------------------------------

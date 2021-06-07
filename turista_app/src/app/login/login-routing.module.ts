@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: 'cria-conta',
     loadChildren: () =>
-      import('../cria-conta/cria-conta.module').then(
+      import('../create_account/create-account.module').then(
         (m) => m.CriaContaPageModule
       ),
   },

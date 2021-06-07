@@ -1,15 +1,13 @@
 {
   "definicoes": {
     "tabName": "Definicoes",
-    "option_text": "Language"
-  },
-  "menu": {
-    "botao1": "Circuito 1",
-    "botao2": "Circuito 2"
+    "option_text": "Language",
+    "languageChangePlaceholder": "Escolha o seu Idioma"
   },
   "login": {
     "no_account": "Não tem Conta? Crie Gratuitamente",
-    "recover_account": "Recuperar Conta"
+    "recover_account": "Recuperar Conta",
+    "email_message": "Email Importante"
   },
   "recovery_account": {
     "tabName": "Recuperar Conta",
@@ -18,6 +16,21 @@
   "create_account": {
     "tabName": "Criar Conta",
     "text": "repita Password",
-    "button_text": "Crie Conta"
+    "f_name_field": "Primeiro Nome",
+    "l_name_field": "último Nome",
+    "Date_birth": "Data Nascimento",
+    "button_text": "Criar Conta"
+  },
+  "menu_navegacao": {
+    "map": "mapa",
+    "definitions": "Definições",
+    "agend": "Agenda",
+    "personal": "Perfil"
+  },
+  "personal_data_page": {
+    "user": "Utilizador",
+    "email": "email",
+    "phone": "Telemovel",
+    "button_change_pass": "Alterar Password"
   }
 }
