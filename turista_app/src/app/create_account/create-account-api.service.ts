@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root',
@@ -11,53 +12,29 @@ export class CriaContaApiService {
   private url_info: String = '/userInfo/';
   private url_add_turist: String = '/userInfo/add_to_turist_role';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private modalController: ModalController
+  ) {}
 
   public criaConta(data_dict): void {
-    let postData = {
+    let postDataInfo = {
+      email: data_dict['email'],
+      name: data_dict['name'],
+      dob: data_dict['dob'],
+      city: data_dict['city'],
+      gender: data_dict['gender'],
+      phone_number: '+351' + data_dict['phone'],
+      adress: data_dict['address'],
+      postal_code: data_dict['postal'],
       password: data_dict['pass'],
-      login_type: '0',
     };
-
-    this.http.post(environment.apiUrl + this.url, postData).subscribe(
+    this.http.post(environment.apiUrl + this.url, postDataInfo).subscribe(
       (data) => {
-        let id_user = data['iduser'];
-
-        let postRoles = {
-          user_iduser: id_user,
-          roles_id_roles: 0,
-        };
-        //guarda em user_roles
-        this.http
-          .post(environment.apiUrl + this.url_add_turist, postRoles)
-          .subscribe(
-            (data) => {},
-            (error) => {}
-          );
-        let postDataInfo = {
-          user_iduser: id_user,
-          email: data_dict['email'],
-          name: data_dict['name'],
-          dob: data_dict['dob'],
-          city: data_dict['vity'],
-          gender: data_dict['gender'],
-          phone_number: data_dict['phone'],
-          adress: data_dict['address'],
-          postal_code: data_dict['postal'],
-        };
-        //guardar em userInfo
-        this.http
-          .post(environment.apiUrl + this.url_info, postDataInfo)
-          .subscribe(
-            (data) => {
-              this.router.navigate(['/login']);
-            },
-            (error) => {}
-          );
+        this.router.navigate(['/confirm-account']);
       },
-      (error) => {
-        console.log(error);
-      }
+      (error) => {}
     );
   }
 

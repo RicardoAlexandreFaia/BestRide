@@ -6,6 +6,7 @@ urlpatterns = [
     path('users/deleteAccount', views.Utilizadores_operacoes.deleteAccount),
     path('userInfo/deleteAccount', views.Utilizadores_Info_operacoes.deleteAccount),
     path('users/', views.Utilizadores_operacoes.as_view()),
+    path('verifyAccount/',views.Utilizadores_operacoes.confirmAccount),
     path('users/<int:id>/', views.Utilizadores_operacoes.as_view()),
     path('users/login/',views.Utilizadores_Info_operacoes.login),
     path('userInfo/', views.Utilizadores_Info_operacoes.as_view()),

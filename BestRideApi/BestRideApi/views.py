@@ -8,7 +8,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 
 
-from .models import User, RecoverAccount,  TuristInfo
+from .models import User, Recoveraccount,  TuristInfo
 from .serializers import UserSerializer, UserInfoSerializaer, RecoverAccountSerializaer, UserRoleSerializer
 from rest_framework import status
 
@@ -30,13 +30,63 @@ class Utilizadores_operacoes(APIView):
             serializer = UserSerializer(snippets, many=True)
             return Response(serializer.data)
 
-    def post(self, request, format=None):
-        request.data['password'] = make_password(request.data.get('password'), 'pbkdf2_sha256')
+    @api_view(['POST'])
+    def confirmAccount(request):
+        cidp = boto3.client('cognito-idp')
+        response_confirmUser = cidp.confirm_sign_up(
+            ClientId='2vqne4mc8r531sjqisriu5u1kn',
+            Username='claudio',
+            ConfirmationCode=request.data['code']
+        )
+
+        return Response("oLA")
+
+
+    def post(self, request):
+        '''request.data['password'] = make_password(request.data.get('password'), 'pbkdf2_sha256')
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)'''
+        client = boto3.client('cognito-idp')
+        response = client.sign_up(
+            ClientId='2vqne4mc8r531sjqisriu5u1kn',
+            Username=request.data['name'],
+            Password=request.data['password'],
+            UserAttributes=[
+                {
+                    'Name': "name",
+                    'Value': request.data['name']
+                },
+                {
+                    'Name': "birthdate",
+                    'Value': '2021-09-21'
+                },
+                {
+                    'Name': "email",
+                    'Value': request.data['email']
+                },
+                {
+                    'Name': "gender",
+                    'Value': request.data['gender']
+                },
+                {
+                    'Name': "address",
+                    'Value': request.data['adress']
+                },
+                {
+                    'Name': "locale",
+                    'Value': request.data['city']
+                },
+                {
+                    'Name': "phone_number",
+                    'Value': request.data['phone_number']
+                },
+            ],
+        )
+
+        return JsonResponse(response)
 
     def put(self, request, id=None):
         try:
@@ -100,25 +150,14 @@ class Utilizadores_Info_operacoes(APIView):
 
     @api_view(['POST'])
     def login(request):
-        #Verifica o email
-        email = request.data['email']
-        password = request.data['password']
-        if email:
-            try:
-                queryset = TuristInfo.objects.get(email=email)
-            except TuristInfo.DoesNotExist:
-                return Response({'O Email nao Existe'}, status=400)
+        cidp = boto3.client('cognito-idp')
+        response_confirmUser = cidp.confirm_sign_up(
+            ClientId='2vqne4mc8r531sjqisriu5u1kn',
+            Username='claudio',
+            ConfirmationCode='845590'
+        )
 
-        #Verifica o password
-            password = make_password(password,'pbkdf2_sha256')
-            if password:
-                try:
-                    queryset_password = User.objects.get(password=password)
-                except User.DoesNotExist:
-                    return Response({'Password Invalida'}, status=400)
-
-            read_serializer = UserInfoSerializaer(queryset)
-            return Response(read_serializer.data)
+        return Response("oLA")
 
 
     def post(self, request, format=None):
@@ -143,13 +182,13 @@ class Recover_Account(APIView):
     def get(self, request, id):
         if id:
             try:
-                queryset = RecoverAccount.objects.get(idrecuperarconta=id)
-            except RecoverAccount.DoesNotExist:
+                queryset = Recoveraccount.objects.get(idrecuperarconta=id)
+            except Recoveraccount.DoesNotExist:
                 return Response({'Erro: Info sobre o Utilizador nao existe'}, status=400)
             read_serializer = RecoverAccountSerializaer(queryset)
             return Response(read_serializer.data)
         else:
-            snippets = RecoverAccount.objects.all()
+            snippets = Recoveraccount.objects.all()
             serializer = RecoverAccountSerializaer(snippets, many=True)
             return Response(serializer.data)
 
@@ -186,8 +225,8 @@ class Recover_Account(APIView):
     @api_view(['POST'])
     def codeVerification(request):
         try:
-            queryset = RecoverAccount.objects.get(code=request.data['code'])
-        except RecoverAccount.DoesNotExist:
+            queryset = Recoveraccount.objects.get(code=request.data['code'])
+        except Recoveraccount.DoesNotExist:
             return Response({'Erro: Info sobre o Codigo nao existe'}, status=400)
         return Response({'O codigo foi aceite'}, status=200)
 

@@ -55,7 +55,7 @@ export class CriaContaPage implements OnInit {
         '',
         Validators.compose([
           Validators.required,
-          Validators.minLength(6),
+          Validators.minLength(8),
           Validators.maxLength(12),
         ]),
       ],
@@ -122,7 +122,6 @@ export class CriaContaPage implements OnInit {
       pass: this.registrationForm.get('pass').value,
       passRepeat: this.registrationForm.get('passRepeat').value,
     };
-
     this.api.criaConta(create_account);
   }
 }

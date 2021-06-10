@@ -82,9 +82,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bestride',
-        'USER': 'root',
-        'PASSWORD':'',
-        'HOST':'localhost',
+        'USER': 'admin',
+        'PASSWORD':'B<-Amns12+-poDD.D',
+        'HOST':'bestride.clzi9mqkl1nl.us-east-2.rds.amazonaws.com',
         'PORT':'3306'
     }
 }

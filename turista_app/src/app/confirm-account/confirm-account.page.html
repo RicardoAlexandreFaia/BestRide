@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{'Validate Account' | customTranslate | async}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form class="form" [formGroup]="registrationForm" (ngSubmit)="validateUser()">
+    <ion-card>
+      <ion-item>
+
+        <ion-label>Codigo</ion-label>
+        <ion-input formControlName="code" type="number" required></ion-input>
+      </ion-item>
+    </ion-card>
+
+    <ion-button [disabled]="!registrationForm.valid" color="primary" expand="block" type="submit">
+      {{'Recover account' | customTranslate | async}}
+    </ion-button>
+  </form>
+</ion-content>

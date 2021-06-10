@@ -57,6 +57,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./user_tab/user-tab.module').then((m) => m.DadosContaPageModule),
   },
+  {
+    path: 'confirm-account',
+    loadChildren: () =>
+      import('./confirm-account/confirm-account.module').then(
+        (m) => m.ConfirmAccountPageModule
+      ),
+  },
 ];
 
 @NgModule({

@@ -14,7 +14,7 @@ class UserInfoSerializaer(serializers.ModelSerializer):
 
 class RecoverAccountSerializaer(serializers.ModelSerializer):
     class Meta:
-        model = RecoverAccount
+        model = Recoveraccount
         fields = ('__all__')
 
 class UserRoleSerializer(serializers.ModelSerializer):
