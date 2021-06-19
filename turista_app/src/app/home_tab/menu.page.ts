@@ -14,7 +14,7 @@ import {
 import { ModalMapaPage } from './modal-mapa/modal-mapa.page';
 import { ModalController } from '@ionic/angular';
 import { AppComponent } from '../app.component';
-
+import { MapServiceService } from './map-service.service';
 declare var google: any;
 
 @Component({
@@ -28,107 +28,27 @@ export class MenuPage implements OnInit {
   public selected: RoadMap;
   public language: string = this.translateService.currentLang;
   private currentPos: Geoposition;
-  public trips: Array<RoadMap> = [
-    {
-      title: 'Historical Tour',
-      duration: ' 3 h',
-      price: 6,
-      description:
-        'Visit the hills of the typical neighborhoods of Alfama, Graça and Mouraria by tuc tuc. Feel the true heart of Lisbon' +
-        's roots. Whose ancient traditions persist, the Castle of São Jorge, the Cathedral, the popular saints and the fate of Fado…',
-      interestPoints: [
-        {
-          title: 'SÉ', // inicio da  viagem
-          lat: 38.7098786,
-          lng: -9.132584400000042,
-        },
-        {
-          title: 'MIRADOURO PORTAS DO SOL',
-          lat: 38.711148,
-          lng: -9.133262000000059,
-        },
-        { title: 'ALFAMA', lat: 38.7125, lng: -9.132799999999975 },
-        {
-          title: 'VILA DO BAIRRO DO CASTELO',
-          lat: 38.7131963,
-          lng: -9.133408799999984,
-        },
-        {
-          title: 'MIRADOURO DA GRAÇA',
-          lat: 38.716272,
-          lng: -9.131524000000013,
-        },
-        {
-          title: 'GRAÇA',
-          lat: 38.71794939999999,
-          lng: -9.13039619999995,
-        },
-        {
-          title: 'MIRADOURO NOSSA SENHORA DO MONTE',
-          lat: 38.71906409127469,
-          lng: -9.132594176721227,
-        },
-      ],
-    },
-    {
-      title: 'Old City Tour',
-      duration: ' 1 h',
-      price: 2,
-      description:
-        'Visit by Tuk Tuk, O Chiado, Bairro Alto and Príncipe Real. Lisbon' +
-        's cosmopolitan charm, bohemian being one of the most prestigious places in Lisbon.' +
-        'It has always been linked to a strong intellectual, liberal, modernist and also romantic component.',
-      interestPoints: [
-        {
-          title: 'MIRADOURO DE S. PEDRO DE ALCÂNTARA',
-          lat: 38.7150612,
-          lng: -9.144405199999937,
-        },
-        {
-          title: 'BAIRRO ALTO',
-          lat: 38.7127532,
-          lng: -9.146295099999975,
-        },
-        {
-          title: 'CHIADO',
-          lat: 38.710202,
-          lng: -9.14223800000002,
-        },
-        {
-          title: 'SÉ',
-          lat: 38.7098786,
-          lng: -9.132584400000042,
-        },
-        {
-          title: 'ALFAMA',
-          lat: 38.7125,
-          lng: -9.132799999999975,
-        },
-        {
-          title: 'VILA DO BAIRRO DO CASTELO',
-          lat: 38.7131963,
-          lng: -9.133408799999984,
-        },
-      ],
-    },
-  ];
 
+  public trips: any;
   constructor(
     private geolocation: Geolocation,
     private translateService: TranslateService,
     private router: Router,
     private model_controller: ModalController,
-    private appComp: AppComponent
+    private appComp: AppComponent,
+    private map_service: MapServiceService
   ) {
     appComp.hide_tab = false;
-    //this.translateService.use(this.language);
   }
 
   ngOnInit() {}
 
   ngAfterViewInit() {}
 
-  ionViewDidEnter() {}
+  ionViewDidEnter() {
+    this.trips = this.map_service.get_roads();
+    //console.log(this.map_service.get_roads());
+  }
 
   /* Para futuro Sprint
   getUserPosition() {

@@ -2,22 +2,19 @@ from rest_framework import serializers
 from .models import *
 
 
-class UserSerializer(serializers.ModelSerializer):
+
+class InterestPointsSerializaer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = PointInterest
         fields = ('__all__')
 
-class UserInfoSerializaer(serializers.ModelSerializer):
+class RoadMapSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TuristInfo
-        fields = ('__all__')
+        model = RoadMap
+        fields = '__all__'
 
-class RecoverAccountSerializaer(serializers.ModelSerializer):
+class ItinearyRouteSerializer(serializers.ModelSerializer):
+    interest_points = InterestPointsSerializaer(read_only=True)
     class Meta:
-        model = Recoveraccount
-        fields = ('__all__')
-
-class UserRoleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserRoles
-        fields = ('__all__')
+        model = ItinearyRoute
+        fields = ('interest_points',)

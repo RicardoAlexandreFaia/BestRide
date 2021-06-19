@@ -7,7 +7,10 @@ import {
   Geoposition,
   PositionError,
 } from '@ionic-native/geolocation/ngx';
-import { RoadMap } from '../roadMap';
+import { InterestPoints } from '../roadMap';
+import { MapServiceService } from '../map-service.service';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 declare var google: any;
 
@@ -20,19 +23,31 @@ export class ModalMapaPage implements OnInit {
   private ZOOM_LEVEL: number = 16.5; // Zoom do mapa
   @ViewChild('map', { static: false }) mapElement: ElementRef;
   private map: any;
-  @Input() circuito_rec: RoadMap;
-  private circuito: RoadMap;
+  @Input() circuito_rec: InterestPoints;
+  private circuito: any;
   public language: string = this.translate.currentLang;
+
+  private interest: any;
+
+  public progress: boolean = false;
+
   constructor(
     private modalCtr: ModalController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private map_service: MapServiceService,
+    private http: HttpClient
   ) {}
 
   ngOnInit() {}
 
   ionViewDidEnter() {
     this.circuito = this.circuito;
-    this.showMap();
+    //this.showMap(this.interest);
+    this.interest = this.map_service.get_points_interest(this.circuito['id']);
+    setTimeout(() => {
+      this.showMap(this.interest);
+      this.progress = true;
+    }, 2000);
   }
 
   async close() {
@@ -40,11 +55,18 @@ export class ModalMapaPage implements OnInit {
     await this.modalCtr.dismiss(closeModal);
   }
 
-  private showMap(): void {
-    const location = new google.maps.LatLng(
-      this.circuito.interestPoints[this.circuito.interestPoints.length - 3].lat,
-      this.circuito.interestPoints[this.circuito.interestPoints.length - 3].lng
-    );
+  private showMap(road: any): void {
+    console.log(this.interest['InterestPoints']);
+
+    let lat_initial = 0;
+    let lng_initial = 0;
+    for (let pos_initial of this.interest) {
+      lat_initial = pos_initial.lat;
+      lng_initial = pos_initial.lng;
+      break;
+    }
+
+    const location = new google.maps.LatLng(lat_initial, lng_initial);
 
     const options = {
       center: location,
@@ -55,20 +77,21 @@ export class ModalMapaPage implements OnInit {
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, options);
 
-    //  ADICIONAR MARCADORES AO MAPA
-    for (let pos of this.circuito.interestPoints) {
+    //    Add markers to the map
+    for (let pos of this.interest) {
       let posMarker = new google.maps.LatLng(pos.lat, pos.lng);
 
       let marker = new google.maps.Marker({
         map: this.map,
         position: posMarker,
+        animation: 'DROP',
         title: this.circuito.title,
         latitude: pos.lat,
         longitude: pos.lng,
       });
 
       const roteiros_trace = new google.maps.Polyline({
-        path: this.circuito.interestPoints,
+        path: { lat: pos.lat, lng: pos.lng },
         geodesic: true,
         strokeColor: 'red',
         strokeOpacity: 1.0,
