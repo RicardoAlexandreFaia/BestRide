@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title translate [translateParams]="{ lang: language }">modal_map_form.tab_name</ion-title>
+    <ion-title> {{ "Tour Information" | customTranslate | async}} </ion-title>
     <ion-buttons slot="primary">
       <ion-button (click)="close()">
         <ion-icon slot="icon-only" name="close-outline"></ion-icon>
@@ -14,15 +14,15 @@
   <ion-card>
     <ion-item>
       <ion-icon name="calendar-outline" slot="start"></ion-icon>
-      <ion-label translate [translateParams]="{ lang: language }"> modal_map_form.date </ion-label>
+      <ion-label> {{ "Date for the Tour ?" | customTranslate | async}} </ion-label>
       <ion-datetime displayFormat="YYYY-MM-D" min="1989" max="2021" value="2019-06-17"></ion-datetime>
     </ion-item>
   </ion-card>
 
   <ion-card>
     <ion-item>
-      <ion-icon name="people-outline"></ion-icon>
-      <ion-label translate [translateParams]="{ lang: language }">modal_map_form.people </ion-label>
+      <ion-icon name="people-outline" slot="start"></ion-icon>
+      <ion-label>{{ "How Many People ?" | customTranslate | async}}</ion-label>
 
       <ion-select value="2" okText="OK" cancelText="Dismiss">
         <ion-select-option value="1">1</ion-select-option>
@@ -37,7 +37,7 @@
 
 
   <section>
-    <ion-button expand="full" color="primary">Reservar Tour</ion-button>
+    <ion-button expand="full" color="primary">{{ "Book Tour" | customTranslate | async}}</ion-button>
   </section>
 
 

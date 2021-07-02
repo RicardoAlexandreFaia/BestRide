@@ -19,6 +19,7 @@
       <ion-label>
         <h1 id="name"> {{'Name' | customTranslate | async}}</h1>
         <ion-input disabled="{{control_input}}" clearInput="true" id="email2" [(ngModel)]="name" value="{{name}}">
+          utilizador 1
         </ion-input>
       </ion-label>
     </ion-item>
@@ -29,6 +30,7 @@
       <ion-label>
         <h1 id="city"> {{'City' | customTranslate | async}}</h1>
         <ion-input clearInput="true" disabled="{{control_input}}" id="email" [(ngModel)]="city" value="{{city}}">
+          Lisbon
         </ion-input>
       </ion-label>
     </ion-item>
@@ -38,6 +40,7 @@
       <ion-label>
         <h1 id="city">Email</h1>
         <ion-input clearInput="true" disabled="{{control_input}}" id="email" [(ngModel)]="email" value="{{email}}">
+          user@gmail.com
         </ion-input>
       </ion-label>
     </ion-item>
@@ -48,7 +51,7 @@
       <ion-label>
         <h1 id="email"> {{'Phone number' | customTranslate | async}}</h1>
         <ion-input clearInput="true" disabled="{{control_input}}" readonly="{{control_input}}" id="email"
-          [(ngModel)]="phone" value="{{phone}}"></ion-input>
+          [(ngModel)]="phone" value="{{phone}}">123456789</ion-input>
       </ion-label>
     </ion-item>
 
@@ -57,7 +60,7 @@
       <ion-label>
         <h1> {{'Address' | customTranslate | async}}</h1>
         <ion-input clearInput="true" disabled="{{control_input}}" readonly="{{control_input}}" id="email"
-          [(ngModel)]="address" value="{{address}}"></ion-input>
+          [(ngModel)]="address" value="{{address}}">Street x</ion-input>
       </ion-label>
     </ion-item>
 
@@ -67,6 +70,7 @@
         <h1> {{'Postal Code' | customTranslate | async}}</h1>
         <ion-input clearInput="true" disabled="{{control_input}}" readonly="{{control_input}}" id="email"
           [(ngModel)]="postal" value="{{postal}}" readonly="true">
+          1121-12
         </ion-input>
       </ion-label>
     </ion-item>
@@ -80,8 +84,8 @@
     <ion-button expand="full" (click)="alterarPass()">
       <h4> {{'Change Password' | customTranslate | async}}</h4>
     </ion-button>
-    <ion-button expand="block" color="danger" (click)="eliminarConta()">
-      Eliminar Conta
+    <ion-button expand="full" color="danger" (click)="eliminarConta()">
+      {{'Delete Account' | customTranslate | async}}
     </ion-button>
   </ion-list>
 </ion-content>

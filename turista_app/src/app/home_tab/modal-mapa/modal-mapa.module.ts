@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import { ModalMapaPage } from './modal-mapa.page';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { SharedModule } from 'src/app/shared/shared.module';
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/lang/', '.json');
 }
@@ -18,6 +19,7 @@ export function createTranslateLoader(http: HttpClient) {
     CommonModule,
     FormsModule,
     IonicModule,
+    SharedModule,
     ModalMapaPageRoutingModule,
     TranslateModule.forChild({
       loader: {

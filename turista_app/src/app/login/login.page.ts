@@ -16,7 +16,6 @@ import '@codetrix-studio/capacitor-google-auth';
 //api
 import { LoginApiService } from './login-api.service';
 import { CriaContaApiService } from '../create_account/create-account-api.service';
-import { Environment } from '@ionic-native/google-maps';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { AppComponent } from '../app.component';
 
@@ -58,7 +57,7 @@ export class LoginPage implements OnInit {
     ],
     password: [
       '',
-      Validators.compose([Validators.required, Validators.minLength(6)]),
+      Validators.compose([Validators.required, Validators.minLength(8)]),
     ],
   });
 
@@ -186,16 +185,6 @@ export class LoginPage implements OnInit {
     return this.registrationForm.get('password');
   }
 
-  //ir para a pagina - criar conta
-  public navegar(): void {
-    this.router.navigate(['/create_account']);
-  }
-
-  //ir para a pagina - criar conta
-  public recuperarConta(): void {
-    this.router.navigate(['/recover_account']);
-  }
-
   async showDialog() {
     const alert = await this.alertCtrl.create({
       header: '' + this.login_alert_text['header'],
@@ -204,4 +193,20 @@ export class LoginPage implements OnInit {
     });
     alert.present();
   }
+
+  public create_account(): void {
+    this.router.navigate(['/create_account']);
+  }
+
+  public recover_account(): void {
+    this.router.navigate(['/recover_account']);
+  }
+
+  public errorMessages = {
+    email: [
+      { type: 'required', message: 'Email is required' },
+      { type: 'pattern', message: 'Please enter a valid email address' },
+    ],
+    password: [{ type: 'required', message: 'Password is required' }],
+  };
 }

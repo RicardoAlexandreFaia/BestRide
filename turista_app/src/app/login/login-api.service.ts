@@ -13,7 +13,7 @@ export class LoginApiService {
   private url: String = '/users/';
   private url_info: String = '/userInfo/';
   private url_add_turist: String = '/userInfo/add_to_turist_role';
-  private url_login: String = '/users/login/';
+  private url_login: String = '/login/';
 
   constructor(
     private http: HttpClient,
@@ -30,12 +30,14 @@ export class LoginApiService {
 
     this.http.post(environment.apiUrl + this.url_login, data).subscribe(
       (data) => {
-        localStorage.setItem('id', data['user_iduser']); // guarda o id do user
-        localStorage.setItem('email', data['email']); // guarda o id do user
+        /*localStorage.setItem('id', data['user_iduser']); // guarda o id do user
+        localStorage.setItem('email', data['email']); // guarda o id do user*/
+        console.log('login done');
         this.router.navigate(['/home_tab']);
       },
       (erro) => {
         this.showAlert();
+        console.log('login error');
       }
     );
   }

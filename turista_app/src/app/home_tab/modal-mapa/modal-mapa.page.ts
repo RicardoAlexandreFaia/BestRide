@@ -42,7 +42,7 @@ export class ModalMapaPage implements OnInit {
 
   ionViewDidEnter() {
     this.circuito = this.circuito;
-    //this.showMap(this.interest);
+    console.log(this.circuito);
     this.interest = this.map_service.get_points_interest(this.circuito['id']);
     setTimeout(() => {
       this.showMap(this.interest);

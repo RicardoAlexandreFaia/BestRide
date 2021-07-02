@@ -21,7 +21,7 @@ class Utilizadores_operacoes(APIView):
     def confirmAccount(request):
         cidp = boto3.client('cognito-idp')
         response_confirmUser = cidp.confirm_sign_up(
-            ClientId='2vqne4mc8r531sjqisriu5u1kn',
+            ClientId='69j3kf07uilon97nspiafgsi8c',
             Username='claudio',
             ConfirmationCode=request.data['code']
         )
@@ -38,7 +38,7 @@ class Utilizadores_operacoes(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)'''
         client = boto3.client('cognito-idp')
         response = client.sign_up(
-            ClientId='2vqne4mc8r531sjqisriu5u1kn',
+            ClientId='69j3kf07uilon97nspiafgsi8c',
             Username=request.data['name'],
             Password=request.data['password'],
             UserAttributes=[
@@ -76,18 +76,19 @@ class Utilizadores_operacoes(APIView):
         return JsonResponse(response)
 
 
-class UserRole(APIView):
-
     @api_view(['POST'])
     def login(request):
         cidp = boto3.client('cognito-idp')
-        response_confirmUser = cidp.confirm_sign_up(
-            ClientId='2vqne4mc8r531sjqisriu5u1kn',
-            Username='claudio',
-            ConfirmationCode='845590'
+        login_request = cidp.initiate_auth(
+            ClientId='4tqek2provvat99l9kasnrv3u5',
+            AuthFlow="USER_PASSWORD_AUTH",
+            AuthParameters = {
+                'USERNAME':request.data['email'],
+                'PASSWORD':request.data['password']
+            }
         )
 
-        return Response("")
+        return Response("Login Done")
 
 
 
