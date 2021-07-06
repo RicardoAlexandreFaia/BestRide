@@ -1,18 +1,15 @@
-from django.shortcuts import redirect
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
-from rest_framework.parsers import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.core.mail import send_mail
-from django.conf import settings
-
-
-from .models import *
 from .serializers import *
-from rest_framework import status, generics
 
-from django.contrib.auth.hashers import make_password, check_password
+
+from environs import Env
+
+env = Env()
+env.read_env()
+
 
 import boto3
 
@@ -21,8 +18,8 @@ class Utilizadores_operacoes(APIView):
     def confirmAccount(request):
         cidp = boto3.client('cognito-idp')
         response_confirmUser = cidp.confirm_sign_up(
-            ClientId='69j3kf07uilon97nspiafgsi8c',
-            Username='claudio',
+            ClientId=env.str("ClientId"),
+            Username='austrixpamaj@gmail.com',
             ConfirmationCode=request.data['code']
         )
 
@@ -38,17 +35,17 @@ class Utilizadores_operacoes(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)'''
         client = boto3.client('cognito-idp')
         response = client.sign_up(
-            ClientId='69j3kf07uilon97nspiafgsi8c',
+            ClientId=env.str("ClientId"),
             Username=request.data['name'],
             Password=request.data['password'],
             UserAttributes=[
                 {
                     'Name': "name",
-                    'Value': request.data['name']
+                    'Value': request.data['email']
                 },
                 {
                     'Name': "birthdate",
-                    'Value': '2021-09-21'
+                    'Value': request.data['dob']
                 },
                 {
                     'Name': "email",
@@ -80,7 +77,7 @@ class Utilizadores_operacoes(APIView):
     def login(request):
         cidp = boto3.client('cognito-idp')
         login_request = cidp.initiate_auth(
-            ClientId='4tqek2provvat99l9kasnrv3u5',
+            ClientId=env.str("ClientId"),
             AuthFlow="USER_PASSWORD_AUTH",
             AuthParameters = {
                 'USERNAME':request.data['email'],
