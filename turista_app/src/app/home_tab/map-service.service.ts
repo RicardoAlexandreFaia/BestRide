@@ -42,11 +42,12 @@ export class MapServiceService {
     this.http.get(environment.apiUrl + this.urlGetPoints + id).subscribe(
       (data) => {
         for (let i in data) {
+          console.log(data[i]['interest_points'].location.coordinates[0]);
           interest.push(
             new InterestPoints(
               data[i]['interest_points'].descricao,
-              data[i]['interest_points'].latitude_inicio,
-              data[i]['interest_points'].longitude_inicio
+              data[i]['interest_points'].location.coordinates[0],
+              data[i]['interest_points'].location.coordinates[1]
             )
           );
         }

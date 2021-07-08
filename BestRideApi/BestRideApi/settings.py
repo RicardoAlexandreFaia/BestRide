@@ -11,9 +11,13 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 from environs import Env
 from pathlib import Path
+import os
+
 
 env = Env()
 env.read_env()
+
+GDAL_LIBRARY_PATH = r'C:\OSGeo4W64\bin\gdal303.dll'
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -43,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'BestRideApi',
     'rest_framework',
+    'rest_framework_gis',
     'corsheaders',
 ]
 
@@ -84,7 +89,8 @@ WSGI_APPLICATION = 'BestRideApi.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        #'ENGINE': 'django.db.backends.mysql',
+ 'ENGINE': 'django.contrib.gis.db.backends.mysql',
         'NAME': 'bestride',
         'USER': 'admin',
         'PASSWORD':'B<-Amns12+-poDD.D',
