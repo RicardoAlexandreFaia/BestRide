@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 
 import { LatLngBounds, MarkerOptions } from '@ionic-native/google-maps';
 import { TranslateService } from '@ngx-translate/core';
@@ -15,6 +15,10 @@ import { ModalMapaPage } from './modal-mapa/modal-mapa.page';
 import { ModalController } from '@ionic/angular';
 import { AppComponent } from '../app.component';
 import { MapServiceService } from './map-service.service';
+import { AlertController } from '@ionic/angular';
+import { CustomTranslateService } from '../shared/services/custom-translate.service';
+import { User } from './user';
+
 declare var google: any;
 
 @Component({
@@ -27,7 +31,10 @@ export class MenuPage implements OnInit {
 
   public selected: RoadMap;
   public language: string = this.translateService.currentLang;
+  private distance: any;
   private currentPos: Geoposition;
+
+  user: User;
 
   public trips: any;
   constructor(
@@ -36,54 +43,130 @@ export class MenuPage implements OnInit {
     private router: Router,
     private model_controller: ModalController,
     private appComp: AppComponent,
-    private map_service: MapServiceService
+    private map_service: MapServiceService,
+    private alertController: AlertController,
+    private trans: CustomTranslateService
   ) {
     appComp.hide_tab = false;
   }
 
-  ngOnInit() {}
-
-  ngAfterViewInit() {}
-
-  ionViewDidEnter() {
+  ngOnInit() {
     this.trips = this.map_service.get_roads();
-    //console.log(this.map_service.get_roads());
   }
 
-  /* Para futuro Sprint
-  getUserPosition() {
-    this.options = {
-      enableHighAccuracy: false,
-    };
-    this.geolocation.getCurrentPosition(this.options).then(
-      (pos: Geoposition) => {
-        this.currentPos = pos;
+  ngAfterViewInit() {
+    this.presentAlertRadio();
+  }
 
-        let latLng = new google.maps.LatLng(
-          this.currentPos.coords.latitude,
-          this.currentPos.coords.longitude
+  async presentAlertRadio() {
+    const alert = await this.alertController.create({
+      header: 'Choose the Proximity',
+      inputs: [
+        {
+          name: 'nearMe',
+          type: 'radio',
+          label: 'Near me',
+          value: 'near',
+          checked: true,
+        },
+        {
+          name: 'Porto',
+          type: 'radio',
+          label: 'Porto',
+          value: 'porto',
+          checked: false,
+        },
+        {
+          name: 'Lisbon',
+          type: 'radio',
+          label: 'Lisbon',
+          value: 'lisbon',
+          checked: false,
+        },
+      ],
+      buttons: [
+        {
+          text: 'Ok',
+          handler: (data) => {
+            console.log(data);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+  ionViewDidEnter() {
+    setTimeout(() => {
+      this.getUserPosition();
+    }, 2000);
+  }
+
+  getUserPosition() {
+    this.geolocation
+      .getCurrentPosition()
+      .then((res) => {
+        let location =
+          'lat ' + res.coords.latitude + ' lang ' + res.coords.longitude;
+        this.user = new User(2121, 1212);
+        this.haversine_distance(location, null);
+      })
+      .catch((error) => {
+        console.log('Error getting location', error);
+      });
+  }
+
+  private haversine_distance(mk1: any, mk2: any): void {
+    console.log(this.user);
+    for (let i in this.trips) {
+      console.log(this.trips[i]);
+      var R = 3958.8; // Radius of the Earth in miles
+      var rlat1 = this.user.lat * (Math.PI / 180); // Convert degrees to radians
+      var rlat2 = this.trips[i].lat * (Math.PI / 180); // Convert degrees to radians
+      var difflat = rlat2 - rlat1; // Radian difference (latitudes)
+      var difflon = (this.trips[i].lng - this.user.lat) * (Math.PI / 180); // Radian difference (longitudes)
+
+      var d =
+        2 *
+        R *
+        Math.asin(
+          Math.sqrt(
+            Math.sin(difflat / 2) * Math.sin(difflat / 2) +
+              Math.cos(rlat1) *
+                Math.cos(rlat2) *
+                Math.sin(difflon / 2) *
+                Math.sin(difflon / 2)
+          )
         );
 
-        let marker = new google.maps.Marker({
-          map: this.map,
-          position: latLng,
-          latitude: this.currentPos.coords.latitude,
-          icon: { url: './assets/icon/gps.png' },
-          longitude: this.currentPos.coords.longitude,
-        });
-      },
-      (err: PositionError) => {
-        console.log('ERRO::: : ' + err.message);
-      }
-    );
-  }*/
+      console.log(' DIstance ' + d);
+    }
+    /* var R = 3958.8; // Radius of the Earth in miles
+    var rlat1 = mk1.position.lat() * (Math.PI / 180); // Convert degrees to radians
+    var rlat2 = mk2.position.lat() * (Math.PI / 180); // Convert degrees to radians
+    var difflat = rlat2 - rlat1; // Radian difference (latitudes)
+    var difflon = (mk2.position.lng() - mk1.position.lng()) * (Math.PI / 180); // Radian difference (longitudes)
+
+    var d =
+      2 *
+      R *
+      Math.asin(
+        Math.sqrt(
+          Math.sin(difflat / 2) * Math.sin(difflat / 2) +
+            Math.cos(rlat1) *
+              Math.cos(rlat2) *
+              Math.sin(difflon / 2) *
+              Math.sin(difflon / 2)
+        )
+      );*/
+  }
 
   public showRoteiro(road: RoadMap): void {
     this.selected = road;
     this.presentModal(road);
   }
 
-  //funcao para abri o model para visualizar o mapa
+  //open the page for the trip booking
   async presentModal(road: RoadMap) {
     const modal = await this.model_controller.create({
       component: ModalMapaPage,

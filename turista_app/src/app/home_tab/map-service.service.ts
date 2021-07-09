@@ -25,7 +25,9 @@ export class MapServiceService {
               data[i]['title'],
               data[i]['duration'],
               data[i]['price'],
-              data[i]['description']
+              data[i]['description'],
+              data[i].location.coordinates[0], // lat
+              data[i].location.coordinates[1] // lng
             )
           );
         }
@@ -42,7 +44,6 @@ export class MapServiceService {
     this.http.get(environment.apiUrl + this.urlGetPoints + id).subscribe(
       (data) => {
         for (let i in data) {
-          console.log(data[i]['interest_points'].location.coordinates[0]);
           interest.push(
             new InterestPoints(
               data[i]['interest_points'].descricao,

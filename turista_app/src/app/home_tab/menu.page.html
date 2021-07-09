@@ -1,35 +1,45 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      BestRide
+    <img id="img" style="width: 15%;margin-left: 25%;" src="assets/BestRideSplash.png" />
+    <ion-title style="text-align: center;">BestRide
     </ion-title>
-    <ion-buttons slot="start">
-      <ion-menu-button menu="main-menu"></ion-menu-button>
-    </ion-buttons>
-    <ion-button slot="end">
-      <ion-icon name="cart-outline"></ion-icon>
-    </ion-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <div class="menu">
-    <h2> {{ 'Lisbon itineraries' | customTranslate | async}} </h2>
-    <div scrollY="true" class="botoes">
-      <ion-card *ngFor="let road of trips" (click)="showRoteiro(road)">
-        <ion-card-header>
-          <ion-card-subtitle> {{ "Price : " + road.price + "€ Duration : " + road.duration | customTranslate | async }}
-          </ion-card-subtitle>
-          <ion-card-title>{{ road.title| customTranslate | async}}</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          {{ road.description| customTranslate | async}}
-          <ion-button expand="full" color="medium" color="danger"> {{'Book Tour' | customTranslate | async}}
-          </ion-button>
-          <!--<img src="https://best-ride.s3.us-east-2.amazonaws.com/roteiroAntigo.jpg">-->
-        </ion-card-content>
+<ion-content>
+  <div class="body">
+    <svg height="100%" width="100%">
+      <circle cx="0" cy="0" r="220" fill="#00adff" />
+      <circle cx="0" cy="calc(100%)" r="210" fill="#58a600" />
+      <circle cx="calc(100%)" cy="calc(50%)" r="210" fill="#ff3f00" />
+    </svg>
+
+    <div class="content">
+      <ion-card style="text-align: justify;">
+        <br>
+        <div id="iti_title">
+          <h2> {{ 'Lisbon' | customTranslate | async}} <br> {{ 'itineraries' | customTranslate | async}}</h2>
+        </div>
+        <div scrollY="true" class="botoes">
+          <ion-list *ngFor="let road of trips" (click)="showRoteiro(road)">
+            <ion-card-header>
+              <ion-card-subtitle> {{ "Price : " + road.price + "€ Duration : " + road.duration | customTranslate |
+                async
+                }}
+              </ion-card-subtitle>
+              <ion-card-title>{{ road.title| customTranslate | async}}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              {{ road.description| customTranslate | async}}
+              <ion-button expand="block" color="dark"> {{'Book Tour' | customTranslate | async}}
+              </ion-button>
+              <!--<img src="https://best-ride.s3.us-east-2.amazonaws.com/roteiroAntigo.jpg"> -->
+            </ion-card-content>
+          </ion-list>
+        </div>
       </ion-card>
     </div>
-    <br>
+
+
   </div>
 </ion-content>
