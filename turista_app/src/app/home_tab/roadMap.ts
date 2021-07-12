@@ -4,6 +4,7 @@ export class RoadMap {
   duration: string;
   price: number;
   description: string;
+  image: string;
   lat: number;
   lng: number;
 
@@ -13,6 +14,7 @@ export class RoadMap {
     duration: string,
     price: number,
     description: string,
+    image: string,
     lat: number,
     lng: number
   ) {
@@ -21,6 +23,7 @@ export class RoadMap {
     this.duration = duration;
     this.price = price;
     this.description = description;
+    this.image = image;
     this.lat = lat;
     this.lng = lng;
   }

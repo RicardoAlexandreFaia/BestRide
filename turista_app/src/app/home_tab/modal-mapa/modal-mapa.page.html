@@ -1,9 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title> {{ "Tour Information" | customTranslate | async}} </ion-title>
+    <img id="img" style="width: 15%;margin-left: 25%;" src="assets/BestRideSplash.png" />
+    <ion-title style="text-align: center;">BestRide
+    </ion-title>
     <ion-buttons slot="primary">
       <ion-button (click)="close()">
-        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+        <ion-icon slot="icon-only" name="close-outline" color="primary"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -11,6 +13,40 @@
 
 <ion-content>
   <ion-progress-bar [hidden]="progress" type="indeterminate"></ion-progress-bar>
+
+  <div id="form">
+    <ion-card>
+      <br>
+      <h1> Tour Info</h1>
+      <br>
+      <ion-item>
+        <ion-label> {{ "Date for the Tour ?" | customTranslate | async}} </ion-label>
+        <ion-datetime displayFormat="YYYY-MM-D" min="1989" max="2021" value="2019-06-17"></ion-datetime>
+      </ion-item>
+
+      <br>
+      <ion-item>
+        <ion-label>{{ "How Many People ?" | customTranslate | async}}</ion-label>
+
+        <ion-select value="2" okText="OK" cancelText="Dismiss">
+          <ion-select-option value="1">1</ion-select-option>
+          <ion-select-option value="2">2</ion-select-option>
+          <ion-select-option value="3">3</ion-select-option>
+          <ion-select-option value="4">4</ion-select-option>
+          <ion-select-option value="5">5</ion-select-option>
+          <ion-select-option value="6">6</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <br>
+      <section>
+        <ion-button expand="block" color="dark">{{ "Book Tour" | customTranslate | async}}</ion-button>
+      </section>
+      <br>
+    </ion-card>
+  </div>
+
+
+  <!--
   <ion-card>
     <ion-item>
       <ion-icon name="calendar-outline" slot="start"></ion-icon>
@@ -38,7 +74,7 @@
 
   <section>
     <ion-button expand="full" color="primary">{{ "Book Tour" | customTranslate | async}}</ion-button>
-  </section>
+  </section>-->
 
 
   <div #map id="map"></div>

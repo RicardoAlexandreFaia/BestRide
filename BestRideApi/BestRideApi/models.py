@@ -42,7 +42,7 @@ class RoadMap(models.Model):
     description = models.CharField(max_length=1000, blank=True, null=True)
     price = models.CharField(max_length=100, blank=True, null=True)
     duration = models.CharField(max_length=100, blank=True, null=True)
-    image = models.CharField(max_length=100, blank=True, null=True)
+    image = models.TextField(max_length=322, blank=True, null=True)
     title = models.CharField(max_length=100, blank=True, null=True)
     location = models.GeometryField()  # This field type is a guess.
 

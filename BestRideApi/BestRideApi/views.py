@@ -1,3 +1,6 @@
+import logging
+
+from botocore.exceptions import ClientError
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
@@ -107,6 +110,22 @@ class Routes(APIView):
     @api_view(['GET'])
     def getRoadMap(request):
         Road = RoadMap.objects.all()
+        pk_counter = 0
+        boto3.setup_default_session(region_name='us-east-2')
+        s3_client = boto3.client('s3')
+        try:
+            for e in Road:
+                response = s3_client.generate_presigned_url('get_object',
+                                                        Params={'Bucket': 'best-ride',
+                                                                'Key': '' + e.image},
+                                                        ExpiresIn=3200)
+                e.image = response
+
+            #Road.update(image=response)
+        except ClientError as e:
+            logging.error(e)
+
+
         Road_Serializer = RoadMapSerializer(Road,many=True)
         return Response(Road_Serializer.data)
 

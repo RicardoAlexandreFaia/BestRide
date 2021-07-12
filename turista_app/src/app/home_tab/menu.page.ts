@@ -18,7 +18,6 @@ import { MapServiceService } from './map-service.service';
 import { AlertController } from '@ionic/angular';
 import { CustomTranslateService } from '../shared/services/custom-translate.service';
 import { User } from './user';
-
 declare var google: any;
 
 @Component({
@@ -48,11 +47,10 @@ export class MenuPage implements OnInit {
     private trans: CustomTranslateService
   ) {
     appComp.hide_tab = false;
+    map_service.ngOnInit();
   }
 
-  ngOnInit() {
-    this.trips = this.map_service.get_roads();
-  }
+  ngOnInit() {}
 
   ngAfterViewInit() {
     this.presentAlertRadio();
@@ -89,76 +87,14 @@ export class MenuPage implements OnInit {
           text: 'Ok',
           handler: (data) => {
             console.log(data);
+            this.trips = this.map_service.get_roads();
+            console.log(this.trips);
           },
         },
       ],
     });
 
     await alert.present();
-  }
-  ionViewDidEnter() {
-    setTimeout(() => {
-      this.getUserPosition();
-    }, 2000);
-  }
-
-  getUserPosition() {
-    this.geolocation
-      .getCurrentPosition()
-      .then((res) => {
-        let location =
-          'lat ' + res.coords.latitude + ' lang ' + res.coords.longitude;
-        this.user = new User(2121, 1212);
-        this.haversine_distance(location, null);
-      })
-      .catch((error) => {
-        console.log('Error getting location', error);
-      });
-  }
-
-  private haversine_distance(mk1: any, mk2: any): void {
-    console.log(this.user);
-    for (let i in this.trips) {
-      console.log(this.trips[i]);
-      var R = 3958.8; // Radius of the Earth in miles
-      var rlat1 = this.user.lat * (Math.PI / 180); // Convert degrees to radians
-      var rlat2 = this.trips[i].lat * (Math.PI / 180); // Convert degrees to radians
-      var difflat = rlat2 - rlat1; // Radian difference (latitudes)
-      var difflon = (this.trips[i].lng - this.user.lat) * (Math.PI / 180); // Radian difference (longitudes)
-
-      var d =
-        2 *
-        R *
-        Math.asin(
-          Math.sqrt(
-            Math.sin(difflat / 2) * Math.sin(difflat / 2) +
-              Math.cos(rlat1) *
-                Math.cos(rlat2) *
-                Math.sin(difflon / 2) *
-                Math.sin(difflon / 2)
-          )
-        );
-
-      console.log(' DIstance ' + d);
-    }
-    /* var R = 3958.8; // Radius of the Earth in miles
-    var rlat1 = mk1.position.lat() * (Math.PI / 180); // Convert degrees to radians
-    var rlat2 = mk2.position.lat() * (Math.PI / 180); // Convert degrees to radians
-    var difflat = rlat2 - rlat1; // Radian difference (latitudes)
-    var difflon = (mk2.position.lng() - mk1.position.lng()) * (Math.PI / 180); // Radian difference (longitudes)
-
-    var d =
-      2 *
-      R *
-      Math.asin(
-        Math.sqrt(
-          Math.sin(difflat / 2) * Math.sin(difflat / 2) +
-            Math.cos(rlat1) *
-              Math.cos(rlat2) *
-              Math.sin(difflon / 2) *
-              Math.sin(difflon / 2)
-        )
-      );*/
   }
 
   public showRoteiro(road: RoadMap): void {

@@ -10,6 +10,7 @@ djangorestframework = "*"
 django-cors-headers = "*"
 mysqlclient = "*"
 boto3 = "*"
+djangorestframework-gis = "*"
 
 [dev-packages]
 

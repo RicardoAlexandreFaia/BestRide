@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "5f8966cb401738e864d1b1ad82f35d8c647078920373de4add2785e7378f2b36"
+            "sha256": "280e20e67174ca8c3719354d4f238ce7fa369afb4ca459e1d20963cb68c7cb44"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -26,19 +26,19 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:3b35689c215c982fe9f7ef78d748aa9b0cd15c3b2eb04f9b460aaa63fe2fbd03",
-                "sha256:b1cbeb92123799001b97f2ee1cdf470e21f1be08314ae28fc7ea357925186f1c"
+                "sha256:bce638f57fbf054f8eba1abce56c849108646edde3564bd08316763323a4020e",
+                "sha256:c1f94af6989cb6bb90e22c063783b5b9b2b75ccf20bac993d9c35de84501e2bb"
             ],
             "index": "pypi",
-            "version": "==1.17.105"
+            "version": "==1.17.109"
         },
         "botocore": {
             "hashes": [
-                "sha256:b0fda4edf8eb105453890700d49011ada576d0cc7326a0699dfabe9e872f552c",
-                "sha256:b5ba72d22212b0355f339c2a98b3296b3b2202a48e6a2b1366e866bc65a64b67"
+                "sha256:71e55a76305f9b55266a0930d37c3cfb3586a699a22f92e4329f9bd0ad63aa4d",
+                "sha256:f0acd29847118e48c72c07a1bcf6f03417f22d67e05f310b8db51d77f4bd6234"
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4, 3.5'",
-            "version": "==1.20.105"
+            "version": "==1.20.109"
         },
         "dj-database-url": {
             "hashes": [
@@ -85,6 +85,14 @@
             "index": "pypi",
             "version": "==3.12.4"
         },
+        "djangorestframework-gis": {
+            "hashes": [
+                "sha256:5be17e27cf2be33ac6119e6d2206d3d81183c62d03aaa9b814ce95a82256614f",
+                "sha256:d3b6aa6beef32f75811f815bda3bc7e9ea5d2f0306f9741cad5f3820d3973be7"
+            ],
+            "index": "pypi",
+            "version": "==0.17"
+        },
         "environs": {
             "extras": [
                 "django"
@@ -106,11 +114,11 @@
         },
         "marshmallow": {
             "hashes": [
-                "sha256:8050475b70470cc58f4441ee92375db611792ba39ca1ad41d39cad193ea9e040",
-                "sha256:b45cde981d1835145257b4a3c5cb7b80786dcf5f50dd2990749a50c16cb48e01"
+                "sha256:77368dfedad93c3a041cbbdbce0b33fac1d8608c9e2e2288408a43ce3493d2ff",
+                "sha256:d4090ca9a36cd129126ad8b10c3982c47d4644a6e3ccb20534b512badce95f35"
             ],
             "markers": "python_version >= '3.5'",
-            "version": "==3.12.1"
+            "version": "==3.12.2"
         },
         "mysqlclient": {
             "hashes": [
