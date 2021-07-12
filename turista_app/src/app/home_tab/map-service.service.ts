@@ -23,7 +23,6 @@ export class MapServiceService {
   constructor(private http: HttpClient, private geolocation: Geolocation) {}
 
   ngOnInit() {
-    console.log('ola');
     this.getUserPosition();
   }
 

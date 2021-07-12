@@ -38,26 +38,23 @@ export class ModalMapaPage implements OnInit {
     private http: HttpClient
   ) {}
 
-  ngOnInit() {}
-
-  ionViewDidEnter() {
+  ngOnInit() {
     this.circuito = this.circuito;
-    console.log(this.circuito);
     this.interest = this.map_service.get_points_interest(this.circuito['id']);
     setTimeout(() => {
-      this.showMap(this.interest);
       this.progress = true;
-    }, 2000);
+      this.showMap();
+    }, 3000);
   }
+
+  ionViewDidEnter() {}
 
   async close() {
     const closeModal: string = 'Modal Closed';
     await this.modalCtr.dismiss(closeModal);
   }
 
-  private showMap(road: any): void {
-    console.log(this.interest['InterestPoints']);
-
+  private showMap(): void {
     let lat_initial = 0;
     let lng_initial = 0;
     for (let pos_initial of this.interest) {
@@ -89,16 +86,6 @@ export class ModalMapaPage implements OnInit {
         latitude: pos.lat,
         longitude: pos.lng,
       });
-
-      const roteiros_trace = new google.maps.Polyline({
-        path: { lat: pos.lat, lng: pos.lng },
-        geodesic: true,
-        strokeColor: 'red',
-        strokeOpacity: 1.0,
-        strokeWeight: 2,
-      });
-
-      roteiros_trace.setMap(this.map);
 
       let content = '<p> ' + pos.title + '</p>';
       let infoWindow = new google.maps.InfoWindow({

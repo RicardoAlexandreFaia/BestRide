@@ -78,6 +78,7 @@ class Utilizadores_operacoes(APIView):
 
     @api_view(['POST'])
     def login(request):
+        boto3.setup_default_session(region_name='eu-west-2')
         cidp = boto3.client('cognito-idp')
         login_request = cidp.initiate_auth(
             ClientId=env.str("ClientId"),

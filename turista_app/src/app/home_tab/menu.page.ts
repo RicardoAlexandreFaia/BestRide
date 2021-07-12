@@ -30,8 +30,6 @@ export class MenuPage implements OnInit {
 
   public selected: RoadMap;
   public language: string = this.translateService.currentLang;
-  private distance: any;
-  private currentPos: Geoposition;
 
   user: User;
 
@@ -86,9 +84,7 @@ export class MenuPage implements OnInit {
         {
           text: 'Ok',
           handler: (data) => {
-            console.log(data);
             this.trips = this.map_service.get_roads();
-            console.log(this.trips);
           },
         },
       ],
