@@ -63,7 +63,11 @@ const routes: Routes = [
       import('./confirm-account/confirm-account.module').then(
         (m) => m.ConfirmAccountPageModule
       ),
+  },  {
+    path: 'book-trip-modal',
+    loadChildren: () => import('./home_tab/book-trip-modal/book-trip-modal.module').then( m => m.BookTripModalPageModule)
   },
+
 ];
 
 @NgModule({

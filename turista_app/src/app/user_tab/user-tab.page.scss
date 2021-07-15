@@ -1,16 +1,25 @@
-component-card  h1 {
-    font-weight: 600;
-    font-size: 18px;
+component-card h1 {
+  font-weight: 600;
+  font-size: 18px;
 }
 
 component-card p {
-    color: var(--text-light);
+  color: var(--text-light);
 }
-  
+
 component-card ion-icon {
-    align-self: start;
-    margin-top: 10px;
-    margin-right: 29px;
-  
-    color: var(--text-lightest);
+  align-self: start;
+  margin-top: 10px;
+  margin-right: 29px;
+
+  color: var(--text-lightest);
+}
+
+* {
+  color: black;
+  font-weight: 700;
+}
+#img {
+  width: 15%;
+  margin-left: 33%;
 }

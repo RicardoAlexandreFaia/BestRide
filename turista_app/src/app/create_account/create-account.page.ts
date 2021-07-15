@@ -20,7 +20,6 @@ export class CriaContaPage implements OnInit {
   public ionicForm: FormGroup;
   isSubmitted = false;
 
-
   public profileForm = this.formBuilder.group({
     name: '',
     dob: '',
@@ -45,59 +44,41 @@ export class CriaContaPage implements OnInit {
   }
 
   ngOnInit() {
-    this.ionicForm = this.formBuilder.group(    {
-      name: [
-        '',
-        Validators.compose([
-          Validators.required,
-        ])],
-      dob: [       '',
-      Validators.compose([
-        Validators.required,
-      ])],
-      phone: [       '',
-      Validators.compose([
-        Validators.required,
-      ])],
-      address: [       '',
-      Validators.compose([
-        Validators.required,
-      ])],
-      postal: [       '',
-      Validators.compose([
-        Validators.required,
-      ])],
-      gender: [       '',
-      Validators.compose([
-        Validators.required,
-      ])],
-      city: [       '',
-      Validators.compose([
-        Validators.required,
-      ])],
-      email: [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')
-        ]),
-      ],
-      pass: [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(12),
-        ]),
-      ],
-      passRepeat: ['',
-      Validators.compose([
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(12),
-      ]),],
-    },
-    { validator: this.matchingPasswords('pass', 'passRepeat') })
+    this.ionicForm = this.formBuilder.group(
+      {
+        name: ['', Validators.required],
+        dob: ['', Validators.required],
+        phone: ['', Validators.required],
+        address: ['', Validators.required],
+        postal: ['', Validators.required],
+        gender: ['', Validators.required],
+        city: ['', Validators.required],
+        email: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),
+          ]),
+        ],
+        pass: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(12),
+          ]),
+        ],
+        passRepeat: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(12),
+          ]),
+        ],
+      },
+      { validator: this.matchingPasswords('pass', 'passRepeat') }
+    );
   }
 
   togglePass(): void {
@@ -136,37 +117,35 @@ export class CriaContaPage implements OnInit {
   getDate(e) {
     let date = new Date(e.target.value).toISOString().substring(0, 10);
     this.ionicForm.get('dob').setValue(date, {
-      onlyself: true
-    })
+      onlyself: true,
+    });
   }
 
   public submit() {
     this.isSubmitted = true;
     if (!this.ionicForm.valid) {
-      console.log('Please provide all the required values!')
+      console.log('Please provide all the required values!');
       return false;
     } else {
-
       const create_account = {
-      name: this.ionicForm.get('name').value,
-      dob: this.ionicForm.get('dob').value,
-      phone: this.ionicForm.get('phone').value,
-      address: this.ionicForm.get('address').value,
-      postal: this.ionicForm.get('postal').value,
-      gender: this.ionicForm.get('gender').value,
-      city: this.ionicForm.get('city').value,
-      email: this.ionicForm.get('email').value,
-      pass: this.ionicForm.get('pass').value,
-      passRepeat: this.ionicForm.get('passRepeat').value,
-    };
+        name: this.ionicForm.get('name').value,
+        dob: this.ionicForm.get('dob').value,
+        phone: this.ionicForm.get('phone').value,
+        address: this.ionicForm.get('address').value,
+        postal: this.ionicForm.get('postal').value,
+        gender: this.ionicForm.get('gender').value,
+        city: this.ionicForm.get('city').value,
+        email: this.ionicForm.get('email').value,
+        pass: this.ionicForm.get('pass').value,
+        passRepeat: this.ionicForm.get('passRepeat').value,
+      };
 
-    this.api.criaConta(create_account);
-      console.log(this.ionicForm.value)
+      this.api.criaConta(create_account);
+      console.log(this.ionicForm.value);
     }
   }
 
   get errorControl() {
     return this.ionicForm.controls;
   }
-
 }

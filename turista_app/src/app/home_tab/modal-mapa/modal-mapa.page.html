@@ -11,13 +11,13 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen>
   <ion-progress-bar [hidden]="progress" type="indeterminate"></ion-progress-bar>
 
   <div id="form">
     <ion-card>
       <br>
-      <h1> Tour Info</h1>
+      <h1> {{ "Tour Info" | customTranslate | async}}</h1>
       <br>
       <ion-item>
         <ion-label> {{ "Date for the Tour ?" | customTranslate | async}} </ion-label>
@@ -38,6 +38,14 @@
         </ion-select>
       </ion-item>
       <br>
+      <ion-item>
+        <ion-label>{{ "Schedule the Time " | customTranslate | async}}</ion-label>
+        <ion-datetime displayFormat="HH:mm"></ion-datetime>
+      </ion-item>
+      <br>
+
+      <h2>{{ "Price " | customTranslate | async}} : {{ this.circuito.price }} €</h2>
+      <h2>{{ "Duration " | customTranslate | async}} : {{ this.circuito.duration }}</h2>
       <section>
         <ion-button expand="block" color="dark">{{ "Book Tour" | customTranslate | async}}</ion-button>
       </section>

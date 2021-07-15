@@ -30,23 +30,20 @@ export class LoginApiService {
 
     this.http.post(environment.apiUrl + this.url_login, data).subscribe(
       (data) => {
-        /*localStorage.setItem('id', data['user_iduser']); // guarda o id do user
-        localStorage.setItem('email', data['email']); // guarda o id do user*/
-        console.log('login done');
         this.router.navigate(['/home_tab']);
       },
-      (erro) => {
-        this.showAlert();
-        console.log('login error');
+      (error) => {
+        console.log(error['error']);
+        this.showAlert('Invalid Credentials', error['error'], 'Try Again');
       }
     );
   }
 
-  async showAlert() {
+  async showAlert(header: string, message: string, button_text: string) {
     const alert = await this.alertController.create({
-      header: 'Credenciais Invalidas',
-      message: 'Repita Novamente o Formulario',
-      buttons: ['Tentar de Novo'],
+      header: header,
+      message: message,
+      buttons: [button_text],
     });
 
     await alert.present();

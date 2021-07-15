@@ -12,6 +12,7 @@ import {
 } from '@ionic-native/geolocation/ngx';
 
 import { ModalMapaPage } from './modal-mapa/modal-mapa.page';
+import { BookTripModalPage } from './book-trip-modal/book-trip-modal.page';
 import { ModalController } from '@ionic/angular';
 import { AppComponent } from '../app.component';
 import { MapServiceService } from './map-service.service';
@@ -103,6 +104,18 @@ export class MenuPage implements OnInit {
     const modal = await this.model_controller.create({
       component: ModalMapaPage,
       cssClass: './modal-mapa/modal-mapa.scss',
+      componentProps: {
+        circuito: road,
+      },
+    });
+    return await modal.present();
+  }
+
+  //open the page for the trip booking
+  async trip_map_details(road: RoadMap) {
+    const modal = await this.model_controller.create({
+      component: BookTripModalPage,
+      cssClass: './book-trip-modal/book-trip-modal.page.scss',
       componentProps: {
         circuito: road,
       },

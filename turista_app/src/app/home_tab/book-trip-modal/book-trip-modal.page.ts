@@ -7,7 +7,7 @@ import {
   Geoposition,
   PositionError,
 } from '@ionic-native/geolocation/ngx';
-import { InterestPoints, RoadMap } from '../roadMap';
+import { InterestPoints } from '../roadMap';
 import { MapServiceService } from '../map-service.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -16,10 +16,10 @@ declare var google: any;
 
 @Component({
   selector: 'app-modal-mapa',
-  templateUrl: './modal-mapa.page.html',
-  styleUrls: ['./modal-mapa.page.scss'],
+  templateUrl: './book-trip-modal.page.html',
+  styleUrls: ['./book-trip-modal.page.scss'],
 })
-export class ModalMapaPage implements OnInit {
+export class BookTripModalPage implements OnInit {
   private ZOOM_LEVEL: number = 16.5; // Zoom do mapa
   @ViewChild('map', { static: false }) mapElement: ElementRef;
   private map: any;
@@ -28,8 +28,6 @@ export class ModalMapaPage implements OnInit {
   public language: string = this.translate.currentLang;
 
   private interest: any;
-
-  public progress: boolean = false;
 
   constructor(
     private modalCtr: ModalController,
@@ -42,8 +40,7 @@ export class ModalMapaPage implements OnInit {
     this.circuito = this.circuito;
     this.interest = this.map_service.get_points_interest(this.circuito['id']);
     setTimeout(() => {
-      this.progress = true;
-      this.showMap(this.circuito);
+      this.showMap();
     }, 3000);
   }
 
@@ -54,9 +51,14 @@ export class ModalMapaPage implements OnInit {
     await this.modalCtr.dismiss(closeModal);
   }
 
-  private showMap(roadMap: RoadMap): void {
-    let lat_initial = roadMap.lat;
-    let lng_initial = roadMap.lng;
+  private showMap(): void {
+    let lat_initial = 0;
+    let lng_initial = 0;
+    for (let pos_initial of this.interest) {
+      lat_initial = pos_initial.lat;
+      lng_initial = pos_initial.lng;
+      break;
+    }
 
     const location = new google.maps.LatLng(lat_initial, lng_initial);
 

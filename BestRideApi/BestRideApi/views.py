@@ -2,6 +2,7 @@ import logging
 
 from botocore.exceptions import ClientError
 from django.http import JsonResponse
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -80,16 +81,35 @@ class Utilizadores_operacoes(APIView):
     def login(request):
         boto3.setup_default_session(region_name='eu-west-2')
         cidp = boto3.client('cognito-idp')
-        login_request = cidp.initiate_auth(
-            ClientId=env.str("ClientId"),
-            AuthFlow="USER_PASSWORD_AUTH",
-            AuthParameters = {
-                'USERNAME':request.data['email'],
-                'PASSWORD':request.data['password']
-            }
-        )
 
-        return Response("Login Done")
+        try:
+            login_request = cidp.initiate_auth(
+                ClientId=env.str("ClientId"),
+                AuthFlow="USER_PASSWORD_AUTH",
+                AuthParameters={
+                    'USERNAME': request.data['email'],
+                    'PASSWORD': request.data['password']
+                }
+            )
+
+            return Response(login_request,status=status.HTTP_200_OK)
+
+        except cidp.exceptions.NotAuthorizedException:
+            return Response("Incorrect username or password",status=status.HTTP_404_NOT_FOUND)
+
+
+    @api_view(['GET'])
+    def get_user(request,user):
+        if user:
+            boto3.setup_default_session(region_name='eu-west-2')
+            cidp = boto3.client('cognito-idp')
+            response = cidp.get_user(
+                AccessToken='string'
+            )
+            return Response(response)
+        else:
+            return Response("No username provided")
+
 
 
 
