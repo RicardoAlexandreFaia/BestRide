@@ -59,7 +59,7 @@ export class DadosContaPage implements OnInit {
   }
 
   public function(): void {
-    alert('oals');
+    //alert('oals');
   }
 
   public alterarPass(): void {
@@ -96,10 +96,10 @@ export class DadosContaPage implements OnInit {
     }
   }
 
-  public eliminarConta() : void {
+  public eliminarConta(): void {
     this.dadosContaApi.eliminaContaUserInfo();
     this.dadosContaApi.eliminaContaUser();
     this.router.navigate(['/login']);
-    localStorage.removeItem('id')
+    localStorage.removeItem('id');
   }
 }

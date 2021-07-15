@@ -124,7 +124,6 @@ export class CriaContaPage implements OnInit {
   public submit() {
     this.isSubmitted = true;
     if (!this.ionicForm.valid) {
-      console.log('Please provide all the required values!');
       return false;
     } else {
       const create_account = {
@@ -141,7 +140,6 @@ export class CriaContaPage implements OnInit {
       };
 
       this.api.criaConta(create_account);
-      console.log(this.ionicForm.value);
     }
   }
 

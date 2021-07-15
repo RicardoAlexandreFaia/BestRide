@@ -11,22 +11,23 @@ export class CodeVerificationApiService {
   private url: String = '/utilizadores/';
   private url_recuperar: String = '/recuperarConta/verificar';
 
-  constructor(private http: HttpClient, private router: Router, public alertController: AlertController) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    public alertController: AlertController
+  ) {}
 
-  public codeVerification( code: String,) : void {
+  public codeVerification(code: String): void {
     let postData = {
       code: code,
     };
 
     this.http.post(environment.apiUrl + this.url_recuperar, postData).subscribe(
-        (data) => {
-          console.log(data);
-        },
-        (erro) => {
-          console.log(erro);
-          this.showAlert();
-        }
-      );
+      (data) => {},
+      (erro) => {
+        this.showAlert();
+      }
+    );
   }
 
   async showAlert() {
@@ -39,7 +40,7 @@ export class CodeVerificationApiService {
     await alert.present();
   }
 
-  public atualizaPassword(pass: string)  : void{
+  public atualizaPassword(pass: string): void {
     var id = localStorage.getItem('id');
     var data = {
       nome: 'teste',
@@ -47,11 +48,8 @@ export class CodeVerificationApiService {
     };
     this.http
       .put(environment.apiUrl + this.url + id + '/', data)
-      .subscribe((resposta) => {
-        console.log(resposta);
-      });
+      .subscribe((resposta) => {});
 
-      
     this.router.navigate(['/login']);
   }
 }

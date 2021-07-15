@@ -37,18 +37,14 @@ export class RecoverAccountApiService {
 
     this.http.post(environment.apiUrl + this.url, postData).subscribe(
       (data) => {
-        this.http.post(environment.apiUrl + this.url_recuperacao, postData).subscribe(
-          (data) => {
-            console.log(data)
-          },
-          (error) => {
-            console.log(error);
-            
-          }
-        );
+        this.http
+          .post(environment.apiUrl + this.url_recuperacao, postData)
+          .subscribe(
+            (data) => {},
+            (error) => {}
+          );
       },
-      (error) => {
-      }
+      (error) => {}
     );
   }
 

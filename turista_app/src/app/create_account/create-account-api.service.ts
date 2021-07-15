@@ -47,8 +47,6 @@ export class CriaContaApiService {
     console.log(dados_dict);
     this.http.post(environment.apiUrl + this.url, postData).subscribe(
       (data) => {
-        console.log(data['iduser']);
-
         let id_user = data['iduser'];
 
         let postRoles = {
@@ -59,12 +57,8 @@ export class CriaContaApiService {
         this.http
           .post(environment.apiUrl + this.url_add_turist, postRoles)
           .subscribe(
-            (data) => {
-              console.log(data);
-            },
-            (error) => {
-              console.log(error);
-            }
+            (data) => {},
+            (error) => {}
           );
 
         let postDataInfo = {
@@ -83,17 +77,12 @@ export class CriaContaApiService {
           .post(environment.apiUrl + this.url_info, postDataInfo)
           .subscribe(
             (data) => {
-              console.log(data);
               this.router.navigate(['/home_tab']);
             },
-            (error) => {
-              console.log(error);
-            }
+            (error) => {}
           );
       },
-      (error) => {
-        console.log(error);
-      }
+      (error) => {}
     );
   }
 }

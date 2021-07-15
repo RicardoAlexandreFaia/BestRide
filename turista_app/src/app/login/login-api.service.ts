@@ -33,7 +33,6 @@ export class LoginApiService {
         this.router.navigate(['/home_tab']);
       },
       (error) => {
-        console.log(error['error']);
         this.showAlert('Invalid Credentials', error['error'], 'Try Again');
       }
     );

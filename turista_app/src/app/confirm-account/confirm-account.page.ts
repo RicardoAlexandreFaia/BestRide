@@ -54,9 +54,7 @@ export class ConfirmAccountPage implements OnInit {
       (data) => {
         this.router.navigate(['/login']);
       },
-      (erro) => {
-        console.log(erro);
-      }
+      (erro) => {}
     );
   }
 }

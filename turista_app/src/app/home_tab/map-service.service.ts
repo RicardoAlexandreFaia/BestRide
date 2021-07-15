@@ -30,12 +30,9 @@ export class MapServiceService {
     this.geolocation
       .getCurrentPosition()
       .then((res) => {
-        console.log(res.coords.latitude);
         this.user = new User(res.coords.latitude, res.coords.longitude);
       })
-      .catch((error) => {
-        console.log('Error getting location', error);
-      });
+      .catch((error) => {});
   }
 
   public get_roads(): Array<RoadMap> {
@@ -58,9 +55,7 @@ export class MapServiceService {
           );
         }
       },
-      (error) => {
-        console.log(error);
-      }
+      (error) => {}
     );
     return roads;
   }
@@ -79,9 +74,7 @@ export class MapServiceService {
           );
         }
       },
-      (error) => {
-        console.log(error);
-      }
+      (error) => {}
     );
     return interest;
   }
