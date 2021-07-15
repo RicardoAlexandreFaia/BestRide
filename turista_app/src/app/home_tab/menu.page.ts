@@ -34,7 +34,8 @@ export class MenuPage implements OnInit {
 
   user: User;
 
-  public trips: any;
+  public trips: Array<RoadMap> = [];
+
   constructor(
     private geolocation: Geolocation,
     private translateService: TranslateService,
@@ -85,7 +86,24 @@ export class MenuPage implements OnInit {
         {
           text: 'Ok',
           handler: (data) => {
-            this.trips = this.map_service.get_roads();
+            this.map_service.get_roads().subscribe((data) => {
+              for (let pos in data) {
+                console.log(data[pos].location['coordinates']);
+                this.trips.push(
+                  new RoadMap(
+                    data[pos].id,
+                    data[pos].title,
+                    data[pos].duration,
+                    data[pos].price,
+                    data[pos].description,
+                    data[pos].image,
+                    data[pos].location['coordinates'][0],
+                    data[pos].location['coordinates'][1]
+                  )
+                );
+              }
+              //this.trips = data;
+            });
           },
         },
       ],

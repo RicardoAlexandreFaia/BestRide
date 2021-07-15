@@ -7,7 +7,7 @@ import {
   Geoposition,
   PositionError,
 } from '@ionic-native/geolocation/ngx';
-import { InterestPoints } from '../roadMap';
+import { InterestPoints, RoadMap } from '../roadMap';
 import { MapServiceService } from '../map-service.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -27,7 +27,7 @@ export class BookTripModalPage implements OnInit {
   public circuito: any;
   public language: string = this.translate.currentLang;
 
-  private interest: any;
+  private interest: Array<any> = [];
 
   constructor(
     private modalCtr: ModalController,
@@ -38,9 +38,22 @@ export class BookTripModalPage implements OnInit {
 
   ngOnInit() {
     this.circuito = this.circuito;
-    this.interest = this.map_service.get_points_interest(this.circuito['id']);
+    this.map_service
+      .get_points_interest(this.circuito['id'])
+      .subscribe((data) => {
+        for (let pos in data) {
+          this.interest.push(
+            new InterestPoints(
+              data[pos]['interest_points'].description,
+              data[pos]['interest_points'].location['coordinates'][0],
+              data[pos]['interest_points'].location['coordinates'][1]
+            )
+          );
+        }
+      });
+
     setTimeout(() => {
-      this.showMap();
+      this.showMap(this.circuito, this.interest);
     }, 3000);
   }
 
@@ -51,14 +64,9 @@ export class BookTripModalPage implements OnInit {
     await this.modalCtr.dismiss(closeModal);
   }
 
-  private showMap(): void {
-    let lat_initial = 0;
-    let lng_initial = 0;
-    for (let pos_initial of this.interest) {
-      lat_initial = pos_initial.lat;
-      lng_initial = pos_initial.lng;
-      break;
-    }
+  private showMap(road: RoadMap, points: Array<InterestPoints>): void {
+    const lat_initial = road.lat;
+    const lng_initial = road.lng;
 
     const location = new google.maps.LatLng(lat_initial, lng_initial);
 
@@ -71,20 +79,24 @@ export class BookTripModalPage implements OnInit {
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, options);
 
+    const flightPlanCoordinates = [];
     //    Add markers to the map
-    for (let pos of this.interest) {
-      let posMarker = new google.maps.LatLng(pos.lat, pos.lng);
+    for (let pos in points) {
+      console.log(points[pos]);
+
+      flightPlanCoordinates.push(points[pos].lat, points[pos].lng);
+      let posMarker = new google.maps.LatLng(points[pos].lat, points[pos].lng);
 
       let marker = new google.maps.Marker({
         map: this.map,
         position: posMarker,
         animation: 'DROP',
         title: this.circuito.title,
-        latitude: pos.lat,
-        longitude: pos.lng,
+        latitude: points[pos].lat,
+        longitude: points[pos].lng,
       });
 
-      let content = '<p> ' + pos.title + '</p>';
+      let content = '<p> ' + points[pos].title + '</p>';
       let infoWindow = new google.maps.InfoWindow({
         content: content,
       });
@@ -93,5 +105,12 @@ export class BookTripModalPage implements OnInit {
         infoWindow.open(this.map, marker);
       });
     }
+
+    this.map.addPolyline({
+      points: flightPlanCoordinates,
+      color: '#00008B',
+      width: 3,
+      geodesic: true,
+    });
   }
 }
