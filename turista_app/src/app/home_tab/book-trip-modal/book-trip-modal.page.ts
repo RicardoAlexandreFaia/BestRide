@@ -27,7 +27,9 @@ export class BookTripModalPage implements OnInit {
   public circuito: any;
   public language: string = this.translate.currentLang;
 
-  private interest: Array<any> = [];
+  private interest: any;
+
+  public progress: boolean = false;
 
   constructor(
     private modalCtr: ModalController,
@@ -38,22 +40,10 @@ export class BookTripModalPage implements OnInit {
 
   ngOnInit() {
     this.circuito = this.circuito;
-    this.map_service
-      .get_points_interest(this.circuito['id'])
-      .subscribe((data) => {
-        for (let pos in data) {
-          this.interest.push(
-            new InterestPoints(
-              data[pos]['interest_points'].description,
-              data[pos]['interest_points'].location['coordinates'][0],
-              data[pos]['interest_points'].location['coordinates'][1]
-            )
-          );
-        }
-      });
-
+    this.interest = this.map_service.get_points_interest(this.circuito['id']);
     setTimeout(() => {
-      this.showMap(this.circuito, this.interest);
+      this.progress = true;
+      this.showMap(this.circuito);
     }, 3000);
   }
 
@@ -64,9 +54,9 @@ export class BookTripModalPage implements OnInit {
     await this.modalCtr.dismiss(closeModal);
   }
 
-  private showMap(road: RoadMap, points: Array<InterestPoints>): void {
-    const lat_initial = road.lat;
-    const lng_initial = road.lng;
+  private showMap(roadMap: RoadMap): void {
+    let lat_initial = roadMap.lat;
+    let lng_initial = roadMap.lng;
 
     const location = new google.maps.LatLng(lat_initial, lng_initial);
 
@@ -79,24 +69,20 @@ export class BookTripModalPage implements OnInit {
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, options);
 
-    const flightPlanCoordinates = [];
     //    Add markers to the map
-    for (let pos in points) {
-      console.log(points[pos]);
-
-      flightPlanCoordinates.push(points[pos].lat, points[pos].lng);
-      let posMarker = new google.maps.LatLng(points[pos].lat, points[pos].lng);
+    for (let pos of this.interest) {
+      let posMarker = new google.maps.LatLng(pos.lat, pos.lng);
 
       let marker = new google.maps.Marker({
         map: this.map,
         position: posMarker,
         animation: 'DROP',
         title: this.circuito.title,
-        latitude: points[pos].lat,
-        longitude: points[pos].lng,
+        latitude: pos.lat,
+        longitude: pos.lng,
       });
 
-      let content = '<p> ' + points[pos].title + '</p>';
+      let content = '<p> ' + pos.title + '</p>';
       let infoWindow = new google.maps.InfoWindow({
         content: content,
       });
@@ -105,12 +91,5 @@ export class BookTripModalPage implements OnInit {
         infoWindow.open(this.map, marker);
       });
     }
-
-    this.map.addPolyline({
-      points: flightPlanCoordinates,
-      color: '#00008B',
-      width: 3,
-      geodesic: true,
-    });
   }
 }

@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ModalMapaPage } from './modal-mapa.page';
+import { OptionsMapPage } from './options-map.page';
 
-describe('ModalMapaPage', () => {
-  let component: ModalMapaPage;
-  let fixture: ComponentFixture<ModalMapaPage>;
+describe('OptionsMapPage', () => {
+  let component: OptionsMapPage;
+  let fixture: ComponentFixture<OptionsMapPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModalMapaPage ],
+      declarations: [ OptionsMapPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ModalMapaPage);
+    fixture = TestBed.createComponent(OptionsMapPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

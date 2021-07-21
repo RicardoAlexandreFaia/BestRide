@@ -8,8 +8,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import *
 from rest_framework_gis.pagination import GeoJsonPagination
-
+from django.contrib.gis.geos import Point
 from environs import Env
+import math
+
+
 
 env = Env()
 env.read_env()
@@ -128,12 +131,26 @@ class TranslateAWS():
 
 class Routes(APIView):
 
-    @api_view(['GET'])
+    @api_view(['POST'])
     def getRoadMap(request):
+        KM_MAX = request.data['kmMAX']
         Road = RoadMap.objects.all()
-        pk_counter = 0
         boto3.setup_default_session(region_name='us-east-2')
         s3_client = boto3.client('s3')
+
+        distance_dict = {}
+
+        for rd in Road:
+            p1 = Point(request.data['lat'],request.data['lng'])
+            p2 = Point(rd.location.coords[0],rd.location.coords[1])
+            distance = p1.distance(p2)
+            distance_in_km = math.trunc(distance * 100)
+            distance_dict[str(rd.title)] = distance_in_km
+
+        for name,km in distance_dict.items():
+            if km > KM_MAX:
+                Road = Road.exclude(title=name)
+
         try:
             for e in Road:
                 response = s3_client.generate_presigned_url('get_object',
@@ -142,17 +159,46 @@ class Routes(APIView):
                                                         ExpiresIn=3200)
                 e.image = response
 
-            #Road.update(image=response)
         except ClientError as e:
             logging.error(e)
-
 
         Road_Serializer = RoadMapSerializer(Road,many=True)
         return Response(Road_Serializer.data)
 
+
+
+    @api_view(['POST'])
+    def distance(request):
+        Road = RoadMap.objects.all()
+
+        distance_dict = {}
+
+        for rd in Road:
+            p1 = Point(request.data['lat'],request.data['lng'])
+            p2 = Point(rd.location.coords[0],rd.location.coords[1])
+            distance = p1.distance(p2)
+            distance_in_km = math.trunc(distance * 100)
+            distance_dict[str(rd.title)] = distance_in_km
+
+
+        return JsonResponse(distance_dict)
+
     @api_view(['GET'])
     def getPointsInterest(request):
+        boto3.setup_default_session(region_name='us-east-2')
+        s3_client = boto3.client('s3')
         Points = PointInterest.objects.all()
+
+        try:
+            for point in Points:
+                response = s3_client.generate_presigned_url('get_object',
+                                                        Params={'Bucket': 'best-ride',
+                                                                'Key': '' + point.image},
+                                                        ExpiresIn=3200)
+                point.image = response
+        except ClientError as e:
+            logging.error(e)
+
         Points_Serializer = InterestPointsSerializaer(Points,many=True)
         return Response(Points_Serializer.data)
 
@@ -160,8 +206,21 @@ class Routes(APIView):
     def getItineary(request,id):
         if id:
             Itineary = ItinearyRoute.objects.filter(road_map=id)
+            boto3.setup_default_session(region_name='us-east-2')
+            s3_client = boto3.client('s3')
+
+            try:
+                for ip in Itineary:
+                    response = s3_client.generate_presigned_url('get_object',
+                                                                Params={'Bucket': 'best-ride',
+                                                                        'Key': '' + ip.interest_points.image},
+                                                                ExpiresIn=3200)
+                    ip.interest_points.image = response
+            except ClientError as e:
+                logging.error(e)
+
+
             Itineary_Serializer = ItinearyRouteSerializer(Itineary,many=True)
-            #data = {i['interest_points']: i for i in Itineary_Serializer.data}
             return Response(Itineary_Serializer.data)
         else:
             return Response("ID missing")

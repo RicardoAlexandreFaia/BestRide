@@ -25,3 +25,18 @@
   border-bottom: 1px solid black;
   font-weight: bold;
 }
+
+#content-menu {
+  img {
+    align-self: center;
+    width: 17%;
+    position: relative;
+    left: 29%;
+  }
+
+  #title {
+    color: black;
+    position: absolute;
+    left: 7%;
+  }
+}

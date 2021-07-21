@@ -18,6 +18,8 @@ import { User } from './user';
 export class MapServiceService {
   private url = '/itineary/showRoadMap';
   private urlGetPoints = '/itineary/showItineary/';
+  private urlDistance = '/itineary/distance/';
+
   user: User;
 
   constructor(private http: HttpClient, private geolocation: Geolocation) {}
@@ -41,7 +43,11 @@ export class MapServiceService {
   public interest: Observable<any>;
 
   public get_roads(): Observable<any> {
-    this.roads = this.http.get(environment.apiUrl + this.url);
+    this.roads = this.http.post(environment.apiUrl + this.url, {
+      lat: this.user.lat,
+      lng: this.user.lng,
+      kmMAX: 30,
+    });
     return this.roads;
   }
 

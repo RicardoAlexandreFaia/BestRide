@@ -67,6 +67,14 @@ const routes: Routes = [
     path: 'book-trip-modal',
     loadChildren: () => import('./home_tab/book-trip-modal/book-trip-modal.module').then( m => m.BookTripModalPageModule)
   },
+  {
+    path: 'options-map',
+    loadChildren: () => import('./home_tab/options-map/options-map.module').then( m => m.OptionsMapPageModule)
+  },
+  {
+    path: 'trip-details',
+    loadChildren: () => import('./home_tab/trip-details/trip-details.module').then( m => m.TripDetailsPageModule)
+  },
 
 ];
 

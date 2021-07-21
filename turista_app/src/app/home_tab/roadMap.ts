@@ -33,10 +33,12 @@ export class InterestPoints {
   title: string;
   lat: number;
   lng: number;
+  image: string;
 
-  constructor(title: string, lat: number, lng: number) {
+  constructor(title: string, lat: number, lng: number, image: string) {
     this.title = title;
     this.lat = lat;
     this.lng = lng;
+    this.image = image;
   }
 }

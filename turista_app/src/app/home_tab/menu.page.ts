@@ -11,7 +11,7 @@ import {
   PositionError,
 } from '@ionic-native/geolocation/ngx';
 
-import { ModalMapaPage } from './modal-mapa/modal-mapa.page';
+import { OptionsMapPage } from './options-map/options-map.page';
 import { BookTripModalPage } from './book-trip-modal/book-trip-modal.page';
 import { ModalController } from '@ionic/angular';
 import { AppComponent } from '../app.component';
@@ -19,6 +19,8 @@ import { MapServiceService } from './map-service.service';
 import { AlertController } from '@ionic/angular';
 import { CustomTranslateService } from '../shared/services/custom-translate.service';
 import { User } from './user';
+import { TripDetailsPage } from './trip-details/trip-details.page';
+
 declare var google: any;
 
 @Component({
@@ -43,73 +45,31 @@ export class MenuPage implements OnInit {
     private model_controller: ModalController,
     private appComp: AppComponent,
     private map_service: MapServiceService,
-    private alertController: AlertController,
-    private trans: CustomTranslateService
+    private trans: CustomTranslateService,
+    public modalController: ModalController
   ) {
     appComp.hide_tab = false;
     map_service.ngOnInit();
   }
 
-  ngOnInit() {}
-
-  ngAfterViewInit() {
-    this.presentAlertRadio();
+  ionViewWillEnter() {}
+  ngOnInit() {
+    this.presentModalMapDefinitions();
   }
 
-  async presentAlertRadio() {
-    const alert = await this.alertController.create({
-      header: 'Choose the Proximity',
-      inputs: [
-        {
-          name: 'nearMe',
-          type: 'radio',
-          label: 'Near me',
-          value: 'near',
-          checked: true,
-        },
-        {
-          name: 'Porto',
-          type: 'radio',
-          label: 'Porto',
-          value: 'porto',
-          checked: false,
-        },
-        {
-          name: 'Lisbon',
-          type: 'radio',
-          label: 'Lisbon',
-          value: 'lisbon',
-          checked: false,
-        },
-      ],
-      buttons: [
-        {
-          text: 'Ok',
-          handler: (data) => {
-            this.map_service.get_roads().subscribe((data) => {
-              for (let pos in data) {
-                console.log(data[pos].location['coordinates']);
-                this.trips.push(
-                  new RoadMap(
-                    data[pos].id,
-                    data[pos].title,
-                    data[pos].duration,
-                    data[pos].price,
-                    data[pos].description,
-                    data[pos].image,
-                    data[pos].location['coordinates'][0],
-                    data[pos].location['coordinates'][1]
-                  )
-                );
-              }
-              //this.trips = data;
-            });
-          },
-        },
-      ],
+  ngAfterViewInit() {}
+
+  async presentModalMapDefinitions() {
+    const modal = await this.modalController.create({
+      component: OptionsMapPage,
     });
 
-    await alert.present();
+    modal.onDidDismiss().then((data) => {
+      const data_trips = data['data']; // data that came from the modal on dismiss
+      this.trips = data_trips;
+    });
+
+    return await modal.present();
   }
 
   public showRoteiro(road: RoadMap): void {
@@ -117,11 +77,10 @@ export class MenuPage implements OnInit {
     this.presentModal(road);
   }
 
-  //open the page for the trip booking
+  //  Open the page for the trip booking
   async presentModal(road: RoadMap) {
     const modal = await this.model_controller.create({
-      component: ModalMapaPage,
-      cssClass: './modal-mapa/modal-mapa.scss',
+      component: BookTripModalPage,
       componentProps: {
         circuito: road,
       },
@@ -129,11 +88,10 @@ export class MenuPage implements OnInit {
     return await modal.present();
   }
 
-  //open the page for the trip booking
+  //  Open the page for the trip booking
   async trip_map_details(road: RoadMap) {
     const modal = await this.model_controller.create({
-      component: BookTripModalPage,
-      cssClass: './book-trip-modal/book-trip-modal.page.scss',
+      component: TripDetailsPage,
       componentProps: {
         circuito: road,
       },

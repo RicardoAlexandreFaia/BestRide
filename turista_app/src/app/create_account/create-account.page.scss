@@ -26,7 +26,6 @@ ion-card {
   text-align: center;
 }
 
-
 .body {
   background-color: #00adff;
   height: 140%;
@@ -43,3 +42,17 @@ ion-card {
   font-size: larger;
 }
 
+#content-menu {
+  img {
+    align-self: center;
+    width: 17%;
+    position: relative;
+    left: 18%;
+  }
+
+  #title {
+    color: black;
+    position: absolute;
+    left: 7%;
+  }
+}

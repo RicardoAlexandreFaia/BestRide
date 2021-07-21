@@ -15,11 +15,11 @@ import { environment } from 'src/environments/environment';
 declare var google: any;
 
 @Component({
-  selector: 'app-modal-mapa',
-  templateUrl: './modal-mapa.page.html',
-  styleUrls: ['./modal-mapa.page.scss'],
+  selector: 'app-trip-details',
+  templateUrl: './trip-details.page.html',
+  styleUrls: ['./trip-details.page.scss'],
 })
-export class ModalMapaPage implements OnInit {
+export class TripDetailsPage implements OnInit {
   private ZOOM_LEVEL: number = 16.5; // Zoom do mapa
   @ViewChild('map', { static: false }) mapElement: ElementRef;
   private map: any;
@@ -27,9 +27,7 @@ export class ModalMapaPage implements OnInit {
   public circuito: any;
   public language: string = this.translate.currentLang;
 
-  private interest: any;
-
-  public progress: boolean = false;
+  private interest: Array<any> = [];
 
   constructor(
     private modalCtr: ModalController,
@@ -40,11 +38,23 @@ export class ModalMapaPage implements OnInit {
 
   ngOnInit() {
     this.circuito = this.circuito;
-    this.interest = this.map_service.get_points_interest(this.circuito['id']);
+    this.map_service
+      .get_points_interest(this.circuito['id'])
+      .subscribe((data) => {
+        for (let pos in data) {
+          this.interest.push(
+            new InterestPoints(
+              data[pos]['interest_points'].description,
+              data[pos]['interest_points'].location['coordinates'][0],
+              data[pos]['interest_points'].location['coordinates'][1],
+              data[pos]['interest_points'].image
+            )
+          );
+        }
+      });
     setTimeout(() => {
-      this.progress = true;
-      this.showMap(this.circuito);
-    }, 3000);
+      this.showMap(this.circuito, this.interest);
+    }, 4000);
   }
 
   ionViewDidEnter() {}
@@ -54,9 +64,9 @@ export class ModalMapaPage implements OnInit {
     await this.modalCtr.dismiss(closeModal);
   }
 
-  private showMap(roadMap: RoadMap): void {
-    let lat_initial = roadMap.lat;
-    let lng_initial = roadMap.lng;
+  private showMap(road: RoadMap, points: Array<InterestPoints>): void {
+    const lat_initial = road.lat;
+    const lng_initial = road.lng;
 
     const location = new google.maps.LatLng(lat_initial, lng_initial);
 
@@ -69,20 +79,28 @@ export class ModalMapaPage implements OnInit {
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, options);
 
+    const flightPlanCoordinates = [];
     //    Add markers to the map
-    for (let pos of this.interest) {
-      let posMarker = new google.maps.LatLng(pos.lat, pos.lng);
+    for (let pos in points) {
+      flightPlanCoordinates.push(points[pos].lat, points[pos].lng);
+      let posMarker = new google.maps.LatLng(points[pos].lat, points[pos].lng);
 
       let marker = new google.maps.Marker({
         map: this.map,
         position: posMarker,
         animation: 'DROP',
         title: this.circuito.title,
-        latitude: pos.lat,
-        longitude: pos.lng,
+        latitude: points[pos].lat,
+        longitude: points[pos].lng,
       });
 
-      let content = '<p> ' + pos.title + '</p>';
+      let content =
+        '<p> ' +
+        points[pos].title +
+        '</p>' +
+        '<img style="width:50%;height:25%" src="' +
+        points[pos].image +
+        '"</img>';
       let infoWindow = new google.maps.InfoWindow({
         content: content,
       });

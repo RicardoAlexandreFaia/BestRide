@@ -1,5 +1,16 @@
-<ion-content>
+<ion-header>
+  <ion-toolbar>
+    <div id="content-menu">
+      <img src="assets/BestRideSplash.png" />
+      <ion-title id="title">BestRide
+      </ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollEvents]="true">
   <div class="body">
+
     <svg height="100%" width="100%">
       <circle cx="0" cy="0" r="220" fill="#00adff" />
       <circle cx="0" cy="calc(100%)" r="210" fill="#58a600" />
@@ -28,7 +39,7 @@
               <ion-button (click)="showRoteiro(road)" expand="block" color="dark"> {{'Book Tour' | customTranslate |
                 async}}
               </ion-button>
-              <ion-button (click)="trip_map_details(road)" expand="block" color="secundary"> {{'See Tour' |
+              <ion-button (click)="trip_map_details(road)" expand="block" color="success"> {{'See Tour' |
                 customTranslate | async}}
               </ion-button>
             </ion-card-content>

@@ -11,5 +11,6 @@ urlpatterns = [
     path('translate/', views.TranslateAWS.translate),
     path('itineary/showItineary/<int:id>',views.Routes.getItineary),
     path('itineary/showRoadMap',views.Routes.getRoadMap),
-    path('itineary/showInterestPoints',views.Routes.getPointsInterest)
+    path('itineary/showInterestPoints',views.Routes.getPointsInterest),
+    path('itineary/distance/',views.Routes.distance)
 ]

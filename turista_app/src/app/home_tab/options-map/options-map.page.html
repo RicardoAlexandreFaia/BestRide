@@ -8,7 +8,6 @@
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content>
   <div class="body">
     <svg height="100%" width="100%">
@@ -18,51 +17,43 @@
     </svg>
     <div class="content">
       <ion-card>
-        <h2 style="color: black;font-size: 25px;font-weight: bold;">Login</h2>
+        <h2 style="color: black;font-size: 25px;font-weight: bold;"> {{'Choose your preferences ! ' | customTranslate |
+          async}}</h2>
 
-        <form class="form" [formGroup]="registrationForm" (ngSubmit)="submeter_login()">
+        <form class="form" [formGroup]="registrationForm" (ngSubmit)="submit_form()">
 
           <ion-list>
-
             <ion-item>
-              <ion-label position="stacked">Email</ion-label>
-              <ion-input formControlName="email" type="email" required></ion-input>
+              <ion-label>{{'Location ?' | customTranslate | async}}</ion-label>
+              <ion-select formControlName="location" value="brown" okText="OK" cancelText="Dismiss">
+                <ion-select-option value="Near"> {{'Near Me' | customTranslate | async}}</ion-select-option>
+                <ion-select-option value="Lisbon"> {{'Lisbon' | customTranslate | async}}</ion-select-option>
+                <ion-select-option value="Sintra"> {{'Sintra' | customTranslate | async}}</ion-select-option>
+              </ion-select>
             </ion-item>
-            <div *ngFor="let error of errorMessages.email">
-              <ng-container *ngIf="email.hasError(error.type) && ( email.touched || email.dirty)">
-                <small class="error-message">{{error.message}}</small>
-              </ng-container>
-            </div>
 
             <br>
-
             <ion-item>
-              <ion-label position="stacked">Password</ion-label>
-              <ion-input formControlName="password" [type]=" showPass ? 'text' : 'password'" required></ion-input>
-              <ion-icon slot="end" [name]="passwordIconToggle" (click)="togglePass()"></ion-icon>
+              <ion-label>{{'How Many People?' | customTranslate | async}}</ion-label>
+              <ion-select value="brown" okText="OK" formControlName="people" cancelText="Dismiss">
+                <ion-select-option value="1"> 1</ion-select-option>
+                <ion-select-option value="2"> 2</ion-select-option>
+                <ion-select-option value="3"> 3</ion-select-option>
+                <ion-select-option value="4"> 4</ion-select-option>
+                <ion-select-option value="5"> 5</ion-select-option>
+                <ion-select-option value="6"> 6</ion-select-option>
+              </ion-select>
             </ion-item>
-            <div *ngFor="let error of errorMessages.password">
-              <ng-container *ngIf="password.hasError(error.type) && ( password.touched || password.dirty)">
-                <small class="error-message">{{error.message}}</small>
-              </ng-container>
-            </div>
 
             <br>
-            <ion-button [disabled]="!registrationForm.valid" id="btn_login" type="submit">Login</ion-button>
+            <ion-button [disabled]="!registrationForm.valid" color="danger" type="submit">{{'Search Tours' |
+              customTranslate | async}}
+            </ion-button>
+
             <br>
           </ion-list>
         </form>
       </ion-card>
-
-      <ion-button id="btn_google" expand="block">{{'Sign up with Google' | customTranslate | async}}</ion-button>
-      <ion-button id="btn_face" expand="block">{{'Sign up with Facebook' | customTranslate | async}}</ion-button>
-
-      <div style="color: white;font-size: 12px;text-align: justify;padding:20px">
-        <h6>{{'Dont have an account? ' | customTranslate | async}}<u (click)="create_account()">{{'Sign up' |
-            customTranslate |
-            async}}</u></h6>
-        <h6><u (click)="recover_account()">{{'Forgout your password?' | customTranslate | async}}</u></h6>
-      </div>
     </div>
   </div>
 
