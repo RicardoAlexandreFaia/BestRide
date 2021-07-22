@@ -21,63 +21,110 @@ env.read_env()
 import boto3
 
 class Utilizadores_operacoes(APIView):
+
+
+    @api_view(['POST'])
+    def resend_code(request):
+        boto3.setup_default_session(region_name='eu-west-2')
+        client = boto3.client('cognito-idp')
+
+        try:
+            response = client.resend_confirmation_code(
+                ClientId=env.str("ClientId"),
+                Username=request.data['email'])
+
+            return JsonResponse(response)
+
+        except client.exceptions.TooManyRequestsException:
+            return Response("Too Many Requests", status=status.HTTP_404_NOT_FOUND)
+        except client.exceptions.LimitExceededException:
+            return Response("Limit Exceeded", status=status.HTTP_404_NOT_FOUND)
+        except client.exceptions.InvalidEmailRoleAccessPolicyException:
+            return Response("Invalid Email Role", status=status.HTTP_404_NOT_FOUND)
+        except client.exceptions.CodeDeliveryFailureException:
+            return Response("Code not Delivered", status=status.HTTP_404_NOT_FOUND)
+        except client.exceptions.UserNotFoundException:
+            return Response("User Not Found", status=status.HTTP_404_NOT_FOUND)
+
+
+
+
     @api_view(['POST'])
     def confirmAccount(request):
+        boto3.setup_default_session(region_name='eu-west-2')
         cidp = boto3.client('cognito-idp')
-        response_confirmUser = cidp.confirm_sign_up(
-            ClientId=env.str("ClientId"),
-            Username='austrixpamaj@gmail.com',
-            ConfirmationCode=request.data['code']
-        )
 
-        return Response("")
+        try:
+            response_confirmUser = cidp.confirm_sign_up(
+                ClientId=env.str("ClientId"),
+                Username=request.data['email'],
+                ConfirmationCode=request.data['code']
+            )
+            return Response(response_confirmUser)
+
+        except cidp.exceptions.NotAuthorizedException:
+            return Response("Not Authorized", status=status.HTTP_404_NOT_FOUND)
+        except cidp.exceptions.UserNotFoundException:
+            return Response("User Not Found", status=status.HTTP_404_NOT_FOUND)
+        except cidp.exceptions.LimitExceededException:
+            return Response("Limit has Exceeded", status=status.HTTP_404_NOT_FOUND)
+        except cidp.exceptions.CodeMismatchException:
+            return Response("Code Mismatch", status=status.HTTP_404_NOT_FOUND)
+        except cidp.exceptions.ExpiredCodeException:
+            return Response("Code had Expired", status=status.HTTP_404_NOT_FOUND)
+
+
 
 
     def post(self, request):
-        '''request.data['password'] = make_password(request.data.get('password'), 'pbkdf2_sha256')
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)'''
+        boto3.setup_default_session(region_name='eu-west-2')
         client = boto3.client('cognito-idp')
-        response = client.sign_up(
-            ClientId=env.str("ClientId"),
-            Username=request.data['name'],
-            Password=request.data['password'],
-            UserAttributes=[
-                {
-                    'Name': "name",
-                    'Value': request.data['email']
-                },
-                {
-                    'Name': "birthdate",
-                    'Value': request.data['dob']
-                },
-                {
-                    'Name': "email",
-                    'Value': request.data['email']
-                },
-                {
-                    'Name': "gender",
-                    'Value': request.data['gender']
-                },
-                {
-                    'Name': "address",
-                    'Value': request.data['adress']
-                },
-                {
-                    'Name': "locale",
-                    'Value': request.data['city']
-                },
-                {
-                    'Name': "phone_number",
-                    'Value': request.data['phone_number']
-                },
-            ],
-        )
+        try:
+            response = client.sign_up(
+                ClientId=env.str("ClientId"),
+                Username=request.data['name'],
+                Password=request.data['password'],
+                UserAttributes=[
+                    {
+                        'Name': "name",
+                        'Value': request.data['email']
+                    },
+                    {
+                        'Name': "birthdate",
+                        'Value': request.data['dob']
+                    },
+                    {
+                        'Name': "email",
+                        'Value': request.data['email']
+                    },
+                    {
+                        'Name': "gender",
+                        'Value': request.data['gender']
+                    },
+                    {
+                        'Name': "address",
+                        'Value': request.data['adress']
+                    },
+                    {
+                        'Name': "locale",
+                        'Value': request.data['city']
+                    },
+                    {
+                        'Name': "phone_number",
+                        'Value': request.data['phone_number']
+                    },
+                ],
+            )
+            return JsonResponse(response)
 
-        return JsonResponse(response)
+        except client.exceptions.InvalidPasswordException:
+            return Response("Invalid Password Format",status=status.HTTP_404_NOT_FOUND)
+        except client.exceptions.UsernameExistsException:
+            return Response("Username already Exists !", status=status.HTTP_404_NOT_FOUND)
+        except client.exceptions.CodeDeliveryFailureException:
+            return Response("Error on send Code !", status=status.HTTP_404_NOT_FOUND)
+
+
 
 
     @api_view(['POST'])

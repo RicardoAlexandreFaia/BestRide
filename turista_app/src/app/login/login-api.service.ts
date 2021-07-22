@@ -30,6 +30,9 @@ export class LoginApiService {
 
     this.http.post(environment.apiUrl + this.url_login, data).subscribe(
       (data) => {
+        console.log(data);
+        console.log(data['AuthenticationResult']['AccessToken']);
+
         this.router.navigate(['/home_tab']);
       },
       (error) => {

@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
+import { CustomTranslateService } from '../shared/services/custom-translate.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,9 @@ export class CriaContaApiService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private modalController: ModalController
+    private modalController: ModalController,
+    public alertController: AlertController,
+    public ct: CustomTranslateService
   ) {}
 
   public criaConta(data_dict): void {
@@ -32,9 +35,12 @@ export class CriaContaApiService {
     };
     this.http.post(environment.apiUrl + this.url, postDataInfo).subscribe(
       (data) => {
+        localStorage.setItem('email', data_dict['email']);
         this.router.navigate(['/confirm-account']);
       },
-      (error) => {}
+      (error) => {
+        this.showAlertError('Error', error.error);
+      }
     );
   }
 
@@ -84,5 +90,25 @@ export class CriaContaApiService {
       },
       (error) => {}
     );
+  }
+
+  async showAlertError(header: string, msg: string) {
+    console.log(this.ct.translateText(header));
+    this.ct.translateText(header).subscribe((res) => {
+      header = res;
+    });
+
+    this.ct.translateText(msg).subscribe((res) => {
+      msg = res;
+    });
+
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: '' + header,
+      message: '' + msg,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
   }
 }
