@@ -19,6 +19,7 @@ export class MapServiceService {
   private url = '/itineary/showRoadMap';
   private urlGetPoints = '/itineary/showItineary/';
   private urlDistance = '/itineary/distance/';
+  private urlVehicles = '/itineray/showRoadVehicles/';
 
   user: User;
 
@@ -41,6 +42,7 @@ export class MapServiceService {
 
   public roads: Observable<any>;
   public interest: Observable<any>;
+  public vehicles: Observable<any>;
 
   public get_roads(): Observable<any> {
     this.roads = this.http.post(environment.apiUrl + this.url, {
@@ -54,5 +56,10 @@ export class MapServiceService {
   public get_points_interest(id: number): Observable<any> {
     this.interest = this.http.get(environment.apiUrl + this.urlGetPoints + id);
     return this.interest;
+  }
+
+  public get_vehicles_road(id: number): Observable<any> {
+    this.vehicles = this.http.get(environment.apiUrl + this.urlVehicles + id);
+    return this.vehicles;
   }
 }

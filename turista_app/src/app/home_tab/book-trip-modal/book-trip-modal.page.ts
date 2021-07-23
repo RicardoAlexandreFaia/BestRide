@@ -11,6 +11,8 @@ import { InterestPoints, RoadMap } from '../roadMap';
 import { MapServiceService } from '../map-service.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { retry } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 declare var google: any;
 
@@ -28,6 +30,7 @@ export class BookTripModalPage implements OnInit {
   public language: string = this.translate.currentLang;
 
   private interest: any;
+  public vehicles: Observable<any>;
 
   public progress: boolean = false;
 
@@ -40,11 +43,11 @@ export class BookTripModalPage implements OnInit {
 
   ngOnInit() {
     this.circuito = this.circuito;
-    this.interest = this.map_service.get_points_interest(this.circuito['id']);
+    this.vehicles = this.map_service.get_vehicles_road(this.circuito['id']);
     setTimeout(() => {
       this.progress = true;
-      this.showMap(this.circuito);
-    }, 3000);
+      this.vehicles.forEach((element) => {});
+    }, 2000);
   }
 
   ionViewDidEnter() {}
@@ -52,44 +55,5 @@ export class BookTripModalPage implements OnInit {
   async close() {
     const closeModal: string = 'Modal Closed';
     await this.modalCtr.dismiss(closeModal);
-  }
-
-  private showMap(roadMap: RoadMap): void {
-    let lat_initial = roadMap.lat;
-    let lng_initial = roadMap.lng;
-
-    const location = new google.maps.LatLng(lat_initial, lng_initial);
-
-    const options = {
-      center: location,
-      zoom: this.ZOOM_LEVEL,
-      disableDefaultUI: false,
-      mapTypeId: google.maps.MapTypeId.TERRAIN,
-    };
-
-    this.map = new google.maps.Map(this.mapElement.nativeElement, options);
-
-    //    Add markers to the map
-    for (let pos of this.interest) {
-      let posMarker = new google.maps.LatLng(pos.lat, pos.lng);
-
-      let marker = new google.maps.Marker({
-        map: this.map,
-        position: posMarker,
-        animation: 'DROP',
-        title: this.circuito.title,
-        latitude: pos.lat,
-        longitude: pos.lng,
-      });
-
-      let content = '<p> ' + pos.title + '</p>';
-      let infoWindow = new google.maps.InfoWindow({
-        content: content,
-      });
-
-      google.maps.event.addListener(marker, 'click', () => {
-        infoWindow.open(this.map, marker);
-      });
-    }
   }
 }

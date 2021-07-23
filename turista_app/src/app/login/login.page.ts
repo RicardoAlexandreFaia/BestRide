@@ -188,6 +188,7 @@ export class LoginPage implements OnInit {
   async showDialog() {
     const alert = await this.alertCtrl.create({
       header: '' + this.login_alert_text['header'],
+      cssClass: 'my-custom-class',
       message: '' + this.login_alert_text['message'],
       buttons: ['' + this.login_alert_text['buttons']],
     });

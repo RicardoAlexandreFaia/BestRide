@@ -73,6 +73,23 @@ class Utilizadores_operacoes(APIView):
         except cidp.exceptions.ExpiredCodeException:
             return Response("Code had Expired", status=status.HTTP_404_NOT_FOUND)
 
+    @api_view(['GET'])
+    def getUser(request,token):
+        boto3.setup_default_session(region_name='eu-west-2')
+        cidp = boto3.client('cognito-idp')
+
+        try:
+            response = cidp.get_user(
+                AccessToken = token
+            )
+
+            return Response(response)
+        except cidp.exceptions.UserNotFoundException:
+            return Response("User Not Found", status=status.HTTP_404_NOT_FOUND)
+        except cidp.exceptions.NotAuthorizedException:
+            return Response("Wrong Acess Token", status=status.HTTP_404_NOT_FOUND)
+
+
 
 
 
@@ -146,19 +163,6 @@ class Utilizadores_operacoes(APIView):
 
         except cidp.exceptions.NotAuthorizedException:
             return Response("Incorrect username or password",status=status.HTTP_404_NOT_FOUND)
-
-
-    @api_view(['GET'])
-    def get_user(request,user):
-        if user:
-            boto3.setup_default_session(region_name='eu-west-2')
-            cidp = boto3.client('cognito-idp')
-            response = cidp.get_user(
-                AccessToken='string'
-            )
-            return Response(response)
-        else:
-            return Response("No username provided")
 
 
 
@@ -271,4 +275,20 @@ class Routes(APIView):
             return Response(Itineary_Serializer.data)
         else:
             return Response("ID missing")
+
+    @api_view(['GET'])
+    def getRoadVehicle(request,id):
+        if id:
+            roadVehicle = RoadVehicle.objects.all().filter(road_map=id)
+
+
+            '''for rv in roadVehicle:
+                vehicle = Vehicle.objects.all().get(pk=2)
+                rv.vehicle = rv.vehicle.name'''
+
+            roadvehicleSerializer = RoadVehicleSerializer(roadVehicle,many=True)
+
+            return Response(roadvehicleSerializer.data)
+        else:
+            return Response("ID Missing")
 

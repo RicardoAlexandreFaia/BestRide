@@ -15,6 +15,18 @@ class RoadMapSerializer(serializers.ModelSerializer):
         geo_field = "point"
         fields = '__all__'
 
+class VehicleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vehicle
+        fields = '__all__'
+
+class RoadVehicleSerializer(serializers.ModelSerializer):
+    vehicle = VehicleSerializer(many=False)
+
+    class Meta:
+        model = RoadVehicle
+        fields = '__all__'
+
 
 class ItinearyRouteSerializer(serializers.ModelSerializer):
     interest_points = InterestPointsSerializaer(read_only=True)
