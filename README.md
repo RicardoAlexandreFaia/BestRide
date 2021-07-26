@@ -101,3 +101,8 @@
 # AWS
 
 > pip install boto3
+
+# Google Login
+
+https://bestride.auth.eu-west-2.amazoncognito.com/oauth2/authorize?identity_provider=Google&response_type=code&client_id=4tqek2provvat99l9kasnrv3u5
+&redirect_uri=http://localhost:8100/

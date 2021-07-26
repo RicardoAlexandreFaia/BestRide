@@ -5,13 +5,14 @@ import { Router } from '@angular/router';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { User } from '../user_tab/user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DadosContaApiService {
   private url: String = '/users/';
-  private url_info: String = '/userInfo/';
+  private url_get_user: String = '/getUser/';
 
   public email_get: string;
 
@@ -24,6 +25,8 @@ export class DadosContaApiService {
   public id = localStorage.getItem('id');
   private data_user_alert_text = {};
 
+  public user: User;
+
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -31,30 +34,34 @@ export class DadosContaApiService {
     public alertController: AlertController,
     private translateService: TranslateService
   ) {
-    this.translateService.get('alert_data_user').subscribe((data) => {
-      this.data_user_alert_text = {
-        header: data['header'],
-        message: data['message'],
-        buttons: data['buttons'][0],
-      };
-    });
-    let id = localStorage.getItem('id');
-    this.http.get(environment.apiUrl + this.url_info + id).subscribe((data) => {
-      this.name = data['name'];
-      this.email = data['email'];
-      this.city = data['city'];
-      this.phone = data['phone_number'];
-      this.address = data['adress'];
-      this.postal = data['postal_code'];
-      this.http
-        .get(environment.apiUrl + this.url + id)
-        .subscribe((data_user) => {
-          //console.log(data_user);
-        });
-    });
+    this.user = new User('', '', '', '', '', '');
+    this.ngOnInit();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getUser();
+    let acessToken = localStorage.getItem('token');
+    this.http
+      .get(environment.apiUrl + this.url_get_user + acessToken)
+      .subscribe((data) => {
+        console.log(data);
+
+        let phone = '' + data['UserAttributes'][7].Value;
+        phone = phone.slice(3, 12);
+        this.user = new User(
+          data['UserAttributes'][5].Value,
+          data['UserAttributes'][8].Value,
+          phone,
+          data['UserAttributes'][1].Value,
+          data['UserAttributes'][5].Value,
+          data['UserAttributes'][9].Value
+        );
+      });
+  }
+
+  public getUser(): User {
+    return this.user;
+  }
 
   public atualizaPassword(pass: string): void {
     let data = {
@@ -63,7 +70,7 @@ export class DadosContaApiService {
     this.http
       .put(environment.apiUrl + this.url + this.id + '/', data)
       .subscribe((resposta) => {
-        console.log(resposta);
+        console.log(resposta['UserAttributes']);
       });
   }
 
@@ -78,11 +85,6 @@ export class DadosContaApiService {
       user_iduser: this.id,
     };
     this.presentAlert();
-    this.http
-      .put(environment.apiUrl + this.url_info + this.id, data)
-      .subscribe((resposta) => {
-        //console.log(resposta);
-      });
   }
 
   async presentAlert() {

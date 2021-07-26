@@ -139,7 +139,7 @@ export class CriaContaPage implements OnInit {
         passRepeat: this.ionicForm.get('passRepeat').value,
       };
 
-      this.api.criaConta(create_account);
+      this.api.createAccount(create_account);
     }
   }
 

@@ -20,6 +20,7 @@ env.read_env()
 
 import boto3
 
+
 class Utilizadores_operacoes(APIView):
 
 
@@ -30,7 +31,7 @@ class Utilizadores_operacoes(APIView):
 
         try:
             response = client.resend_confirmation_code(
-                ClientId=env.str("ClientId"),
+                ClientId=env.str("CLIENT_ID"),
                 Username=request.data['email'])
 
             return JsonResponse(response)
@@ -56,7 +57,7 @@ class Utilizadores_operacoes(APIView):
 
         try:
             response_confirmUser = cidp.confirm_sign_up(
-                ClientId=env.str("ClientId"),
+                ClientId=env.str("CLIENT_ID"),
                 Username=request.data['email'],
                 ConfirmationCode=request.data['code']
             )
@@ -89,6 +90,20 @@ class Utilizadores_operacoes(APIView):
         except cidp.exceptions.NotAuthorizedException:
             return Response("Wrong Acess Token", status=status.HTTP_404_NOT_FOUND)
 
+    @api_view(['POST'])
+    def cancelAccount(request):
+        boto3.setup_default_session(region_name='eu-west-2')
+        client = boto3.client('cognito-idp')
+        try:
+            client.delete_user(
+                AccessToken = request.data['token']
+            )
+            return Response("User eliminated !")
+        except client.exceptions.UserNotFoundException:
+            return Response("User Not Found", status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
 
 
@@ -98,13 +113,13 @@ class Utilizadores_operacoes(APIView):
         client = boto3.client('cognito-idp')
         try:
             response = client.sign_up(
-                ClientId=env.str("ClientId"),
-                Username=request.data['name'],
+                ClientId=env.str('ClientId'),
+                Username=request.data['email'],
                 Password=request.data['password'],
                 UserAttributes=[
                     {
                         'Name': "name",
-                        'Value': request.data['email']
+                        'Value': request.data['name']
                     },
                     {
                         'Name': "birthdate",
@@ -151,7 +166,7 @@ class Utilizadores_operacoes(APIView):
 
         try:
             login_request = cidp.initiate_auth(
-                ClientId=env.str("ClientId"),
+                ClientId=env.str("CLIENT_ID"),
                 AuthFlow="USER_PASSWORD_AUTH",
                 AuthParameters={
                     'USERNAME': request.data['email'],
@@ -163,6 +178,20 @@ class Utilizadores_operacoes(APIView):
 
         except cidp.exceptions.NotAuthorizedException:
             return Response("Incorrect username or password",status=status.HTTP_404_NOT_FOUND)
+
+    def loginGoogle(request):
+        boto3.setup_default_session(region_name='eu-west-2')
+        cidp = boto3.client('cognito-idp')
+        response = cidp.get_id(
+            AccountId='YOUR AWS ACCOUNT ID',
+            IdentityPoolId='us-east-1:xxxdexxx-xxdx-xxxx-ac13-xxxxf645dxxx',
+            Logins={
+                'accounts.google.com': 'google returned IdToken'
+            })
+
+        return Response(response)
+
+
 
 
 
@@ -280,14 +309,7 @@ class Routes(APIView):
     def getRoadVehicle(request,id):
         if id:
             roadVehicle = RoadVehicle.objects.all().filter(road_map=id)
-
-
-            '''for rv in roadVehicle:
-                vehicle = Vehicle.objects.all().get(pk=2)
-                rv.vehicle = rv.vehicle.name'''
-
             roadvehicleSerializer = RoadVehicleSerializer(roadVehicle,many=True)
-
             return Response(roadvehicleSerializer.data)
         else:
             return Response("ID Missing")

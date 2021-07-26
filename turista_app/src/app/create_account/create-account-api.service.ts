@@ -21,7 +21,7 @@ export class CriaContaApiService {
     public ct: CustomTranslateService
   ) {}
 
-  public criaConta(data_dict): void {
+  public createAccount(data_dict): void {
     let postDataInfo = {
       email: data_dict['email'],
       name: data_dict['name'],

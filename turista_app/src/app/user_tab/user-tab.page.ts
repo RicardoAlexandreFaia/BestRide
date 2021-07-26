@@ -5,6 +5,7 @@ import { DadosContaApiService } from './user-tab-api.service';
 import { AlertController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { ResetPasswordModalPage } from './reset-password-modal/reset-password-modal.page';
+import { User } from '../user_tab/user';
 
 @Component({
   selector: 'app-dados-conta',
@@ -28,15 +29,22 @@ export class DadosContaPage implements OnInit {
   public language: string = this.translateService.currentLang;
   valor: boolean;
 
+  public user: User;
   constructor(
     private translateService: TranslateService,
     private router: Router,
     private dadosContaApi: DadosContaApiService,
     public alertController: AlertController,
     public modalController: ModalController
-  ) {}
+  ) {
+    this.user = new User('', '', '', '', '', ''); //  Initialize
+  }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.user = this.dadosContaApi.getUser();
+      console.log(this.user);
+    }, 1000);
     this.valor = !this.valor;
   }
 
