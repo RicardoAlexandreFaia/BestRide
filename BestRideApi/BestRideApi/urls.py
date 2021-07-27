@@ -6,6 +6,8 @@ urlpatterns = [
     path('users/', views.Utilizadores_operacoes.as_view()),
     path('login/',views.Utilizadores_operacoes.login),
     path('getUser/<str:token>',views.Utilizadores_operacoes.getUser),
+    path('recoverUser/',views.Utilizadores_operacoes.recoverAccount),
+    path('confirmRecoverUser/',views.Utilizadores_operacoes.confirmRecoverAccount),
     path('verifyAccount/',views.Utilizadores_operacoes.confirmAccount),
     path('resend_code/',views.Utilizadores_operacoes.resend_code),
     path('cancelAccount/',views.Utilizadores_operacoes.cancelAccount),

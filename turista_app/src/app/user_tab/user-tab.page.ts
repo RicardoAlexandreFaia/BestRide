@@ -104,10 +104,7 @@ export class DadosContaPage implements OnInit {
     }
   }
 
-  public eliminarConta(): void {
-    this.dadosContaApi.eliminaContaUserInfo();
-    this.dadosContaApi.eliminaContaUser();
-    this.router.navigate(['/login']);
-    localStorage.removeItem('id');
+  public deleteAccount(): void {
+    this.dadosContaApi.deleteUser();
   }
 }

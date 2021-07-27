@@ -83,7 +83,8 @@
             <br>
             <ion-button expand="block">{{'Change Password' | customTranslate | async}}</ion-button>
             <br>
-            <ion-button expand="block">{{'Delete Account' | customTranslate | async}}</ion-button>
+            <ion-button expand="block" (click)="deleteAccount()">{{'Delete Account' | customTranslate | async}}
+            </ion-button>
 
           </ion-list>
         </form>

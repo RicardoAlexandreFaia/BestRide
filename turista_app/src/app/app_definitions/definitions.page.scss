@@ -6,3 +6,19 @@
   width: 15%;
   margin-left: 25%;
 }
+
+.body {
+  background-color: #bc3592;
+  height: 100%;
+  width: 100%;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 5%;
+  justify-content: center;
+  text-align: center;
+  font-size: larger;
+}

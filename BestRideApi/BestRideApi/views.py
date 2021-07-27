@@ -25,6 +25,37 @@ class Utilizadores_operacoes(APIView):
 
 
     @api_view(['POST'])
+    def recoverAccount(request):
+        boto3.setup_default_session(region_name='eu-west-2')
+        client = boto3.client('cognito-idp')
+
+        try:
+            response = client.forgot_password(
+                ClientId=env.str("CLIENT_ID"),
+                Username=request.data['email'])
+            return Response(response)
+        except client.exceptions.UserNotFoundException:
+            return Response("User Not Found", status=status.HTTP_404_NOT_FOUND)
+
+    @api_view(['POST'])
+    def confirmRecoverAccount(request):
+        boto3.setup_default_session(region_name='eu-west-2')
+        client = boto3.client('cognito-idp')
+
+        try:
+            response = client.confirm_forgot_password(
+                    ClientId=env.str("CLIENT_ID"),
+                    Username=request.data['email'],
+                    ConfirmationCode=str(request.data['code']),
+                    Password=request.data['password'],
+            )
+            return Response(response)
+        except client.exceptions.UserNotFoundException:
+            return Response("User Not Found", status=status.HTTP_404_NOT_FOUND)
+
+
+
+    @api_view(['POST'])
     def resend_code(request):
         boto3.setup_default_session(region_name='eu-west-2')
         client = boto3.client('cognito-idp')
@@ -74,6 +105,10 @@ class Utilizadores_operacoes(APIView):
         except cidp.exceptions.ExpiredCodeException:
             return Response("Code had Expired", status=status.HTTP_404_NOT_FOUND)
 
+
+
+
+
     @api_view(['GET'])
     def getUser(request,token):
         boto3.setup_default_session(region_name='eu-west-2')
@@ -90,6 +125,9 @@ class Utilizadores_operacoes(APIView):
         except cidp.exceptions.NotAuthorizedException:
             return Response("Wrong Acess Token", status=status.HTTP_404_NOT_FOUND)
 
+
+
+
     @api_view(['POST'])
     def cancelAccount(request):
         boto3.setup_default_session(region_name='eu-west-2')
@@ -103,17 +141,12 @@ class Utilizadores_operacoes(APIView):
             return Response("User Not Found", status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
-
-
-
     def post(self, request):
         boto3.setup_default_session(region_name='eu-west-2')
         client = boto3.client('cognito-idp')
         try:
             response = client.sign_up(
-                ClientId=env.str('ClientId'),
+                ClientId=env.str('CLIENT_ID'),
                 Username=request.data['email'],
                 Password=request.data['password'],
                 UserAttributes=[

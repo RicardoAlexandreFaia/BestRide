@@ -13,6 +13,7 @@ import { User } from '../user_tab/user';
 export class DadosContaApiService {
   private url: String = '/users/';
   private url_get_user: String = '/getUser/';
+  private url_cancel_usr: String = '/cancelAccount/';
 
   public email_get: string;
 
@@ -44,8 +45,6 @@ export class DadosContaApiService {
     this.http
       .get(environment.apiUrl + this.url_get_user + acessToken)
       .subscribe((data) => {
-        console.log(data);
-
         let phone = '' + data['UserAttributes'][7].Value;
         phone = phone.slice(3, 12);
         this.user = new User(
@@ -96,38 +95,16 @@ export class DadosContaApiService {
     await alert.present();
   }
 
-  public getInfo() {
-    this.http.get(environment.apiUrl + this.url).subscribe(
-      (data) => {
-        data.toString();
-      },
-      (erro) => {}
-    );
-  }
-
-  public eliminaContaUserInfo(): void {
-    const email = localStorage.getItem('email');
-    const url_info_delete: String = '/userInfo/deleteAccount';
-
-    let postData = {
-      email: email,
+  public deleteUser(): void {
+    let data = {
+      token: localStorage.getItem('token'),
     };
-
     this.http
-      .post(environment.apiUrl + url_info_delete, postData)
-      .subscribe((resposta) => {});
-  }
-
-  public eliminaContaUser(): void {
-    const id = localStorage.getItem('id');
-    const url_delete: String = '/users/deleteAccount';
-
-    let postData = {
-      id: id,
-    };
-
-    this.http
-      .post(environment.apiUrl + url_delete, postData)
-      .subscribe((resposta) => {});
+      .post(environment.apiUrl + this.url_cancel_usr, data)
+      .subscribe((ans) => {
+        this.router.navigate(['/login']);
+        localStorage.removeItem('email');
+        localStorage.removeItem('token');
+      });
   }
 }
