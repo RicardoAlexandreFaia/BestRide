@@ -8,9 +8,6 @@
     <ion-buttons slot="start">
       <ion-menu-button menu="main-menu"></ion-menu-button>
     </ion-buttons>
-    <ion-button slot="end" (click)="changeInputStatus()">
-      <ion-icon name="{{ icon_input }}"></ion-icon>
-    </ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -34,7 +31,10 @@
                 <ion-icon name="person-outline"></ion-icon>
               </ion-thumbnail>
               <ion-label position="stacked">{{ 'Name' | customTranslate | async}}</ion-label>
-              <ion-input type="text" required value="{{ user.name }}"></ion-input>
+              <ion-input type="text" required value="{{ user.name }}" [disabled]="name_input"></ion-input>
+              <ion-button expand="block" slot="end" (click)="activateEdit('name')">
+                <ion-icon name="{{ icon_input }}"></ion-icon>
+              </ion-button>
             </ion-item>
 
 
@@ -43,7 +43,10 @@
                 <ion-icon name="business-outline"></ion-icon>
               </ion-thumbnail>
               <ion-label position="stacked">{{ 'City' | customTranslate | async}}</ion-label>
-              <ion-input type="text" required value="{{ user.city }}"></ion-input>
+              <ion-input type="text" required value="{{ user.city }}" [disabled]="city_input"></ion-input>
+              <ion-button expand="block" slot="end" (click)="activateEdit('city')">
+                <ion-icon name="{{ icon_input }}"></ion-icon>
+              </ion-button>
             </ion-item>
 
             <ion-item>
@@ -51,7 +54,10 @@
                 <ion-icon name="mail-outline"></ion-icon>
               </ion-thumbnail>
               <ion-label position="stacked">{{ 'Email' | customTranslate | async}}</ion-label>
-              <ion-input type="email" required value="{{ user.email }}"></ion-input>
+              <ion-input type="email" required value="{{ user.email }}" [disabled]="email_input"></ion-input>
+              <ion-button expand="block" slot="end" (click)="activateEdit('email')">
+                <ion-icon name="{{ icon_input }}"></ion-icon>
+              </ion-button>
             </ion-item>
 
             <ion-item>
@@ -59,7 +65,10 @@
                 <ion-icon name="call-outline"></ion-icon>
               </ion-thumbnail>
               <ion-label position="stacked">{{ 'Phone Number' | customTranslate | async}}</ion-label>
-              <ion-input type="Number" required value="{{ user.phone }}"></ion-input>
+              <ion-input type="Number" required value="{{ user.phone }}" [disabled]="phone_input"></ion-input>
+              <ion-button expand="block" slot="end" (click)="activateEdit('phone')">
+                <ion-icon name="{{ icon_input }}"></ion-icon>
+              </ion-button>
             </ion-item>
 
             <ion-item>
@@ -67,23 +76,22 @@
                 <ion-icon name="home-outline"></ion-icon>
               </ion-thumbnail>
               <ion-label position="stacked">{{ 'Street address' | customTranslate | async}}</ion-label>
-              <ion-input type="text" required value="{{ user.address }}"></ion-input>
+              <ion-input type="text" required value="{{ user.address }}" [disabled]="street_input"></ion-input>
+              <ion-button expand="block" slot="end" (click)="activateEdit('street')">
+                <ion-icon name="{{ icon_input }}"></ion-icon>
+              </ion-button>
             </ion-item>
 
-            <ion-item>
-              <ion-thumbnail slot="start">
-                <ion-icon name="home-outline"></ion-icon>
-              </ion-thumbnail>
-              <ion-label position="stacked">{{ 'Postal Code' | customTranslate | async}}</ion-label>
-              <ion-input type="text" required value="{{ user.postal }}"></ion-input>
-            </ion-item>
 
             <br>
-            <ion-button expand="block">{{'Update Account' | customTranslate | async}}</ion-button>
+            <ion-button [disabled]="button" expand="block">{{'Update Account' | customTranslate | async}}
+            </ion-button>
             <br>
-            <ion-button expand="block">{{'Change Password' | customTranslate | async}}</ion-button>
+            <ion-button color="warning" (click)="alterarPass()" expand="block">{{'Change Password' | customTranslate |
+              async}}</ion-button>
             <br>
-            <ion-button expand="block" (click)="deleteAccount()">{{'Delete Account' | customTranslate | async}}
+            <ion-button color="danger" expand="block" (click)="deleteAccount()">{{'Delete Account' | customTranslate |
+              async}}
             </ion-button>
 
           </ion-list>

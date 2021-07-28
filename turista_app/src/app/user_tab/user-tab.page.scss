@@ -19,6 +19,7 @@ component-card ion-icon {
   color: black;
   font-weight: 700;
 }
+
 #img {
   width: 15%;
   margin-left: 33%;
@@ -30,7 +31,7 @@ component-card ion-icon {
   width: 100%;
 }
 
-ion-list {
+ion-thumbnail {
   ion-icon {
     zoom: 2;
     padding-top: 20%;

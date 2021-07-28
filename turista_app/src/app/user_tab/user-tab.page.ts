@@ -23,11 +23,17 @@ export class DadosContaPage implements OnInit {
   public address: string;
   public postal: string;
 
-  public control_input: boolean = true;
+  // Input Controls
+  public name_input: boolean = true;
+  public city_input: boolean = true;
+  public email_input: boolean = true;
+  public phone_input: boolean = true;
+  public street_input: boolean = true;
+  public button: boolean = true;
+
   public icon_input: string = 'create-outline';
 
   public language: string = this.translateService.currentLang;
-  valor: boolean;
 
   public user: User;
   constructor(
@@ -45,7 +51,6 @@ export class DadosContaPage implements OnInit {
       this.user = this.dadosContaApi.getUser();
       console.log(this.user);
     }, 1000);
-    this.valor = !this.valor;
   }
 
   ionViewDidEnter() {
@@ -58,16 +63,11 @@ export class DadosContaPage implements OnInit {
   }
 
   public changeInputStatus(): void {
-    this.control_input = !this.control_input;
     if (this.icon_input == 'create-outline') {
       this.icon_input = 'close-outline';
     } else {
       this.icon_input = 'create-outline';
     }
-  }
-
-  public function(): void {
-    //alert('oals');
   }
 
   public alterarPass(): void {
@@ -94,17 +94,33 @@ export class DadosContaPage implements OnInit {
     return await modal.present();
   }
 
-  private togglePass(): void {
-    this.showPass = !this.showPass;
-
-    if (this.passwordIconToggle == 'eye') {
-      this.passwordIconToggle = 'eye-off';
-    } else {
-      this.passwordIconToggle = 'eye';
-    }
-  }
-
   public deleteAccount(): void {
     this.dadosContaApi.deleteUser();
+  }
+
+  public activateEdit(component: string): void {
+    this.button = !this.button;
+    switch (component) {
+      case 'name': {
+        this.name_input = !this.name_input;
+        break;
+      }
+      case 'city': {
+        this.city_input = !this.city_input;
+        break;
+      }
+      case 'email': {
+        this.email_input = !this.email_input;
+        break;
+      }
+      case 'phone': {
+        this.phone_input = !this.phone_input;
+        break;
+      }
+      case 'street': {
+        this.street_input = !this.street_input;
+        break;
+      }
+    }
   }
 }
