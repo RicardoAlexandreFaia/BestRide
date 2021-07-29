@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'create_account',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
@@ -63,19 +63,28 @@ const routes: Routes = [
       import('./confirm-account/confirm-account.module').then(
         (m) => m.ConfirmAccountPageModule
       ),
-  },  {
+  },
+  {
     path: 'book-trip-modal',
-    loadChildren: () => import('./home_tab/book-trip-modal/book-trip-modal.module').then( m => m.BookTripModalPageModule)
+    loadChildren: () =>
+      import('./home_tab/book-trip-modal/book-trip-modal.module').then(
+        (m) => m.BookTripModalPageModule
+      ),
   },
   {
     path: 'options-map',
-    loadChildren: () => import('./home_tab/options-map/options-map.module').then( m => m.OptionsMapPageModule)
+    loadChildren: () =>
+      import('./home_tab/options-map/options-map.module').then(
+        (m) => m.OptionsMapPageModule
+      ),
   },
   {
     path: 'trip-details',
-    loadChildren: () => import('./home_tab/trip-details/trip-details.module').then( m => m.TripDetailsPageModule)
+    loadChildren: () =>
+      import('./home_tab/trip-details/trip-details.module').then(
+        (m) => m.TripDetailsPageModule
+      ),
   },
-
 ];
 
 @NgModule({

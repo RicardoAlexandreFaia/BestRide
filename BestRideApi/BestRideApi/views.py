@@ -21,7 +21,7 @@ env.read_env()
 import boto3
 
 
-class Utilizadores_operacoes(APIView):
+class user_operations(APIView):
 
 
     @api_view(['POST'])
@@ -36,6 +36,8 @@ class Utilizadores_operacoes(APIView):
             return Response(response)
         except client.exceptions.UserNotFoundException:
             return Response("User Not Found", status=status.HTTP_404_NOT_FOUND)
+
+
 
     @api_view(['POST'])
     def confirmRecoverAccount(request):
@@ -124,6 +126,58 @@ class Utilizadores_operacoes(APIView):
             return Response("User Not Found", status=status.HTTP_404_NOT_FOUND)
         except cidp.exceptions.NotAuthorizedException:
             return Response("Wrong Acess Token", status=status.HTTP_404_NOT_FOUND)
+
+
+    @api_view(['PUT'])
+    def updateUser(request,token):
+        boto3.setup_default_session(region_name='eu-west-2')
+        client = boto3.client('cognito-idp')
+
+        try:
+            response = client.update_user_attributes(
+                UserAttributes=[
+                    {
+                        'Name': "name",
+                        'Value': request.data['name']
+                    },
+                    {
+                        'Name': "locale",
+                        'Value': request.data['city']
+                    },
+                    {
+                        'Name': "email",
+                        'Value': request.data['email']
+                    },
+                    {
+                        'Name': "address",
+                        'Value': request.data['address']
+                    },
+                ],
+                AccessToken='' + token,
+            )
+            return Response(response)
+        except client.exceptions.UserNotFoundException:
+            return Response("User Not Found", status=status.HTTP_404_NOT_FOUND)
+        except client.exceptions.UserNotConfirmedException:
+            return Response("Confirm your account!", status=status.HTTP_404_NOT_FOUND)
+
+
+
+    @api_view(['PUT'])
+    def changePassword(request,token):
+        boto3.setup_default_session(region_name='eu-west-2')
+        client = boto3.client('cognito-idp')
+
+        try:
+            response = client.change_password(
+                PreviousPassword=request.data['pass'],
+                ProposedPassword=request.data['new_pass'],
+                AccessToken=request.data['token']
+            )
+
+            return Response(response)
+        except client.exceptions.InvalidPasswordException:
+            return Response("Invalid Password", status=status.HTTP_404_NOT_FOUND)
 
 
 

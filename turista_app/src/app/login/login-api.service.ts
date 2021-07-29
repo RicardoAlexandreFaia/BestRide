@@ -22,7 +22,7 @@ export class LoginApiService {
     private nativeStorage: NativeStorage
   ) {}
 
-  public login_normal(email: String, password: String) {
+  public login_user(email: String, password: String, login_automatic: Boolean) {
     let data = {
       email: email,
       password: password,
@@ -30,11 +30,15 @@ export class LoginApiService {
 
     this.http.post(environment.apiUrl + this.url_login, data).subscribe(
       (data) => {
-        console.log(data);
         localStorage.setItem(
           'token',
           data['AuthenticationResult']['AccessToken']
         );
+        //Login made it !!
+        if (login_automatic) {
+          localStorage.setItem('automatic_login', 'true');
+        }
+
         this.router.navigate(['/home_tab']);
       },
       (error) => {

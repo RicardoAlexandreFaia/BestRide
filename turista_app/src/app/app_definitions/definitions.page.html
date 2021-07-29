@@ -37,6 +37,8 @@
             <ion-select-option value='it'>{{'Italian' | customTranslate | async}}</ion-select-option>
           </ion-select>
         </ion-item>
+        <ion-button color="danger" [routerLink]="['/login']" expand="block">{{'Log out' | customTranslate | async}}
+        </ion-button>
       </ion-card>
     </div>
   </div>

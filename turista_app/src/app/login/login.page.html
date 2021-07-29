@@ -1,9 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <div id="content-menu">
-      <img src="assets/BestRideSplash.png" />
-      <ion-title id="title">BestRide
-      </ion-title>
+      <img src="assets/BestRideLogo.png" />
     </div>
   </ion-toolbar>
 </ion-header>
@@ -20,7 +18,7 @@
       <ion-card>
         <h2 style="color: black;font-size: 25px;font-weight: bold;">Login</h2>
 
-        <form class="form" [formGroup]="registrationForm" (ngSubmit)="submeter_login()">
+        <form class="form" [formGroup]="registrationForm" (ngSubmit)="login()">
 
           <ion-list>
 
@@ -46,10 +44,12 @@
                 <small class="error-message">{{error.message}}</small>
               </ng-container>
             </div>
-
-            <br>
+            <ion-item>
+              <ion-label>{{'Remember password? ' | customTranslate | async}}</ion-label>
+              <ion-checkbox (ionChange)="addValue($event)" [checked]="checked" color="warning">
+              </ion-checkbox>
+            </ion-item>
             <ion-button [disabled]="!registrationForm.valid" id="btn_login" type="submit">Login</ion-button>
-            <br>
           </ion-list>
         </form>
       </ion-card>
@@ -57,7 +57,7 @@
       <ion-button id="btn_google" expand="block">{{'Sign up with Google' | customTranslate | async}}</ion-button>
       <ion-button id="btn_face" expand="block">{{'Sign up with Facebook' | customTranslate | async}}</ion-button>
 
-      <div style="color: white;font-size: 12px;text-align: justify;padding:20px">
+      <div style="color: white;font-size: 12px;text-align: justify;padding:2px">
         <h6>{{'Dont have an account? ' | customTranslate | async}}<u (click)="create_account()">{{'Sign up' |
             customTranslate |
             async}}</u></h6>

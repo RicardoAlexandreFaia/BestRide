@@ -6,6 +6,7 @@ import { AlertController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { ResetPasswordModalPage } from './reset-password-modal/reset-password-modal.page';
 import { User } from '../user_tab/user';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-dados-conta',
@@ -34,6 +35,7 @@ export class DadosContaPage implements OnInit {
   public icon_input: string = 'create-outline';
 
   public language: string = this.translateService.currentLang;
+  ionicForm: FormGroup;
 
   public user: User;
   constructor(
@@ -41,16 +43,23 @@ export class DadosContaPage implements OnInit {
     private router: Router,
     private dadosContaApi: DadosContaApiService,
     public alertController: AlertController,
-    public modalController: ModalController
+    public modalController: ModalController,
+    public formBuilder: FormBuilder
   ) {
     this.user = new User('', '', '', '', '', ''); //  Initialize
   }
 
   ngOnInit() {
+    this.ionicForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      city: ['', Validators.required],
+      email: ['', Validators.required],
+      phone: ['', Validators.required],
+      address: ['', Validators.required],
+    });
     setTimeout(() => {
       this.user = this.dadosContaApi.getUser();
-      console.log(this.user);
-    }, 1000);
+    }, 2000);
   }
 
   ionViewDidEnter() {
@@ -74,16 +83,15 @@ export class DadosContaPage implements OnInit {
     this.presentModal();
   }
 
-  public alterarCampos(): void {
+  public updateUser(): void {
     let dados_conta_dict = {
-      name: this.name,
-      city: this.city,
-      email: this.email,
-      phone: this.phone,
-      address: this.address,
-      postal: this.postal,
+      name: this.ionicForm.value['name'],
+      city: this.ionicForm.value['city'],
+      email: this.ionicForm.value['email'],
+      phone: this.ionicForm.value['phone'],
+      address: this.ionicForm.value['address'],
     };
-    this.dadosContaApi.atualizaCampos(dados_conta_dict);
+    this.dadosContaApi.updateUser(dados_conta_dict);
   }
 
   async presentModal() {

@@ -14,6 +14,8 @@ export class DadosContaApiService {
   private url: String = '/users/';
   private url_get_user: String = '/getUser/';
   private url_cancel_usr: String = '/cancelAccount/';
+  private url_update_user: string = '/updateUser/';
+  private url_change_password: string = '/changePassword/';
 
   public email_get: string;
 
@@ -62,35 +64,48 @@ export class DadosContaApiService {
     return this.user;
   }
 
-  public atualizaPassword(pass: string): void {
-    let data = {
-      password: pass,
-    };
+  public updatePassword(pass: any): void {
     this.http
-      .put(environment.apiUrl + this.url + this.id + '/', data)
+      .put(environment.apiUrl + this.url_change_password + pass['token'], pass)
       .subscribe((resposta) => {
-        console.log(resposta['UserAttributes']);
+        console.log(resposta);
+        // Sucess on changing password
+        this.presentAlertPassword();
       });
   }
 
-  public atualizaCampos(data_account): void {
+  async presentAlertPassword() {
+    const alert = await this.alertController.create({
+      header: 'Message',
+      message: 'Your Password was Changed!',
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
+
+  public updateUser(data_account): void {
     const data = {
-      email: data_account['email'],
       name: data_account['name'],
       city: data_account['city'],
+      email: data_account['email'],
       phone_number: data_account['phone'],
-      adress: data_account['address'],
-      postal_code: data_account['postal'],
-      user_iduser: this.id,
+      address: data_account['address'],
     };
-    this.presentAlert();
+
+    const user_token = localStorage.getItem('token');
+    this.http
+      .put(environment.apiUrl + this.url_update_user + user_token, data)
+      .subscribe((response) => {
+        this.presentAlert();
+      });
+    // this.presentAlert();
   }
 
   async presentAlert() {
     const alert = await this.alertController.create({
-      header: this.data_user_alert_text['header'],
-      message: this.data_user_alert_text['message'],
-      buttons: [this.data_user_alert_text['buttons']],
+      header: 'Message',
+      message: 'Your Information was Updated !',
+      buttons: ['Confirm'],
     });
     await alert.present();
   }

@@ -62,6 +62,7 @@ export class LoginPage implements OnInit {
   });
 
   private login_alert_text = {};
+  public checked: Boolean = false;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -74,7 +75,6 @@ export class LoginPage implements OnInit {
     private comp: AppComponent,
     private account_api: CriaContaApiService
   ) {
-    this.setupFbLogin();
     comp.hide_tab = true;
     this.translateService.get('alert_login').subscribe((data) => {
       this.login_alert_text = {
@@ -83,76 +83,6 @@ export class LoginPage implements OnInit {
         buttons: data['buttons'][0],
       };
     });
-  }
-
-  /********************Facebook Login*************************** */
-  async setupFbLogin() {
-    if (isPlatform('desktop')) {
-      this.fbLogin = FacebookLogin;
-    } else {
-      // Use the native implementation inside a real app!
-      const { FacebookLogin } = Plugins;
-      this.fbLogin = FacebookLogin;
-    }
-  }
-
-  async login() {
-    const FACEBOOK_PERMISSIONS = ['email', 'user_birthday'];
-    const result = await this.fbLogin.login({
-      permissions: FACEBOOK_PERMISSIONS,
-    });
-
-    if (result.accessToken && result.accessToken.userId) {
-      this.token = result.accessToken;
-      this.loadUserData();
-      this.router.navigate(['/create-account']);
-    } else if (result.accessToken && !result.accessToken.userId) {
-      // Web only gets the token but not the user ID
-      // Directly call get token to retrieve it now
-      this.getCurrentToken();
-      //this.router.navigate(['/cria-conta']);
-    } else {
-      // Login failed
-    }
-  }
-
-  async getCurrentToken() {
-    const result = await this.fbLogin.getCurrentAccessToken();
-
-    if (result.accessToken) {
-      this.token = result.accessToken;
-      this.loadUserData();
-      this.router.navigate(['/menu']);
-    } else {
-      // Not logged in.
-    }
-  }
-
-  async loadUserData() {
-    const url = `https://graph.facebook.com/${this.token.userId}?fields=id,name,picture.width(720),birthday,email&access_token=${this.token.token}`;
-    this.http.get(url).subscribe((res) => {
-      this.user = res;
-    });
-  }
-
-  async logout() {
-    await this.fbLogin.logout();
-    this.user = null;
-    this.token = null;
-  }
-
-  //google login
-  // "https://lh3.googleusercontent.com/a/AATXAJzbqwk2kkimyVlIHxZK59wgGl8Z2UxLMCZ9NDuH=s96-c"
-  async googleSignup() {
-    const googleUser = (await Plugins.GoogleAuth.signIn(null)) as any;
-    this.userInfo = googleUser;
-    let dados_criar = {
-      dados_nome: this.userInfo['givenName'],
-      dados_email: this.userInfo['email'],
-      password: this.userInfo['givenName'],
-    };
-
-    this.account_api.criaContaGoogle(dados_criar);
   }
 
   ngOnInit() {}
@@ -168,14 +98,18 @@ export class LoginPage implements OnInit {
     }
   }
 
-  public submeter_login(): void {
+  public login(): void {
     if (!this.registrationForm.valid) {
       this.showDialog();
     } else {
       let email = this.registrationForm.get('email').value;
       let password = this.registrationForm.get('password').value;
-      this.loginApi.login_normal(email, password);
+      this.loginApi.login_user(email, password, this.checked);
     }
+  }
+
+  addValue(e): void {
+    this.checked = e.currentTarget.checked;
   }
 
   get email() {

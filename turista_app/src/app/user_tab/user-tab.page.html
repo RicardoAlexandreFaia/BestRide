@@ -22,7 +22,7 @@
       <ion-card>
         <h2 style="color: black;font-size: 25px;font-weight: bold;">User Definitions</h2>
 
-        <form class="form">
+        <form class="form" [formGroup]="ionicForm">
 
           <ion-list lines="full">
 
@@ -31,7 +31,8 @@
                 <ion-icon name="person-outline"></ion-icon>
               </ion-thumbnail>
               <ion-label position="stacked">{{ 'Name' | customTranslate | async}}</ion-label>
-              <ion-input type="text" required value="{{ user.name }}" [disabled]="name_input"></ion-input>
+              <ion-input formControlName="name" type="text" required value="{{ user.name }}" [disabled]="name_input">
+              </ion-input>
               <ion-button expand="block" slot="end" (click)="activateEdit('name')">
                 <ion-icon name="{{ icon_input }}"></ion-icon>
               </ion-button>
@@ -43,7 +44,8 @@
                 <ion-icon name="business-outline"></ion-icon>
               </ion-thumbnail>
               <ion-label position="stacked">{{ 'City' | customTranslate | async}}</ion-label>
-              <ion-input type="text" required value="{{ user.city }}" [disabled]="city_input"></ion-input>
+              <ion-input formControlName="city" type="text" required value="{{ user.city }}" [disabled]="city_input">
+              </ion-input>
               <ion-button expand="block" slot="end" (click)="activateEdit('city')">
                 <ion-icon name="{{ icon_input }}"></ion-icon>
               </ion-button>
@@ -54,7 +56,8 @@
                 <ion-icon name="mail-outline"></ion-icon>
               </ion-thumbnail>
               <ion-label position="stacked">{{ 'Email' | customTranslate | async}}</ion-label>
-              <ion-input type="email" required value="{{ user.email }}" [disabled]="email_input"></ion-input>
+              <ion-input formControlName="email" type="email" required value="{{ user.email }}"
+                [disabled]="email_input"></ion-input>
               <ion-button expand="block" slot="end" (click)="activateEdit('email')">
                 <ion-icon name="{{ icon_input }}"></ion-icon>
               </ion-button>
@@ -65,7 +68,8 @@
                 <ion-icon name="call-outline"></ion-icon>
               </ion-thumbnail>
               <ion-label position="stacked">{{ 'Phone Number' | customTranslate | async}}</ion-label>
-              <ion-input type="Number" required value="{{ user.phone }}" [disabled]="phone_input"></ion-input>
+              <ion-input formControlName="phone" type="Number" required value="{{ user.phone }}"
+                [disabled]="phone_input"></ion-input>
               <ion-button expand="block" slot="end" (click)="activateEdit('phone')">
                 <ion-icon name="{{ icon_input }}"></ion-icon>
               </ion-button>
@@ -76,7 +80,8 @@
                 <ion-icon name="home-outline"></ion-icon>
               </ion-thumbnail>
               <ion-label position="stacked">{{ 'Street address' | customTranslate | async}}</ion-label>
-              <ion-input type="text" required value="{{ user.address }}" [disabled]="street_input"></ion-input>
+              <ion-input formControlName="address" type="text" required value="{{ user.address }}"
+                [disabled]="street_input"></ion-input>
               <ion-button expand="block" slot="end" (click)="activateEdit('street')">
                 <ion-icon name="{{ icon_input }}"></ion-icon>
               </ion-button>
@@ -84,8 +89,10 @@
 
 
             <br>
-            <ion-button [disabled]="button" expand="block">{{'Update Account' | customTranslate | async}}
+            <ion-button [disabled]="button" (click)="updateUser()" expand="block">{{'Update Account' | customTranslate |
+              async}}
             </ion-button>
+
             <br>
             <ion-button color="warning" (click)="alterarPass()" expand="block">{{'Change Password' | customTranslate |
               async}}</ion-button>
