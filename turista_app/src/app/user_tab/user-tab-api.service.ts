@@ -65,29 +65,10 @@ export class DadosContaApiService {
     return this.user;
   }
 
-  private b64toBlob(dataURI) {
-    var byteString = atob(dataURI.split(',')[1]);
-    var ab = new ArrayBuffer(byteString.length);
-    var ia = new Uint8Array(ab);
-
-    for (var i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ab], { type: 'image/jpeg' });
-  }
-
   public updateImageUser(data: any) {
     const email = localStorage.getItem('email');
-
-    var blob = this.b64toBlob(data['image']);
-
-    var formData = new FormData();
-    formData.append('image', blob);
-
-    // Display the values
-    formData.forEach((ele) => {
-      console.log('Emeleme ' + ele.toString);
-    });
+    console.log('data');
+    console.log(data);
 
     this.http
       .put(
@@ -95,12 +76,12 @@ export class DadosContaApiService {
           this.url_change_user_image +
           'austrixpamaj@gmail.com',
         {
-          formData,
+          image: 'assasa',
         }
       )
       .subscribe(
         (resposta) => {
-          alert('OK');
+          console.log('OKAYYAYYAAYAYAYA');
         },
         (err) => {
           console.log(err);
@@ -148,6 +129,7 @@ export class DadosContaApiService {
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Message',
+      cssClass: 'my-custom-class',
       message: 'Your Information was Updated !',
       buttons: ['Confirm'],
     });

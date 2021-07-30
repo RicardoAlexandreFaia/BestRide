@@ -46,8 +46,6 @@
 7. npm install @ngx-translate/core @ngx-translate/http-loader --save
 8. npm i ion2-calendar@next moment
 9. npm install @ionic/storage-angular
-10. npm i cordova-plugin-telerik-imagepicker
-11. npm install @ionic-native/image-picker
 ```
 
 ---

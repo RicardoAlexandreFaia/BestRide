@@ -24,7 +24,7 @@ class PointInterest(models.Model):
 class User(models.Model):
     iduser = models.AutoField(db_column='idUser', primary_key=True)  # Field name made lowercase.
     email = models.CharField(max_length=255, blank=True, null=True)
-    image = models.CharField(max_length=300, blank=True, null=True)
+    image = models.CharField(max_length=4000, blank=True, null=True)
 
     class Meta:
         managed = False
