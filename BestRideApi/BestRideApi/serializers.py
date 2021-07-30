@@ -4,6 +4,12 @@ from .models import *
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
+
 class InterestPointsSerializaer(serializers.ModelSerializer):
     class Meta:
         model = PointInterest

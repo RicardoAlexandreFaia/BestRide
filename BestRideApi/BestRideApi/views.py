@@ -4,6 +4,7 @@ from botocore.exceptions import ClientError
 from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.parsers import JSONParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import *
@@ -178,6 +179,28 @@ class user_operations(APIView):
             return Response(response)
         except client.exceptions.InvalidPasswordException:
             return Response("Invalid Password", status=status.HTTP_404_NOT_FOUND)
+
+
+    @api_view(['POST'])
+    def saveUser(request):
+        if request.method == 'POST':
+            tutorial_data = JSONParser().parse(request)
+            tutorial_serializer = UserSerializer(data=tutorial_data)
+            if tutorial_serializer.is_valid():
+                tutorial_serializer.save()
+                return JsonResponse(tutorial_serializer.data, status=status.HTTP_201_CREATED)
+            return JsonResponse(tutorial_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @api_view(['PUT'])
+    def updateImageUser(request,email):
+        tutorial = User.objects.get(email=email)
+        tutorial_data = JSONParser().parse(request)
+        tutorial_serializer = UserSerializer(tutorial, data=tutorial_data)
+        if tutorial_serializer.is_valid():
+            tutorial_serializer.save()
+            return JsonResponse(tutorial_serializer.data)
+        return JsonResponse(tutorial_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 

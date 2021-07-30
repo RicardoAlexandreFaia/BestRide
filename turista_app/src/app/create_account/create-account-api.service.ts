@@ -11,6 +11,7 @@ import { CustomTranslateService } from '../shared/services/custom-translate.serv
 export class CriaContaApiService {
   private url: String = '/users/';
   private url_info: String = '/userInfo/';
+  private url_create_user_db = '/saveUser/';
   private url_add_turist: String = '/userInfo/add_to_turist_role';
 
   constructor(
@@ -33,9 +34,25 @@ export class CriaContaApiService {
       postal_code: data_dict['postal'],
       password: data_dict['pass'],
     };
+
     this.http.post(environment.apiUrl + this.url, postDataInfo).subscribe(
       (data) => {
         localStorage.setItem('email', data_dict['email']);
+        this.http
+          .post(environment.apiUrl + this.url_create_user_db, {
+            email: data_dict['email'],
+            image: '',
+          })
+          .subscribe(
+            (data) => {
+              console.log(data);
+              this.showAlertError('Sucess', 'Your account was Confirmed !');
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+
         this.router.navigate(['/confirm-account']);
       },
       (error) => {

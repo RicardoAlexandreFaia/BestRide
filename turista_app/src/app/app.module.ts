@@ -27,6 +27,9 @@ export function createTranslateLoader(http: HttpClient) {
 import { User } from './user_tab/user';
 import { CustomTranslatePipe } from './shared/pipes/custom-translate.pipe';
 import { SharedModule } from './shared/shared.module';
+
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -48,6 +51,7 @@ import { SharedModule } from './shared/shared.module';
   ],
   providers: [
     NativeStorage,
+    ImagePicker,
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy,

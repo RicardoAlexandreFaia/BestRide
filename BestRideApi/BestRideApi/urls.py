@@ -9,6 +9,8 @@ urlpatterns = [
     path('recoverUser/',views.user_operations.recoverAccount),
     path('updateUser/<str:token>',views.user_operations.updateUser),
     path('changePassword/<str:token>',views.user_operations.changePassword),
+    path('saveUser/',views.user_operations.saveUser),
+    path('updateImage/<str:email>',views.user_operations.updateImageUser),
     path('confirmRecoverUser/',views.user_operations.confirmRecoverAccount),
     path('verifyAccount/',views.user_operations.confirmAccount),
     path('resend_code/',views.user_operations.resend_code),

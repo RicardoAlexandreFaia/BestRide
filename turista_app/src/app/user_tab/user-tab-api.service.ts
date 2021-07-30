@@ -16,6 +16,7 @@ export class DadosContaApiService {
   private url_cancel_usr: String = '/cancelAccount/';
   private url_update_user: string = '/updateUser/';
   private url_change_password: string = '/changePassword/';
+  private url_change_user_image: String = '/updateImage/';
 
   public email_get: string;
 
@@ -62,6 +63,49 @@ export class DadosContaApiService {
 
   public getUser(): User {
     return this.user;
+  }
+
+  private b64toBlob(dataURI) {
+    var byteString = atob(dataURI.split(',')[1]);
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: 'image/jpeg' });
+  }
+
+  public updateImageUser(data: any) {
+    const email = localStorage.getItem('email');
+
+    var blob = this.b64toBlob(data['image']);
+
+    var formData = new FormData();
+    formData.append('image', blob);
+
+    // Display the values
+    formData.forEach((ele) => {
+      console.log('Emeleme ' + ele.toString);
+    });
+
+    this.http
+      .put(
+        environment.apiUrl +
+          this.url_change_user_image +
+          'austrixpamaj@gmail.com',
+        {
+          formData,
+        }
+      )
+      .subscribe(
+        (resposta) => {
+          alert('OK');
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
   }
 
   public updatePassword(pass: any): void {
