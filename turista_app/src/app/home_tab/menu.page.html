@@ -8,22 +8,23 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [scrollEvents]="true">
+<ion-content [scrollEvents]="false">
   <div class="body">
 
-    <svg height="100%" width="100%">
+    <svg height="calc(100%)" width="calc(100%)">
       <circle cx="0" cy="0" r="220" fill="#00adff" />
       <circle cx="0" cy="calc(100%)" r="210" fill="#58a600" />
       <circle cx="calc(100%)" cy="calc(50%)" r="210" fill="#ff3f00" />
     </svg>
 
     <div class="content">
+      <!--
       <ion-card style="text-align: justify;">
         <br>
         <div id="iti_title">
           <h2> {{ 'Lisbon' | customTranslate | async}} <br> {{ 'itineraries' | customTranslate | async}}</h2>
         </div>
-        <div scrollY="true" class="botoes">
+        <div class="botoes">
           <ion-list *ngFor="let road of trips">
             <ion-card-header>
               <ion-card-subtitle> {{ "Price : " + road.price + "€ Duration : " + road.duration | customTranslate |
@@ -35,7 +36,7 @@
             <ion-card-content>
               {{ road.description| customTranslate | async}}
               <img [src]="road.image">
-
+              <hr>
               <ion-button (click)="showRoteiro(road)" expand="block" color="dark"> {{'Book Tour' | customTranslate |
                 async}}
               </ion-button>
@@ -45,9 +46,32 @@
             </ion-card-content>
           </ion-list>
         </div>
+      </ion-card>-->
+      <ion-card>
+        <div id="iti_title">
+          <h2> {{ 'Lisbon' | customTranslate | async}} <br> {{ 'itineraries' | customTranslate | async}}</h2>
+        </div>
+        <ion-card-content *ngFor="let road of trips">
+          <ion-card-header>
+            <ion-card-subtitle> {{ "Price : " + road.price + "€ Duration : " + road.duration | customTranslate |
+              async
+              }}
+            </ion-card-subtitle>
+            <ion-card-title>{{ road.title| customTranslate | async}}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            {{ road.description| customTranslate | async}}
+            <img [src]="road.image">
+            <hr>
+            <ion-button (click)="showRoteiro(road)" expand="block" color="dark"> {{'Book Tour' | customTranslate |
+              async}}
+            </ion-button>
+            <ion-button (click)="trip_map_details(road)" expand="block" color="success"> {{'See Tour' |
+              customTranslate | async}}
+            </ion-button>
+          </ion-card-content>
+        </ion-card-content>
       </ion-card>
     </div>
-
-
   </div>
 </ion-content>

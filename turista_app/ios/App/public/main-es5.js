@@ -461,7 +461,19 @@
 
       var _shared_shared_module__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(
       /*! ./shared/shared.module */
-      "PCNd"); // Modulos para translacao
+      "PCNd");
+      /* harmony import */
+
+
+      var _ionic_native_Camera_ngx__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(
+      /*! @ionic-native/Camera/ngx */
+      "KqBo");
+      /* harmony import */
+
+
+      var _ionic_native_file_ngx__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(
+      /*! @ionic-native/file/ngx */
+      "FAH8"); // Modulos para translacao
 
 
       function createTranslateLoader(http) {
@@ -482,7 +494,7 @@
             deps: [_angular_common_http__WEBPACK_IMPORTED_MODULE_9__["HttpClient"]]
           }
         }), _shared_shared_module__WEBPACK_IMPORTED_MODULE_14__["SharedModule"]],
-        providers: [_ionic_native_native_storage_ngx__WEBPACK_IMPORTED_MODULE_12__["NativeStorage"], {
+        providers: [_ionic_native_native_storage_ngx__WEBPACK_IMPORTED_MODULE_12__["NativeStorage"], _ionic_native_Camera_ngx__WEBPACK_IMPORTED_MODULE_15__["Camera"], _ionic_native_file_ngx__WEBPACK_IMPORTED_MODULE_16__["File"], {
           provide: _angular_router__WEBPACK_IMPORTED_MODULE_3__["RouteReuseStrategy"],
           useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["IonicRouteStrategy"]
         }, _ionic_native_geolocation_ngx__WEBPACK_IMPORTED_MODULE_7__["Geolocation"], _ionic_native_native_geocoder_ngx__WEBPACK_IMPORTED_MODULE_8__["NativeGeocoder"], {

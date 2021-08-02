@@ -85,6 +85,7 @@
           this.ct = ct;
           this.url = '/users/';
           this.url_info = '/userInfo/';
+          this.url_create_user_db = '/saveUser/';
           this.url_add_turist = '/userInfo/add_to_turist_role';
         }
 
@@ -106,6 +107,17 @@
             };
             this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl + this.url, postDataInfo).subscribe(function (data) {
               localStorage.setItem('email', data_dict['email']);
+
+              _this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl + _this.url_create_user_db, {
+                email: data_dict['email'],
+                image: ''
+              }).subscribe(function (data) {
+                console.log(data);
+
+                _this.showAlertError('Sucess', 'Your account was Confirmed !');
+              }, function (error) {
+                console.log(error);
+              });
 
               _this.router.navigate(['/confirm-account']);
             }, function (error) {

@@ -66,6 +66,7 @@ let DadosContaApiService = class DadosContaApiService {
         this.url_cancel_usr = '/cancelAccount/';
         this.url_update_user = '/updateUser/';
         this.url_change_password = '/changePassword/';
+        this.url_change_user_image = '/updateImage/';
         this.id = localStorage.getItem('id');
         this.data_user_alert_text = {};
         this.user = new _user_tab_user__WEBPACK_IMPORTED_MODULE_8__["User"]('', '', '', '', '', '');
@@ -84,6 +85,22 @@ let DadosContaApiService = class DadosContaApiService {
     }
     getUser() {
         return this.user;
+    }
+    updateImageUser(data) {
+        const email = localStorage.getItem('email');
+        console.log('data');
+        console.log(data);
+        this.http
+            .put(src_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl +
+            this.url_change_user_image +
+            'austrixpamaj@gmail.com', {
+            image: 'assasa',
+        })
+            .subscribe((resposta) => {
+            console.log('OKAYYAYYAAYAYAYA');
+        }, (err) => {
+            console.log(err);
+        });
     }
     updatePassword(pass) {
         this.http
@@ -124,6 +141,7 @@ let DadosContaApiService = class DadosContaApiService {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             const alert = yield this.alertController.create({
                 header: 'Message',
+                cssClass: 'my-custom-class',
                 message: 'Your Information was Updated !',
                 buttons: ['Confirm'],
             });

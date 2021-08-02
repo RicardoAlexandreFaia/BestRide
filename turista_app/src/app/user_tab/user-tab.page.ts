@@ -1,8 +1,20 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { DadosContaApiService } from './user-tab-api.service';
-import { AlertController } from '@ionic/angular';
+import {
+  ActionSheetController,
+  AlertController,
+  LoadingController,
+  Platform,
+  ToastController,
+} from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { ResetPasswordModalPage } from './reset-password-modal/reset-password-modal.page';
 import { User } from '../user_tab/user';
@@ -38,8 +50,6 @@ export class DadosContaPage implements OnInit {
   ionicForm: FormGroup;
 
   public user: User;
-  imageResponse: any;
-  options: any;
 
   constructor(
     private translateService: TranslateService,
@@ -47,7 +57,8 @@ export class DadosContaPage implements OnInit {
     private dadosContaApi: DadosContaApiService,
     public alertController: AlertController,
     public modalController: ModalController,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    public actionSheetController: ActionSheetController
   ) {
     this.user = new User('', '', '', '', '', ''); //  Initialize
   }

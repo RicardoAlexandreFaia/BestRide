@@ -134,6 +134,7 @@
           this.url_cancel_usr = '/cancelAccount/';
           this.url_update_user = '/updateUser/';
           this.url_change_password = '/changePassword/';
+          this.url_change_user_image = '/updateImage/';
           this.id = localStorage.getItem('id');
           this.data_user_alert_text = {};
           this.user = new _user_tab_user__WEBPACK_IMPORTED_MODULE_8__["User"]('', '', '', '', '', '');
@@ -157,6 +158,20 @@
           key: "getUser",
           value: function getUser() {
             return this.user;
+          }
+        }, {
+          key: "updateImageUser",
+          value: function updateImageUser(data) {
+            var email = localStorage.getItem('email');
+            console.log('data');
+            console.log(data);
+            this.http.put(src_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl + this.url_change_user_image + 'austrixpamaj@gmail.com', {
+              image: 'assasa'
+            }).subscribe(function (resposta) {
+              console.log('OKAYYAYYAAYAYAYA');
+            }, function (err) {
+              console.log(err);
+            });
           }
         }, {
           key: "updatePassword",
@@ -227,6 +242,7 @@
                       _context2.next = 2;
                       return this.alertController.create({
                         header: 'Message',
+                        cssClass: 'my-custom-class',
                         message: 'Your Information was Updated !',
                         buttons: ['Confirm']
                       });

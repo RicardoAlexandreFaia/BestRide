@@ -227,6 +227,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ionic_native_native_storage_ngx__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @ionic-native/native-storage/ngx */ "M2ZX");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
 /* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./shared/shared.module */ "PCNd");
+/* harmony import */ var _ionic_native_Camera_ngx__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @ionic-native/Camera/ngx */ "KqBo");
+/* harmony import */ var _ionic_native_file_ngx__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @ionic-native/file/ngx */ "FAH8");
 
 
 
@@ -245,6 +247,8 @@ __webpack_require__.r(__webpack_exports__);
 function createTranslateLoader(http) {
     return new _ngx_translate_http_loader__WEBPACK_IMPORTED_MODULE_11__["TranslateHttpLoader"](http, './assets/lang/', '.json');
 }
+
+
 
 let AppModule = class AppModule {
 };
@@ -270,6 +274,8 @@ AppModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         ],
         providers: [
             _ionic_native_native_storage_ngx__WEBPACK_IMPORTED_MODULE_12__["NativeStorage"],
+            _ionic_native_Camera_ngx__WEBPACK_IMPORTED_MODULE_15__["Camera"],
+            _ionic_native_file_ngx__WEBPACK_IMPORTED_MODULE_16__["File"],
             {
                 provide: _angular_router__WEBPACK_IMPORTED_MODULE_3__["RouteReuseStrategy"],
                 useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["IonicRouteStrategy"],

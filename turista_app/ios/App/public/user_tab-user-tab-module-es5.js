@@ -155,7 +155,7 @@
       /* harmony default export */
 
 
-      __webpack_exports__["default"] = "<ion-header>\r\n  <ion-toolbar>\r\n    <div class=\"header\">\r\n      <img id=\"img\" src=\"assets/BestRideSplash.png\" />\r\n      <ion-title id=\"headerTitle\" style=\"text-align: center;\">BestRide\r\n      </ion-title>\r\n    </div>\r\n    <ion-buttons slot=\"start\">\r\n      <ion-menu-button menu=\"main-menu\"></ion-menu-button>\r\n    </ion-buttons>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content>\r\n  <div class=\"body\">\r\n    <svg height=\"100%\" width=\"100%\">\r\n      <circle cx=\"0\" cy=\"0\" r=\"230\" fill=\"#BC3592\" />\r\n      <circle cx=\"0\" cy=\"calc(100%)\" r=\"230\" fill=\"#FFBA00\" />\r\n      <circle cx=\"calc(100%)\" cy=\"calc(100%)\" r=\"230\" fill=\"#FF3F00\" />\r\n    </svg>\r\n    <div class=\"content\">\r\n      <ion-card>\r\n        <h2 style=\"color: black;font-size: 25px;font-weight: bold;\">User Definitions</h2>\r\n\r\n        <form class=\"form\" [formGroup]=\"ionicForm\">\r\n\r\n          <ion-col text-center>\r\n            <ion-button (click)=\"imagePicker()\">Select Images</ion-button>\r\n          </ion-col>\r\n\r\n          <div class=\"pick-single-image\" *ngFor=\"let image of imgRes\">\r\n            <img src=\"{{image}}\" alt=\"\" srcset=\"\">\r\n          </div>\r\n\r\n\r\n          <ion-list lines=\"full\">\r\n\r\n            <ion-item>\r\n              <ion-thumbnail slot=\"start\">\r\n                <ion-icon name=\"person-outline\"></ion-icon>\r\n              </ion-thumbnail>\r\n              <ion-label position=\"stacked\">{{ 'Name' | customTranslate | async}}</ion-label>\r\n              <ion-input formControlName=\"name\" type=\"text\" required value=\"{{ user.name }}\" [disabled]=\"name_input\">\r\n              </ion-input>\r\n              <ion-button expand=\"block\" slot=\"end\" (click)=\"activateEdit('name')\">\r\n                <ion-icon name=\"{{ icon_input }}\"></ion-icon>\r\n              </ion-button>\r\n            </ion-item>\r\n\r\n\r\n            <ion-item>\r\n              <ion-thumbnail slot=\"start\">\r\n                <ion-icon name=\"business-outline\"></ion-icon>\r\n              </ion-thumbnail>\r\n              <ion-label position=\"stacked\">{{ 'City' | customTranslate | async}}</ion-label>\r\n              <ion-input formControlName=\"city\" type=\"text\" required value=\"{{ user.city }}\" [disabled]=\"city_input\">\r\n              </ion-input>\r\n              <ion-button expand=\"block\" slot=\"end\" (click)=\"activateEdit('city')\">\r\n                <ion-icon name=\"{{ icon_input }}\"></ion-icon>\r\n              </ion-button>\r\n            </ion-item>\r\n\r\n            <ion-item>\r\n              <ion-thumbnail slot=\"start\">\r\n                <ion-icon name=\"mail-outline\"></ion-icon>\r\n              </ion-thumbnail>\r\n              <ion-label position=\"stacked\">{{ 'Email' | customTranslate | async}}</ion-label>\r\n              <ion-input formControlName=\"email\" type=\"email\" required value=\"{{ user.email }}\"\r\n                [disabled]=\"email_input\"></ion-input>\r\n              <ion-button expand=\"block\" slot=\"end\" (click)=\"activateEdit('email')\">\r\n                <ion-icon name=\"{{ icon_input }}\"></ion-icon>\r\n              </ion-button>\r\n            </ion-item>\r\n\r\n            <ion-item>\r\n              <ion-thumbnail slot=\"start\">\r\n                <ion-icon name=\"call-outline\"></ion-icon>\r\n              </ion-thumbnail>\r\n              <ion-label position=\"stacked\">{{ 'Phone Number' | customTranslate | async}}</ion-label>\r\n              <ion-input formControlName=\"phone\" type=\"Number\" required value=\"{{ user.phone }}\"\r\n                [disabled]=\"phone_input\"></ion-input>\r\n              <ion-button expand=\"block\" slot=\"end\" (click)=\"activateEdit('phone')\">\r\n                <ion-icon name=\"{{ icon_input }}\"></ion-icon>\r\n              </ion-button>\r\n            </ion-item>\r\n\r\n            <ion-item>\r\n              <ion-thumbnail slot=\"start\">\r\n                <ion-icon name=\"home-outline\"></ion-icon>\r\n              </ion-thumbnail>\r\n              <ion-label position=\"stacked\">{{ 'Street address' | customTranslate | async}}</ion-label>\r\n              <ion-input formControlName=\"address\" type=\"text\" required value=\"{{ user.address }}\"\r\n                [disabled]=\"street_input\"></ion-input>\r\n              <ion-button expand=\"block\" slot=\"end\" (click)=\"activateEdit('street')\">\r\n                <ion-icon name=\"{{ icon_input }}\"></ion-icon>\r\n              </ion-button>\r\n            </ion-item>\r\n\r\n\r\n            <br>\r\n            <ion-button [disabled]=\"button\" (click)=\"updateUser()\" expand=\"block\">{{'Update Account' | customTranslate |\r\n              async}}\r\n            </ion-button>\r\n\r\n            <br>\r\n            <ion-button color=\"warning\" (click)=\"alterarPass()\" expand=\"block\">{{'Change Password' | customTranslate |\r\n              async}}</ion-button>\r\n            <br>\r\n            <ion-button color=\"danger\" expand=\"block\" (click)=\"deleteAccount()\">{{'Delete Account' | customTranslate |\r\n              async}}\r\n            </ion-button>\r\n\r\n          </ion-list>\r\n        </form>\r\n      </ion-card>\r\n    </div>\r\n  </div>\r\n</ion-content>";
+      __webpack_exports__["default"] = "<ion-header>\r\n  <ion-toolbar>\r\n    <div class=\"header\">\r\n      <img id=\"img\" src=\"assets/BestRideSplash.png\" />\r\n      <ion-title id=\"headerTitle\" style=\"text-align: center;\">BestRide\r\n      </ion-title>\r\n    </div>\r\n    <ion-buttons slot=\"start\">\r\n      <ion-menu-button menu=\"main-menu\"></ion-menu-button>\r\n    </ion-buttons>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content>\r\n  <div class=\"body\">\r\n    <svg height=\"100%\" width=\"100%\">\r\n      <circle cx=\"0\" cy=\"0\" r=\"230\" fill=\"#BC3592\" />\r\n      <circle cx=\"0\" cy=\"calc(100%)\" r=\"230\" fill=\"#FFBA00\" />\r\n      <circle cx=\"calc(100%)\" cy=\"calc(100%)\" r=\"230\" fill=\"#FF3F00\" />\r\n    </svg>\r\n    <div class=\"content\">\r\n      <ion-card>\r\n        <h2 style=\"color: black;font-size: 25px;font-weight: bold;\">User Definitions</h2>\r\n\r\n        <form class=\"form\" [formGroup]=\"ionicForm\">\r\n\r\n\r\n\r\n          <ion-list lines=\"full\">\r\n            <ion-item>\r\n              <ion-thumbnail slot=\"start\">\r\n                <ion-icon name=\"person-outline\"></ion-icon>\r\n              </ion-thumbnail>\r\n              <ion-label position=\"stacked\">{{ 'Name' | customTranslate | async}}</ion-label>\r\n              <ion-input formControlName=\"name\" type=\"text\" required value=\"{{ user.name }}\" [disabled]=\"name_input\">\r\n              </ion-input>\r\n              <ion-button expand=\"block\" slot=\"end\" (click)=\"activateEdit('name')\">\r\n                <ion-icon name=\"{{ icon_input }}\"></ion-icon>\r\n              </ion-button>\r\n            </ion-item>\r\n\r\n\r\n            <ion-item>\r\n              <ion-thumbnail slot=\"start\">\r\n                <ion-icon name=\"business-outline\"></ion-icon>\r\n              </ion-thumbnail>\r\n              <ion-label position=\"stacked\">{{ 'City' | customTranslate | async}}</ion-label>\r\n              <ion-input formControlName=\"city\" type=\"text\" required value=\"{{ user.city }}\" [disabled]=\"city_input\">\r\n              </ion-input>\r\n              <ion-button expand=\"block\" slot=\"end\" (click)=\"activateEdit('city')\">\r\n                <ion-icon name=\"{{ icon_input }}\"></ion-icon>\r\n              </ion-button>\r\n            </ion-item>\r\n\r\n            <ion-item>\r\n              <ion-thumbnail slot=\"start\">\r\n                <ion-icon name=\"mail-outline\"></ion-icon>\r\n              </ion-thumbnail>\r\n              <ion-label position=\"stacked\">{{ 'Email' | customTranslate | async}}</ion-label>\r\n              <ion-input formControlName=\"email\" type=\"email\" required value=\"{{ user.email }}\"\r\n                [disabled]=\"email_input\"></ion-input>\r\n              <ion-button expand=\"block\" slot=\"end\" (click)=\"activateEdit('email')\">\r\n                <ion-icon name=\"{{ icon_input }}\"></ion-icon>\r\n              </ion-button>\r\n            </ion-item>\r\n\r\n            <ion-item>\r\n              <ion-thumbnail slot=\"start\">\r\n                <ion-icon name=\"call-outline\"></ion-icon>\r\n              </ion-thumbnail>\r\n              <ion-label position=\"stacked\">{{ 'Phone Number' | customTranslate | async}}</ion-label>\r\n              <ion-input formControlName=\"phone\" type=\"Number\" required value=\"{{ user.phone }}\"\r\n                [disabled]=\"phone_input\"></ion-input>\r\n              <ion-button expand=\"block\" slot=\"end\" (click)=\"activateEdit('phone')\">\r\n                <ion-icon name=\"{{ icon_input }}\"></ion-icon>\r\n              </ion-button>\r\n            </ion-item>\r\n\r\n            <ion-item>\r\n              <ion-thumbnail slot=\"start\">\r\n                <ion-icon name=\"home-outline\"></ion-icon>\r\n              </ion-thumbnail>\r\n              <ion-label position=\"stacked\">{{ 'Street address' | customTranslate | async}}</ion-label>\r\n              <ion-input formControlName=\"address\" type=\"text\" required value=\"{{ user.address }}\"\r\n                [disabled]=\"street_input\"></ion-input>\r\n              <ion-button expand=\"block\" slot=\"end\" (click)=\"activateEdit('street')\">\r\n                <ion-icon name=\"{{ icon_input }}\"></ion-icon>\r\n              </ion-button>\r\n            </ion-item>\r\n\r\n\r\n            <br>\r\n            <ion-button [disabled]=\"button\" (click)=\"updateUser()\" expand=\"block\">{{'Update Account' | customTranslate |\r\n              async}}\r\n            </ion-button>\r\n\r\n            <br>\r\n            <ion-button color=\"warning\" (click)=\"alterarPass()\" expand=\"block\">{{'Change Password' | customTranslate |\r\n              async}}</ion-button>\r\n            <br>\r\n            <ion-button color=\"danger\" expand=\"block\" (click)=\"deleteAccount()\">{{'Delete Account' | customTranslate |\r\n              async}}\r\n            </ion-button>\r\n\r\n          </ion-list>\r\n        </form>\r\n      </ion-card>\r\n    </div>\r\n  </div>\r\n</ion-content>";
       /***/
     },
 
@@ -244,9 +244,15 @@
       var _angular_forms__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(
       /*! @angular/forms */
       "3Pt+");
+      /* harmony import */
+
+
+      var _ionic_native_Camera_ngx__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(
+      /*! @ionic-native/Camera/ngx */
+      "KqBo");
 
       var DadosContaPage = /*#__PURE__*/function () {
-        function DadosContaPage(translateService, router, dadosContaApi, alertController, modalController, formBuilder) {
+        function DadosContaPage(translateService, router, dadosContaApi, alertController, modalController, formBuilder, camera, actionSheetController, file) {
           _classCallCheck(this, DadosContaPage);
 
           this.translateService = translateService;
@@ -255,6 +261,9 @@
           this.alertController = alertController;
           this.modalController = modalController;
           this.formBuilder = formBuilder;
+          this.camera = camera;
+          this.actionSheetController = actionSheetController;
+          this.file = file;
           this.showPass = false;
           this.passwordIconToggle = 'eye'; // Input Controls
 
@@ -270,16 +279,6 @@
         }
 
         _createClass(DadosContaPage, [{
-          key: "imagePicker",
-          value: function imagePicker() {
-            var options = {
-              width: 200,
-              quality: 30,
-              outputType: 1
-            };
-            this.imgRes = [];
-          }
-        }, {
           key: "ngOnInit",
           value: function ngOnInit() {
             var _this = this;
@@ -422,6 +421,12 @@
           type: _ionic_angular__WEBPACK_IMPORTED_MODULE_7__["ModalController"]
         }, {
           type: _angular_forms__WEBPACK_IMPORTED_MODULE_10__["FormBuilder"]
+        }, {
+          type: _ionic_native_Camera_ngx__WEBPACK_IMPORTED_MODULE_11__["Camera"]
+        }, {
+          type: _ionic_angular__WEBPACK_IMPORTED_MODULE_7__["ActionSheetController"]
+        }, {
+          type: File
         }];
       };
 
