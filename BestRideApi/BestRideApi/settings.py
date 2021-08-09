@@ -19,7 +19,7 @@ env.read_env()
 
 #GDAL_LIBRARY_PATH = r'C:\OSGeo4W64\bin\gdal303.dll'
 GDAL_LIBRARY_PATH = env.str("GDAL_PATH")
-
+GEOS_LIBRARY_PATH=env.str("GEOS_PATH")
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'BestRideApi.wsgi.application'
 DATABASES = {
     'default': {
         #'ENGINE': 'django.db.backends.mysql',
- 'ENGINE': 'django.contrib.gis.db.backends.mysql',
+        'ENGINE': 'django.contrib.gis.db.backends.mysql',
         'NAME': env.str('NAME'),
         'USER': env.str('USER'),
         'PASSWORD':env.str('PASSWORD'),

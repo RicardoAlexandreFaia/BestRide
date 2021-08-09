@@ -51,7 +51,6 @@
 ---
 
 # Se houver Algum erro no codigo do Image Picker no Android Studio executar:
-
 npm install jetifier
 npx jetify
 npx cap sync android

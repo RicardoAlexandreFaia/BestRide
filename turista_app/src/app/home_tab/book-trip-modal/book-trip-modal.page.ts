@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 import {
   Geolocation,
   GeolocationOptions,
@@ -13,6 +14,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { retry } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 declare var google: any;
 
@@ -38,7 +40,9 @@ export class BookTripModalPage implements OnInit {
     private modalCtr: ModalController,
     private translate: TranslateService,
     private map_service: MapServiceService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router,
+    private storage: NativeStorage,
   ) {}
 
   ngOnInit() {
@@ -53,6 +57,8 @@ export class BookTripModalPage implements OnInit {
   ionViewDidEnter() {}
 
   async close() {
+    localStorage.setItem('itineraries', '1'); //ver titulo do itenerario
+
     const closeModal: string = 'Modal Closed';
     await this.modalCtr.dismiss(closeModal);
   }

@@ -11,6 +11,7 @@ django-cors-headers = "*"
 mysqlclient = "*"
 boto3 = "*"
 djangorestframework-gis = "*"
+psycopg2 = "*"
 
 [dev-packages]
 
