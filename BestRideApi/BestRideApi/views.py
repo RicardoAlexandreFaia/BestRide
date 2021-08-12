@@ -12,18 +12,12 @@ from rest_framework_gis.pagination import GeoJsonPagination
 from django.contrib.gis.geos import Point
 from environs import Env
 import math
-
-
+import boto3
 
 env = Env()
 env.read_env()
 
-
-import boto3
-
-
 class user_operations(APIView):
-
 
     @api_view(['POST'])
     def recoverAccount(request):
@@ -37,8 +31,6 @@ class user_operations(APIView):
             return Response(response)
         except client.exceptions.UserNotFoundException:
             return Response("User Not Found", status=status.HTTP_404_NOT_FOUND)
-
-
 
     @api_view(['POST'])
     def confirmRecoverAccount(request):
@@ -55,8 +47,6 @@ class user_operations(APIView):
             return Response(response)
         except client.exceptions.UserNotFoundException:
             return Response("User Not Found", status=status.HTTP_404_NOT_FOUND)
-
-
 
     @api_view(['POST'])
     def resend_code(request):
@@ -80,9 +70,6 @@ class user_operations(APIView):
             return Response("Code not Delivered", status=status.HTTP_404_NOT_FOUND)
         except client.exceptions.UserNotFoundException:
             return Response("User Not Found", status=status.HTTP_404_NOT_FOUND)
-
-
-
 
     @api_view(['POST'])
     def confirmAccount(request):
@@ -108,10 +95,6 @@ class user_operations(APIView):
         except cidp.exceptions.ExpiredCodeException:
             return Response("Code had Expired", status=status.HTTP_404_NOT_FOUND)
 
-
-
-
-
     @api_view(['GET'])
     def getUser(request,token):
         boto3.setup_default_session(region_name='eu-west-2')
@@ -127,7 +110,6 @@ class user_operations(APIView):
             return Response("User Not Found", status=status.HTTP_404_NOT_FOUND)
         except cidp.exceptions.NotAuthorizedException:
             return Response("Wrong Acess Token", status=status.HTTP_404_NOT_FOUND)
-
 
     @api_view(['PUT'])
     def updateUser(request,token):
@@ -162,8 +144,6 @@ class user_operations(APIView):
         except client.exceptions.UserNotConfirmedException:
             return Response("Confirm your account!", status=status.HTTP_404_NOT_FOUND)
 
-
-
     @api_view(['PUT'])
     def changePassword(request,token):
         boto3.setup_default_session(region_name='eu-west-2')
@@ -179,7 +159,6 @@ class user_operations(APIView):
             return Response(response)
         except client.exceptions.InvalidPasswordException:
             return Response("Invalid Password", status=status.HTTP_404_NOT_FOUND)
-
 
     @api_view(['POST'])
     def saveUser(request):
@@ -201,10 +180,6 @@ class user_operations(APIView):
             return JsonResponse(tutorial_serializer.data)
         return JsonResponse(tutorial_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-
-
-
     @api_view(['POST'])
     def cancelAccount(request):
         boto3.setup_default_session(region_name='eu-west-2')
@@ -216,7 +191,6 @@ class user_operations(APIView):
             return Response("User eliminated !")
         except client.exceptions.UserNotFoundException:
             return Response("User Not Found", status=status.HTTP_400_BAD_REQUEST)
-
 
     def post(self, request):
         boto3.setup_default_session(region_name='eu-west-2')
@@ -266,9 +240,6 @@ class user_operations(APIView):
         except client.exceptions.CodeDeliveryFailureException:
             return Response("Error on send Code !", status=status.HTTP_404_NOT_FOUND)
 
-
-
-
     @api_view(['POST'])
     def login(request):
         boto3.setup_default_session(region_name='eu-west-2')
@@ -300,11 +271,6 @@ class user_operations(APIView):
             })
 
         return Response(response)
-
-
-
-
-
 
 class TranslateAWS():
 
@@ -354,8 +320,6 @@ class Routes(APIView):
 
         Road_Serializer = RoadMapSerializer(Road,many=True)
         return Response(Road_Serializer.data)
-
-
 
     @api_view(['POST'])
     def distance(request):

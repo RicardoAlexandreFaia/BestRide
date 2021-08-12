@@ -91,3 +91,19 @@ class Vehicle(models.Model):
     class Meta:
         managed = False
         db_table = 'vehicle'
+
+
+class Travel(models.Model):
+    idViagem = models.AutoField(db_column='idViagem', primary_key=True)  # Field name made lowercase.
+    idPagamento = models.IntegerField()
+    dataViagem = models.DateTimeField()
+    turist_id = models.ForeignKey(User, models.DO_NOTHING, db_column='User')
+    horaInicio = models.DateTimeField()
+    horaFim = models.DateTimeField()
+    road_map = models.ForeignKey('RoadMap', models.DO_NOTHING)
+    turist_id = models.ForeignKey(User, models.DO_NOTHING, db_column='User')
+
+
+    class Meta:
+        managed = False
+        db_table = 'Travel'
