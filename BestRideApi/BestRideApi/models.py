@@ -113,9 +113,9 @@ class Comments(models.Model):
     idComment = models.AutoField(db_column='id', primary_key=True)  # Field name made lowercase.
     comment = models.CharField(max_length=300, blank=True, null=True)
     pontuation = models.IntegerField()
-    User_idUser = models.ForeignKey('User_idUser', models.DO_NOTHING, db_column='User_idUser')
+    User_idUser = models.ForeignKey(User, models.DO_NOTHING, db_column='User_idUser')
     road_map = models.ForeignKey(RoadMap, models.DO_NOTHING, db_column='id_road_map')
 
     class Meta:
         managed = False
-        db_table = 'driver_coments'
+        db_table = 'comments'

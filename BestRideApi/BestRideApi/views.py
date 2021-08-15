@@ -391,10 +391,9 @@ class Routes(APIView):
 class Comments(APIView):
 
     @api_view(['GET'])
-    def getComments(request, id):
-        if id:
-            Comment = Comments.objects.filter(road_map=id)
-            Comments_Serializer = CommentsSerializer(Comment, many=True)
-            return Response(Comments_Serializer.data)
-        else:
-            return Response("ID missing")
+    def getComments(request):
+        comment = Comments.objects.filter(road_map=request.data['id'])
+        comments_Serializer = CommentsSerializer(comment, many=True)
+        return Response(comments_Serializer.data)
+
+
