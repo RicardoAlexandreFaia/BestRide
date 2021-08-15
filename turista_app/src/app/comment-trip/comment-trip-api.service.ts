@@ -13,8 +13,8 @@ import { RoadMap } from '../home_tab/roadMap';
 export class CommentApiService {
   //urls
   private url: String = '/users/';
-  private url_info: String = '/userInfo/';
-  private url_comments: String = '/comments/';
+  private url_get_user: String = '/getUser/';
+  private url_comments: String = '/getComments/';
   private url_road = '/itineary/showRoadMap';
 
   constructor(
@@ -27,7 +27,8 @@ export class CommentApiService {
   public comments: Observable<any>;
   
   public get_comments(id: Number): Observable<any> {
-    this.comments = this.http.get(environment.apiUrl + this.url + id);
+    this.comments = this.http.post(environment.apiUrl + this.url_comments, {id : id});
     return this.comments;
   }
+  
 }

@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CommentApiService } from './comment-trip-api.service';
 import { Observable } from 'rxjs';
+import { Comment } from './comment';
 
 @Component({
   selector: 'app-comment-trip',
@@ -18,7 +19,7 @@ export class CommentTripPage implements OnInit {
   public ionicForm: FormGroup;
   public roadId : Number;
   public roadTitle : String;
-  public comments:  Observable<any>;
+  public comments:  Array<Comment> = [];
   public progress: boolean = false;
 
   public registrationForm = this.formBuilder.group({
@@ -53,15 +54,21 @@ export class CommentTripPage implements OnInit {
   }
   
   public getComments(){
-    this.comments = this.comments_api.get_comments(this.roadId);
-    setTimeout(() => {
-      this.progress = true;
-      this.comments.forEach((element) => {});
-    }, 2000);
+    this.comments_api.get_comments(this.roadId).subscribe((data) => {
+      for (let pos in data) {
+        this.comments.push(
+          new Comment(
+            data[pos].id,
+            data[pos].pontuation,
+            data[pos].comment,
+            data[pos].User_idUser
+          )
+        );
+      }
+    });
   }
 
   public getRoadTitle(){
     return this.roadTitle;
   }
-
 }

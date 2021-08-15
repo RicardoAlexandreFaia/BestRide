@@ -9,12 +9,11 @@ export class Comment {
       appraisement : number,
       comment : String,
       userId : number,
-      userName : String
     ) {
       this.id = id;
       this.appraisement = appraisement;
       this.comment = comment;
-      this.author = new User(userId,userName)
+      this.author = new User(userId)
     }
 }
 
@@ -23,10 +22,8 @@ export class User {
   name : String;
 
   constructor(
-    id: number,
-    name: String
+    id: number
   ) {
     this.id = id;
-    this.name = name;
   }
 }

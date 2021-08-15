@@ -9,11 +9,28 @@
 </ion-header>
 
 <ion-content>
-  <!--Road Title-->
+  <div >
+    <ion-card-header>
+      <ion-card-subtitle> 
+        meter aqui forma de avalicação de 0-5
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-textarea placeholder="Comment here..."></ion-textarea>
+    </ion-card-content>
+  </div>
+  
   <div scrollY="true">
     <ion-list *ngFor="let comment of comments">
+      <ion-card-header>
+        <ion-card-subtitle> 
+          "" + comment.user.id
+          <br>
+          "" + comment.pontuation
+        </ion-card-subtitle>
+      </ion-card-header>
       <ion-card-content>
-        
+        {{ comment.comment | customTranslate |async}}
       </ion-card-content>
     </ion-list>
   </div>
