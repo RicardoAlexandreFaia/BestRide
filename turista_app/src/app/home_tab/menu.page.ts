@@ -98,4 +98,13 @@ export class MenuPage implements OnInit {
     });
     return await modal.present();
   }
+
+  public comments(road: RoadMap): void {
+    localStorage.setItem('roadMapID', JSON.stringify({
+      //Insert Number(value)
+      number: Number(road.id)
+    }));
+    localStorage.setItem('roadMapTitle', road.title);
+    this.router.navigate(['/comment-trip']);
+  }
 }

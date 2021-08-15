@@ -26,20 +26,24 @@
         <div scrollY="true" class="botoes">
           <ion-list *ngFor="let road of trips">
             <ion-card-header>
-              <ion-card-subtitle> {{ "Price : " + road.price + "€ Duration : " + road.duration | customTranslate |
-                async
-                }}
-              </ion-card-subtitle>
               <ion-card-title>{{ road.title| customTranslate | async}}</ion-card-title>
+              <ion-card-subtitle> 
+                {{ "Duration : " + road.duration| customTranslate |async}}
+              </ion-card-subtitle>
             </ion-card-header>
             <ion-card-content>
+              <img [src]="road.image"> 
               {{ road.description| customTranslate | async}}
-              <img [src]="road.image">
-
+              <br>
+              <br>
+              {{ "Price : " + road.price| customTranslate |async}}
               <ion-button (click)="showRoteiro(road)" expand="block" color="dark"> {{'Book Tour' | customTranslate |
                 async}}
               </ion-button>
               <ion-button (click)="trip_map_details(road)" expand="block" color="success"> {{'See Tour' |
+                customTranslate | async}}
+              </ion-button>
+              <ion-button (click)="comments(road)" expand="block" color="success"> {{'Comments' |
                 customTranslate | async}}
               </ion-button>
             </ion-card-content>

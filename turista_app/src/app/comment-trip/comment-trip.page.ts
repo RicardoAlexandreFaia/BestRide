@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CommentApiService } from './comment-trip-api.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-comment-trip',
@@ -15,6 +16,10 @@ import { CommentApiService } from './comment-trip-api.service';
 })
 export class CommentTripPage implements OnInit {
   public ionicForm: FormGroup;
+  public roadId : Number;
+  public roadTitle : String;
+  public comments:  Observable<any>;
+  public progress: boolean = false;
 
   public registrationForm = this.formBuilder.group({
     email: [
@@ -38,9 +43,25 @@ export class CommentTripPage implements OnInit {
     private router: Router,
     private http: HttpClient,
     private translateService: TranslateService,
-    private comp: AppComponent) { }
+    private comp: AppComponent,
+    private comments_api: CommentApiService) { 
+      this.roadId = JSON.parse(localStorage.getItem('roadMapID'));
+      this.roadTitle = localStorage.getItem('roadMapTitle');
+    }
 
   ngOnInit() {
+  }
+  
+  public getComments(){
+    this.comments = this.comments_api.get_comments(this.roadId);
+    setTimeout(() => {
+      this.progress = true;
+      this.comments.forEach((element) => {});
+    }, 2000);
+  }
+
+  public getRoadTitle(){
+    return this.roadTitle;
   }
 
 }
