@@ -1,17 +1,17 @@
 export class Comment {
     id : number;
-    appraisement : number; //rate, rating, evaluation, assessment //stars
+    rating : number; //rate, rating, evaluation, assessment //stars
     comment : String;
     author : User;
 
     constructor(
       id: number,
-      appraisement : number,
+      rating : number,
       comment : String,
       userId : number,
     ) {
       this.id = id;
-      this.appraisement = appraisement;
+      this.rating = rating;
       this.comment = comment;
       this.author = new User(userId)
     }

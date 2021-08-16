@@ -9,6 +9,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { CommentApiService } from './comment-trip-api.service';
 import { Observable } from 'rxjs';
 import { Comment } from './comment';
+import { CustomTranslateService } from '../shared/services/custom-translate.service';
+
 
 @Component({
   selector: 'app-comment-trip',
@@ -21,23 +23,8 @@ export class CommentTripPage implements OnInit {
   public roadTitle : String;
   public comments:  Array<Comment> = [];
   public progress: boolean = false;
-
-  public registrationForm = this.formBuilder.group({
-    email: [
-      '',
-      Validators.compose([
-        Validators.maxLength(70),
-        Validators.pattern(
-          '^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'
-        ),
-        Validators.required,
-      ]),
-    ],
-    password: [
-      '',
-      Validators.compose([Validators.required, Validators.minLength(8)]),
-    ],
-  });
+  public language: string = this.translateService.currentLang;
+  private form : FormGroup;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -45,7 +32,12 @@ export class CommentTripPage implements OnInit {
     private http: HttpClient,
     private translateService: TranslateService,
     private comp: AppComponent,
-    private comments_api: CommentApiService) { 
+    private comments_api: CommentApiService,
+    private trans: CustomTranslateService) {
+      this.form = this.formBuilder.group({
+        rating: ['', Validators.required],
+        comment: [''],
+      });
       this.roadId = JSON.parse(localStorage.getItem('roadMapID'));
       this.roadTitle = localStorage.getItem('roadMapTitle');
     }
@@ -66,6 +58,13 @@ export class CommentTripPage implements OnInit {
         );
       }
     });
+  }
+
+  public convertToNumber(event):number {  return +event; }
+
+  public submit(){
+    let comment = new Comment(0,  this.form.value('rating'), this.form.value('comment'), 0/*user id*/)
+    this.comments_api.postComment(comment);
   }
 
   public getRoadTitle(){

@@ -24,4 +24,5 @@ urlpatterns = [
     path('itineary/showInterestPoints',views.Routes.getPointsInterest),
     path('itineary/distance/',views.Routes.distance),
     path('getComments/',views.Comments.getComments),
+    path('postComments/',views.Comments.postComments)
 ]

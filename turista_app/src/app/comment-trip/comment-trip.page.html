@@ -10,15 +10,20 @@
 
 <ion-content>
   <div >
-    <ion-card-header>
-      <ion-card-subtitle> 
-        meter aqui forma de avalicação de 0-5
-      </ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-textarea placeholder="Comment here..."></ion-textarea>
-    </ion-card-content>
+    <form (ngSubmit)="submit()">
+      <ion-card-header>
+        <input placeholder="Rating" type="number" max="5" min="1" [(ngModel)]="form.rating" name="rating" (ngModelChange)="progress = convertToNumber($event)">
+      </ion-card-header>
+      <ion-card-content>
+        <ion-textarea placeholder="Comment here..." [(ngModel)]="form.comment" name="comment"></ion-textarea>
+        <button ion-button type="submit" block>{{ 'Lisbon' | customTranslate | async} Problema de tradução</button>
+      </ion-card-content>
+    </form>
   </div>
+  <!--
+    
+    
+  </div>-->
   
   <div scrollY="true">
     <ion-list *ngFor="let comment of comments">

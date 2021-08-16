@@ -396,4 +396,20 @@ class Comments(APIView):
         comments_Serializer = CommentsSerializer(comment, many=True)
         return Response(comments_Serializer.data)
 
+    @api_view(['POST'])
+    def postComments(request):
+        boto3.setup_default_session(region_name='eu-west-2')
+        client = boto3.client('cognito-idp')
+        try:
+            response =
+            return JsonResponse(response)
+        except client.exceptions.InvalidPasswordException:
+            return Response("Invalid Password Format", status=status.HTTP_404_NOT_FOUND)
+        except client.exceptions.UsernameExistsException:
+            return Response("Username already Exists !", status=status.HTTP_404_NOT_FOUND)
+        except client.exceptions.CodeDeliveryFailureException:
+            return Response("Error on send Code !", status=status.HTTP_404_NOT_FOUND)
+
+
+
 
