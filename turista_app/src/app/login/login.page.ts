@@ -9,15 +9,17 @@ import { HttpClient } from '@angular/common/http';
 import { FacebookLoginPlugin } from '@capacitor-community/facebook-login';
 import { FacebookLogin } from '@capacitor-community/facebook-login';
 registerWebPlugin(FacebookLogin);
-
 //google login
 import '@codetrix-studio/capacitor-google-auth';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 //api
 import { LoginApiService } from './login-api.service';
 import { CriaContaApiService } from '../create_account/create-account-api.service';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { AppComponent } from '../app.component';
+import { InAppBrowserEvent } from '@ionic-native/in-app-browser';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -73,7 +75,8 @@ export class LoginPage implements OnInit {
     private loginApi: LoginApiService,
     private storage: NativeStorage,
     private comp: AppComponent,
-    private account_api: CriaContaApiService
+    private account_api: CriaContaApiService,
+    private iab: InAppBrowser
   ) {
     comp.hide_tab = true;
     this.translateService.get('alert_login').subscribe((data) => {
@@ -135,6 +138,39 @@ export class LoginPage implements OnInit {
 
   public recover_account(): void {
     this.router.navigate(['/recover_account']);
+  }
+
+  public googleLogin(): void {
+    const url =
+      'https://bestride.auth.eu-west-2.amazoncognito.com/oauth2/authorize?';
+    'identity_provider=Google&response_type=code&client_id=' +
+      environment.aws_client_id +
+      '&';
+    'redirect_uri=' + environment.redirect_uri + '&scope=email+openid+profile';
+    const browser = this.iab.create(url, '_self');
+
+    if (browser.on('loadstart').subscribe)
+      browser.on('loadstart').subscribe((e: InAppBrowserEvent) => {
+        console.log('URL');
+        console.log(e.url);
+
+        const url_code = e.url.split('?');
+        console.log(url_code[0]);
+        console.log(url_code[1]);
+        if (e.url === url_code[0] + '?' + url_code[1]) {
+          browser.close();
+        }
+        const code = url_code[1].split('=')[1];
+        console.log('CODE ' + code);
+        const post_url =
+          'https://bestride.auth.eu-west-2.amazoncognito.com/oauth2/token';
+        ('grant_type=authorization_code&amp');
+        'client_id=' + environment.aws_client_id;
+        'code=' + code;
+        'redirect_uri=' + environment.redirect_uri;
+
+        this.http.post(post_url, {});
+      });
   }
 
   public errorMessages = {

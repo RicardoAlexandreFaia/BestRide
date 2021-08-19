@@ -35,10 +35,6 @@ export class MapServiceService {
     this.geolocation
       .getCurrentPosition()
       .then((res) => {
-        console.log('ANSE');
-
-        console.log(res);
-
         this.user = new User(res.coords.latitude, res.coords.longitude);
       })
       .catch((error) => {});
@@ -49,11 +45,10 @@ export class MapServiceService {
   public vehicles: Observable<any>;
 
   public get_roads(): Observable<any> {
-    this.getUserPosition();
     this.roads = this.http.post(environment.apiUrl + this.url, {
-      lat: 38.72808865556741,
-      lng: -9.126644444741652,
-      kmMAX: 30,
+      lat: this.user.lat,
+      lng: this.user.lng,
+      kmMAX: 20,
     });
     return this.roads;
   }

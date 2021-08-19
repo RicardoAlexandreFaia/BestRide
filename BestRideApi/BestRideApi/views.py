@@ -271,12 +271,11 @@ class user_operations(APIView):
 
     @api_view(['POST'])
     def login(request):
-        boto3.setup_default_session(region_name='eu-west-2')
         cidp = boto3.client('cognito-idp')
 
         try:
             login_request = cidp.initiate_auth(
-                ClientId=env.str("CLIENT_ID"),
+                ClientId=env.str('CLIENT_ID'),
                 AuthFlow="USER_PASSWORD_AUTH",
                 AuthParameters={
                     'USERNAME': request.data['email'],

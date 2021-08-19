@@ -42,9 +42,7 @@ export class OptionsMapPage implements OnInit {
           )
         );
       }
-      //this.trips = data;
     });
-
     this.modalController.dismiss(this.trips);
   }
 }

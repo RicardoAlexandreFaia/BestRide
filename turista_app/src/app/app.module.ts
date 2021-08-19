@@ -18,6 +18,7 @@ export function createTranslateLoader(http: HttpClient) {
 import { User } from './user_tab/user';
 import { CustomTranslatePipe } from './shared/pipes/custom-translate.pipe';
 import { SharedModule } from './shared/shared.module';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -45,6 +46,7 @@ import { SharedModule } from './shared/shared.module';
       useClass: IonicRouteStrategy,
     },
     Geolocation,
+    InAppBrowser,
     NativeGeocoder,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],

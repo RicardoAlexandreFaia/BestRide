@@ -1,12 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import {
-  Geolocation,
-  GeolocationOptions,
-  Geoposition,
-  PositionError,
-} from '@ionic-native/geolocation/ngx';
 import { InterestPoints, RoadMap } from '../roadMap';
 import { MapServiceService } from '../map-service.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -36,7 +30,9 @@ export class TripDetailsPage implements OnInit {
     private http: HttpClient
   ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewDidEnter() {
     this.circuito = this.circuito;
     this.map_service
       .get_points_interest(this.circuito['id'])
@@ -56,8 +52,6 @@ export class TripDetailsPage implements OnInit {
       this.showMap(this.circuito, this.interest);
     }, 4000);
   }
-
-  ionViewDidEnter() {}
 
   async close() {
     const closeModal: string = 'Modal Closed';
