@@ -1,0 +1,43 @@
+* {
+  color: black;
+  font-weight: 800;
+}
+
+.body {
+  background-color: #ffba00;
+  height: 100%;
+  width: 100%;
+}
+
+.content {
+  width: calc(100%);
+  height: calc(100%);
+  position: absolute;
+  top: 5%;
+  justify-content: center;
+  text-align: left;
+  font-size: larger;
+}
+
+#form {
+  text-align: center;
+  color: black;
+  border-bottom: 1px solid black;
+  font-weight: bold;
+}
+
+#content-menu {
+  img {
+    align-self: center;
+    width: 17%;
+    position: relative;
+    left: 29%;
+  }
+
+  #title {
+    color: black;
+    position: absolute;
+    left: 7%;
+    width: 20%;
+  }
+}

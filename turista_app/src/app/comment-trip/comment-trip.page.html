@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <div id="content-menu">
+      <img src="assets/BestRideSplash.png" />
+      <ion-title id="title">BestRide
+      </ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="body">
+
+    <svg height="100%" width="100%">
+      <circle cx="0" cy="0" r="220" fill="#00adff" />
+      <circle cx="0" cy="calc(100%)" r="210" fill="#58a600" />
+      <circle cx="calc(100%)" cy="calc(50%)" r="210" fill="#ff3f00" />
+    </svg>
+
+    <div class="content">
+      <div id="form">
+        <form [formGroup]="registrationForm" (ngSubmit)="submit()">
+          <ion-card-header>
+            <input placeholder="Rating" max="5" min="1"  formControlName="rating" type = "number" required>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-textarea placeholder="Comment here..."  formControlName="comment" [type]="comment" required></ion-textarea>
+            <button ion-button [disabled]="!registrationForm.valid" id="btn_login" type="submit" block>Submit</button>
+          </ion-card-content>
+        </form>
+      </div>
+      
+      <div scrollY="true" class="botoes">
+        <ion-list *ngFor = "let comment of comments">
+          <div>
+            <ion-card-header>
+              <ion-card-subtitle>
+                {{"" + comment.author.name}}
+                <br>
+                {{comment.rating}}
+              </ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              {{comment.comment}}
+            </ion-card-content>
+          </div>
+        </ion-list>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

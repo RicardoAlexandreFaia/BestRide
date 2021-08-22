@@ -34,8 +34,6 @@
 
 > ionic build --prod && npx cap copy && npx cap sync android && npx cap open android
 
----d
-
 #### Bibliotecas Implementadas a instalar:
 
 ```
@@ -51,6 +49,11 @@
 ```
 
 ---
+
+# Se houver Algum erro no codigo do Image Picker no Android Studio executar:
+npm install jetifier
+npx jetify
+npx cap sync android
 
 ## Nota :
 
@@ -101,3 +104,8 @@
 # AWS
 
 > pip install boto3
+
+# Google Login
+
+https://bestride.auth.eu-west-2.amazoncognito.com/oauth2/authorize?identity_provider=Google&response_type=code&client_id=4tqek2provvat99l9kasnrv3u5
+&redirect_uri=http://localhost:8100/

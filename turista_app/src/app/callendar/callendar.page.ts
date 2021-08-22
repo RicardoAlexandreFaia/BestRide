@@ -17,11 +17,7 @@ export class CalendarioPage implements OnInit {
 
   constructor(public calendarioService: CalendarioApiService) {}
 
-  ngOnInit() {
-    this.calendarioService.getEmployees();
-  }
+  ngOnInit() {}
 
-  onChange($event) {
-    console.log($event);
-  }
+  onChange($event) {}
 }

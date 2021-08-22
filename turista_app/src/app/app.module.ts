@@ -27,6 +27,7 @@ export function createTranslateLoader(http: HttpClient) {
 import { User } from './user_tab/user';
 import { CustomTranslatePipe } from './shared/pipes/custom-translate.pipe';
 import { SharedModule } from './shared/shared.module';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

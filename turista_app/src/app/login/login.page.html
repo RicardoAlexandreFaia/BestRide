@@ -1,49 +1,68 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title style="text-align: center;">Login</ion-title>
+    <div id="content-menu">
+      <img src="assets/BestRideLogo.png" />
+    </div>
   </ion-toolbar>
 </ion-header>
 
 
 <ion-content>
-  <ion-list class="conteudo">
-    <img id="imagem" src="assets/BestRide.png" />
-
-    <form class="form" [formGroup]="registrationForm" (ngSubmit)="submeter_login()">
-
-
+  <div class="body">
+    <svg height="100%" width="100%">
+      <circle cx="-30" cy="50" r="230" fill="#ffba00" />
+      <circle cx="360" cy="0" r="120" fill="#58a600" />
+      <circle cx="360" cy="600" r="300" fill="#00adff" />
+    </svg>
+    <div class="content">
       <ion-card>
-        <ion-item>
-          <ion-label>Email</ion-label>
-          <ion-input formControlName="email" type="email" required></ion-input>
-        </ion-item>
+        <h2 style="color: black;font-size: 25px;font-weight: bold;">Login</h2>
+
+        <form class="form" [formGroup]="registrationForm" (ngSubmit)="login()">
+
+          <ion-list>
+
+            <ion-item>
+              <ion-label position="stacked">Email</ion-label>
+              <ion-input formControlName="email" type="email" required></ion-input>
+            </ion-item>
+            <div *ngFor="let error of errorMessages.email">
+              <ng-container *ngIf="email.hasError(error.type) && ( email.touched || email.dirty)">
+                <small class="error-message">{{error.message}}</small>
+              </ng-container>
+            </div>
+
+            <br>
+
+            <ion-item>
+              <ion-label position="stacked">Password</ion-label>
+              <ion-input formControlName="password" [type]=" showPass ? 'text' : 'password'" required></ion-input>
+              <ion-icon slot="end" [name]="passwordIconToggle" (click)="togglePass()"></ion-icon>
+            </ion-item>
+            <div *ngFor="let error of errorMessages.password">
+              <ng-container *ngIf="password.hasError(error.type) && ( password.touched || password.dirty)">
+                <small class="error-message">{{error.message}}</small>
+              </ng-container>
+            </div>
+            <ion-item>
+              <ion-label>{{'Remember password? ' | customTranslate | async}}</ion-label>
+              <ion-checkbox (ionChange)="addValue($event)" [checked]="checked" color="warning">
+              </ion-checkbox>
+            </ion-item>
+            <ion-button [disabled]="!registrationForm.valid" id="btn_login" type="submit">Login</ion-button>
+          </ion-list>
+        </form>
       </ion-card>
 
-      <ion-card>
-        <ion-item>
-          <ion-label>Password</ion-label>
-          <ion-input formControlName="password" [type]=" showPass ? 'text' : 'password'" required></ion-input>
-          <ion-icon slot="end" [name]="passwordIconToggle" (click)="togglePass()"></ion-icon>
-        </ion-item>
-      </ion-card>
+      <ion-button id="btn_google" expand="block">{{'Sign up with Google' | customTranslate | async}}</ion-button>
+      <ion-button id="btn_face" expand="block">{{'Sign up with Facebook' | customTranslate | async}}</ion-button>
 
-      <ion-button color="primary" expand="full" type="submit">Login</ion-button>
-
-    </form>
-
-    <div>
-      <h6 style="text-align: center;" (click)="navegar()">
-        {{'No Account? Create a account now!' | customTranslate | async}}</h6>
-      <h6 style="text-align: center;" (click)="recuperarConta()">
-        {{'Recover your account' | customTranslate | async}}</h6>
+      <div style="color: white;font-size: 12px;text-align: justify;padding:2px">
+        <h6>{{'Dont have an account? ' | customTranslate | async}}<u (click)="create_account()">{{'Sign up' |
+            customTranslate |
+            async}}</u></h6>
+        <h6><u (click)="recover_account()">{{'Forgout your password?' | customTranslate | async}}</u></h6>
+      </div>
     </div>
-
-    <ion-button shape="round" color="tertiary" (click)="login()">
-      <ion-icon name="logo-facebook"></ion-icon>
-    </ion-button>
-    <ion-button shape="round" color="warning" (click)="googleSignup()">
-      <ion-icon name="logo-google"></ion-icon>
-    </ion-button>
-
-  </ion-list>
+  </div>
 </ion-content>
