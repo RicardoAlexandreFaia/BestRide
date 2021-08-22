@@ -100,11 +100,7 @@ export class MenuPage implements OnInit {
   }
 
   public comments(road: RoadMap): void {
-    localStorage.setItem('roadMapID', JSON.stringify({
-      //Insert Number(value)
-      number: Number(road.id)
-    }));
-    localStorage.setItem('roadMapTitle', road.title);
+    localStorage.setItem('roadMapID',JSON.stringify(road.id)); 
     this.router.navigate(['/comment-trip']);
   }
 }

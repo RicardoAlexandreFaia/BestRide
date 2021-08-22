@@ -1,29 +1,28 @@
 export class Comment {
-    id : number;
     rating : number; //rate, rating, evaluation, assessment //stars
     comment : String;
     author : User;
+    roadId : Number;
 
     constructor(
-      id: number,
       rating : number,
       comment : String,
-      userId : number,
+      roadId : Number,
+      username : String
     ) {
-      this.id = id;
       this.rating = rating;
       this.comment = comment;
-      this.author = new User(userId)
+      this.author = new User(username)
+      this.roadId = roadId
     }
 }
 
 export class User {
-  id : Number;
   name : String;
 
   constructor(
-    id: number
+    name : String
   ) {
-    this.id = id;
+    this.name = name;
   }
 }

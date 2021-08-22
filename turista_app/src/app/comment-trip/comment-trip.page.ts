@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CommentApiService } from './comment-trip-api.service';
 import { Observable } from 'rxjs';
-import { Comment } from './comment';
+import { Comment, User } from './comment';
 import { CustomTranslateService } from '../shared/services/custom-translate.service';
 
 
@@ -19,13 +19,27 @@ import { CustomTranslateService } from '../shared/services/custom-translate.serv
 })
 export class CommentTripPage implements OnInit {
   public ionicForm: FormGroup;
-  public roadId : Number;
+  public roadId = JSON.parse(localStorage.getItem("roadMapID"));
   public roadTitle : String;
   public comments:  Array<Comment> = [];
   public progress: boolean = false;
   public language: string = this.translateService.currentLang;
   private form : FormGroup;
+  public user : User;
 
+  public registrationForm = this.formBuilder.group({
+    rating: [
+      '',
+      Validators.compose([
+        Validators.required,
+      ]),
+    ],
+    comment: [
+      '',
+      Validators.compose([Validators.required, Validators.maxLength(350)]),
+    ],
+  });
+  
   constructor(
     public formBuilder: FormBuilder,
     private router: Router,
@@ -34,40 +48,22 @@ export class CommentTripPage implements OnInit {
     private comp: AppComponent,
     private comments_api: CommentApiService,
     private trans: CustomTranslateService) {
-      this.form = this.formBuilder.group({
-        rating: ['', Validators.required],
-        comment: [''],
-      });
-      this.roadId = JSON.parse(localStorage.getItem('roadMapID'));
-      this.roadTitle = localStorage.getItem('roadMapTitle');
     }
 
   ngOnInit() {
-  }
-  
-  public getComments(){
-    this.comments_api.get_comments(this.roadId).subscribe((data) => {
-      for (let pos in data) {
-        this.comments.push(
-          new Comment(
-            data[pos].id,
-            data[pos].pontuation,
-            data[pos].comment,
-            data[pos].User_idUser
-          )
-        );
-      }
-    });
+    this.comments = this.comments_api.get_comments(this.roadId);
+    
   }
 
   public convertToNumber(event):number {  return +event; }
 
-  public submit(){
-    let comment = new Comment(0,  this.form.value('rating'), this.form.value('comment'), 0/*user id*/)
+  public submit(){    
+    this.user = this.comments_api.getUser();
+    let comment = new Comment(this.registrationForm.get('rating').value, this.registrationForm.get('comment').value, this.roadId, this.user.name)
     this.comments_api.postComment(comment);
   }
 
-  public getRoadTitle(){
+  public getRoadTitle() : String{
     return this.roadTitle;
   }
 }

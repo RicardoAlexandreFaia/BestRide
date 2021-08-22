@@ -8,7 +8,6 @@ from rest_framework.parsers import JSONParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import *
-from rest_framework_gis.pagination import GeoJsonPagination
 from django.contrib.gis.geos import Point
 from environs import Env
 import math
@@ -16,6 +15,7 @@ import boto3
 
 env = Env()
 env.read_env()
+
 
 class user_operations(APIView):
 
@@ -272,6 +272,7 @@ class user_operations(APIView):
 
         return Response(response)
 
+
 class TranslateAWS():
 
     @api_view(['POST'])
@@ -284,6 +285,7 @@ class TranslateAWS():
         return JsonResponse({
             "translated_text": response['TranslatedText']
         })
+
 
 class Routes(APIView):
 
@@ -310,9 +312,9 @@ class Routes(APIView):
         try:
             for e in Road:
                 response = s3_client.generate_presigned_url('get_object',
-                                                        Params={'Bucket': 'best-ride',
-                                                                'Key': '' + e.image},
-                                                        ExpiresIn=3200)
+                                                            Params={'Bucket': 'best-ride',
+                                                                    'Key': '' + e.image},
+                                                            ExpiresIn=3200)
                 e.image = response
 
         except ClientError as e:
@@ -346,9 +348,9 @@ class Routes(APIView):
         try:
             for point in Points:
                 response = s3_client.generate_presigned_url('get_object',
-                                                        Params={'Bucket': 'best-ride',
-                                                                'Key': '' + point.image},
-                                                        ExpiresIn=3200)
+                                                            Params={'Bucket': 'best-ride',
+                                                                    'Key': '' + point.image},
+                                                            ExpiresIn=3200)
                 point.image = response
         except ClientError as e:
             logging.error(e)
@@ -388,28 +390,25 @@ class Routes(APIView):
         else:
             return Response("ID Missing")
 
-class Comments(APIView):
 
-    @api_view(['GET'])
-    def getComments(request):
-        comment = Comments.objects.filter(road_map=request.data['id'])
-        comments_Serializer = CommentsSerializer(comment, many=True)
-        return Response(comments_Serializer.data)
+class Comment(APIView):
 
     @api_view(['POST'])
     def postComments(request):
-        boto3.setup_default_session(region_name='eu-west-2')
-        client = boto3.client('cognito-idp')
-        try:
-            response =
-            return JsonResponse(response)
-        except client.exceptions.InvalidPasswordException:
-            return Response("Invalid Password Format", status=status.HTTP_404_NOT_FOUND)
-        except client.exceptions.UsernameExistsException:
-            return Response("Username already Exists !", status=status.HTTP_404_NOT_FOUND)
-        except client.exceptions.CodeDeliveryFailureException:
-            return Response("Error on send Code !", status=status.HTTP_404_NOT_FOUND)
+        if request.method == 'POST':
+            tutorial_data = JSONParser().parse(request)
+            comment_serializer = CommentsSerializer(data=tutorial_data)
 
+            if comment_serializer.is_valid():
+                comment_item_object = comment_serializer.save()
+                return JsonResponse(comment_serializer.data, status=status.HTTP_201_CREATED)
+            return JsonResponse(comment_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return JsonResponse("Bad Request", status=status.HTTP_400_BAD_REQUEST)
 
-
+    @api_view(['GET'])
+    def getComments(request, id):
+        comment = Comments.objects.all().filter(road_map=id)
+        comments_Serializer = CommentsSerializer(comment, many=True)
+        return Response(comments_Serializer.data)
 
