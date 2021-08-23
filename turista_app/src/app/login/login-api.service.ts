@@ -34,7 +34,9 @@ export class LoginApiService {
           'token',
           data['AuthenticationResult']['AccessToken']
         );
+
         //Login made it !!
+
         if (login_automatic) {
           localStorage.setItem('automatic_login', 'true');
         }
@@ -45,6 +47,34 @@ export class LoginApiService {
         this.showAlert('Invalid Credentials', error['error'], 'Try Again');
       }
     );
+  }
+
+  public social_sign_in(code: string) {
+    const post_url =
+      'https://bestride.auth.eu-west-2.amazoncognito.com/oauth2/token';
+
+    const head = {
+      'Access-Control-Allow-Origin': '' + environment.redirect_uri,
+      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+
+    const result = this.http
+      .post(
+        post_url,
+        {
+          grant_type: 'authorization_code',
+          client_id: environment.aws_client_id,
+          redirect_uri: environment.redirect_uri,
+          code: code,
+        },
+        { headers: head }
+      )
+      .subscribe((elem) => {
+        return elem;
+      });
+
+    console.log(result);
   }
 
   async showAlert(header: string, message: string, button_text: string) {

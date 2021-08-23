@@ -46,8 +46,8 @@ export class MapServiceService {
 
   public get_roads(): Observable<any> {
     this.roads = this.http.post(environment.apiUrl + this.url, {
-      lat: this.user.lat,
-      lng: this.user.lng,
+      lat: 38.72786267006623,
+      lng: -9.12640841035285,
       kmMAX: 20,
     });
     return this.roads;

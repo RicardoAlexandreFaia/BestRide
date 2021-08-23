@@ -4,7 +4,7 @@
 
 export const environment = {
   production: true,
-  apiUrl: 'http://10.0.2.2:8000',
+  apiUrl: 'http://localhost:8000',
   aws_client_id: '3r33mjn6o4surouviruvugp4bs',
   redirect_uri: 'http://localhost:8000',
 };

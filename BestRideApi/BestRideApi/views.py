@@ -271,8 +271,8 @@ class user_operations(APIView):
 
     @api_view(['POST'])
     def login(request):
+        boto3.setup_default_session(region_name='eu-west-2')
         cidp = boto3.client('cognito-idp')
-
         try:
             login_request = cidp.initiate_auth(
                 ClientId=env.str('CLIENT_ID'),
@@ -422,4 +422,25 @@ class Routes(APIView):
             return Response(roadvehicleSerializer.data)
         else:
             return Response("ID Missing")
+
+class Comment(APIView):
+
+    @api_view(['POST'])
+    def postComments(request):
+        if request.method == 'POST':
+            tutorial_data = JSONParser().parse(request)
+            comment_serializer = CommentsSerializer(data=tutorial_data)
+
+            if comment_serializer.is_valid():
+                comment_item_object = comment_serializer.save()
+                return JsonResponse(comment_serializer.data, status=status.HTTP_201_CREATED)
+            return JsonResponse(comment_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return JsonResponse("Bad Request", status=status.HTTP_400_BAD_REQUEST)
+
+    @api_view(['GET'])
+    def getComments(request, id):
+        comment = Comments.objects.all().filter(road_map=id)
+        comments_Serializer = CommentsSerializer(comment, many=True)
+        return Response(comments_Serializer.data)
 

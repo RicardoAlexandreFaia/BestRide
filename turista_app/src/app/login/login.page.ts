@@ -5,7 +5,7 @@ import { LoadingController, isPlatform, AlertController } from '@ionic/angular';
 import { Plugins, registerWebPlugin } from '@capacitor/core';
 import { TranslateService } from '@ngx-translate/core';
 //facebook login
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FacebookLoginPlugin } from '@capacitor-community/facebook-login';
 import { FacebookLogin } from '@capacitor-community/facebook-login';
 registerWebPlugin(FacebookLogin);
@@ -142,12 +142,12 @@ export class LoginPage implements OnInit {
 
   public googleLogin(): void {
     const url =
-      'https://bestride.auth.eu-west-2.amazoncognito.com/oauth2/authorize?';
-    'identity_provider=Google&response_type=code&client_id=' +
-      environment.aws_client_id +
-      '&';
-    'redirect_uri=' + environment.redirect_uri + '&scope=email+openid+profile';
-    const browser = this.iab.create(url, '_self');
+      'https://bestride.auth.eu-west-2.amazoncognito.com/oauth2/authorize?' +
+      'identity_provider=Google&response_type=code&client_id=' +
+      '3r33mjn6o4surouviruvugp4bs' +
+      '&' +
+      'redirect_uri=http://localhost:8000&scope=email+openid+profile';
+    const browser = this.iab.create(url, '_blank');
 
     if (browser.on('loadstart').subscribe)
       browser.on('loadstart').subscribe((e: InAppBrowserEvent) => {
@@ -158,18 +158,13 @@ export class LoginPage implements OnInit {
         console.log(url_code[0]);
         console.log(url_code[1]);
         if (e.url === url_code[0] + '?' + url_code[1]) {
+          const code = url_code[1].split('=')[1];
+          console.log('CODE ' + code);
+          this.loginApi.social_sign_in(code);
+          //navigate to home tab
+          //this.router.navigate(['/home_tab']);
           browser.close();
         }
-        const code = url_code[1].split('=')[1];
-        console.log('CODE ' + code);
-        const post_url =
-          'https://bestride.auth.eu-west-2.amazoncognito.com/oauth2/token';
-        ('grant_type=authorization_code&amp');
-        'client_id=' + environment.aws_client_id;
-        'code=' + code;
-        'redirect_uri=' + environment.redirect_uri;
-
-        this.http.post(post_url, {});
       });
   }
 

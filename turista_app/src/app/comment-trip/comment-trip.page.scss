@@ -1,28 +1,25 @@
+* {
+  color: black;
+  font-weight: 800;
+}
+
 .body {
   background-color: #ffba00;
   height: 100%;
   width: 100%;
 }
 
-ion-card-content {
-  p {
-    color: black;
-    font-weight: 800;
-  }
-
-  h3 {
-    text-align: right;
-    color: black;
-    font-weight: 900;
-  }
-}
 .content {
+  width: calc(100%);
+  height: calc(100%);
   position: absolute;
   top: 5%;
   justify-content: center;
+  text-align: left;
+  font-size: larger;
 }
 
-#iti_title {
+#form {
   text-align: center;
   color: black;
   border-bottom: 1px solid black;
@@ -30,16 +27,11 @@ ion-card-content {
 }
 
 #content-menu {
+  display: flex;
+  flex-direction: column;
+
   img {
     align-self: center;
-    width: 17%;
-    position: relative;
-    left: 29%;
-  }
-
-  #title {
-    color: black;
-    position: absolute;
-    left: 7%;
+    width: 39%;
   }
 }

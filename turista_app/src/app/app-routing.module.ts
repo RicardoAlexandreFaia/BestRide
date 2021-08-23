@@ -84,7 +84,11 @@ const routes: Routes = [
       import('./home_tab/trip-details/trip-details.module').then(
         (m) => m.TripDetailsPageModule
       ),
+  },  {
+    path: 'comment-trip',
+    loadChildren: () => import('./comment-trip/comment-trip.module').then( m => m.CommentTripPageModule)
   },
+
 ];
 
 @NgModule({

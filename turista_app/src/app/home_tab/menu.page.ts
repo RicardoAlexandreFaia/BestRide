@@ -100,4 +100,9 @@ export class MenuPage implements OnInit {
     });
     return await modal.present();
   }
+
+  public comments(road: RoadMap): void {
+    localStorage.setItem('roadMapID', JSON.stringify(road.id));
+    this.router.navigate(['/comment-trip']);
+  }
 }

@@ -91,3 +91,14 @@ class Vehicle(models.Model):
     class Meta:
         managed = False
         db_table = 'vehicle'
+
+class Comments(models.Model):
+    idComment = models.AutoField(db_column='id', primary_key=True)
+    comment = models.CharField(max_length=350, blank=True, null=True, db_column='comment')
+    pontuation = models.IntegerField(db_column='pontuation')
+    road_map = models.ForeignKey(RoadMap, models.DO_NOTHING, db_column='id_road_map')
+    username = models.CharField(max_length=350, blank=True, null=True, db_column='username')
+
+    class Meta:
+        managed = False
+        db_table = 'comments'

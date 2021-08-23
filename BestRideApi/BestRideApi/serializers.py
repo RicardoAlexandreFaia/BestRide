@@ -39,3 +39,8 @@ class ItinearyRouteSerializer(serializers.ModelSerializer):
     class Meta:
         model = ItinearyRoute
         fields = ('interest_points',)
+
+class CommentsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comments
+        fields = '__all__'
