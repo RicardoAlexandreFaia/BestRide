@@ -49,32 +49,53 @@ export class LoginApiService {
     );
   }
 
-  public social_sign_in(code: string) {
+  public async social_sign_in(code: string) {
     const post_url =
-      'https://bestride.auth.eu-west-2.amazoncognito.com/oauth2/token';
+      'https://bestride.auth.eu-west-2.amazoncognito.com/oauth2/token?' +
+      'grant_type=authorization_code&client_id=' +
+      environment.aws_client_id +
+      '&code=' +
+      code +
+      '&redirect_uri=' +
+      environment.redirect_uri;
 
-    const head = {
-      'Access-Control-Allow-Origin': '' + environment.redirect_uri,
-      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
-      'Content-Type': 'application/x-www-form-urlencoded',
-    };
-
-    const result = this.http
+    const result = await this.http
       .post(
         post_url,
+        {},
         {
-          grant_type: 'authorization_code',
-          client_id: environment.aws_client_id,
-          redirect_uri: environment.redirect_uri,
-          code: code,
-        },
-        { headers: head }
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        }
       )
-      .subscribe((elem) => {
-        return elem;
-      });
+      .subscribe(
+        (response) => {
+          console.log('OK....');
+          console.log(response['access_token']);
+          localStorage.setItem('token', response['access_token']);
 
-    console.log(result);
+          let acessToken = localStorage.getItem('token');
+          this.http
+            .get(
+              'https://bestride.auth.eu-west-2.amazoncognito.com/oauth2/userInfo',
+              {
+                headers: {
+                  Authorization: 'Bearer ' + response['access_token'],
+                },
+              }
+            )
+            .subscribe((data) => {
+              console.log('data');
+              console.log(data);
+              console.log(data['email']);
+            });
+          // this.router.navigate(['/home_tab']);
+        },
+        (error) => {
+          console.log('ERROR');
+        }
+      );
   }
 
   async showAlert(header: string, message: string, button_text: string) {

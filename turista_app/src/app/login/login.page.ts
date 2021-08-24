@@ -147,23 +147,18 @@ export class LoginPage implements OnInit {
       '3r33mjn6o4surouviruvugp4bs' +
       '&' +
       'redirect_uri=http://localhost:8000&scope=email+openid+profile';
-    const browser = this.iab.create(url, '_blank');
 
+    const post_url =
+      'https://bestride.auth.eu-west-2.amazoncognito.com/oauth2/token';
+
+    const browser = this.iab.create(url, '_blank');
     if (browser.on('loadstart').subscribe)
       browser.on('loadstart').subscribe((e: InAppBrowserEvent) => {
-        console.log('URL');
-        console.log(e.url);
-
         const url_code = e.url.split('?');
-        console.log(url_code[0]);
-        console.log(url_code[1]);
         if (e.url === url_code[0] + '?' + url_code[1]) {
-          const code = url_code[1].split('=')[1];
-          console.log('CODE ' + code);
-          this.loginApi.social_sign_in(code);
-          //navigate to home tab
-          //this.router.navigate(['/home_tab']);
+          const code = url_code[1].split('=')[1].trim();
           browser.close();
+          this.loginApi.social_sign_in(code);
         }
       });
   }
