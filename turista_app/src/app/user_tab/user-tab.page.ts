@@ -51,6 +51,8 @@ export class DadosContaPage implements OnInit {
 
   public user: User;
 
+  public social: String;
+
   constructor(
     private translateService: TranslateService,
     private router: Router,
@@ -64,6 +66,7 @@ export class DadosContaPage implements OnInit {
   }
 
   ngOnInit() {
+    this.social = localStorage.getItem('isSocialLogin');
     this.ionicForm = this.formBuilder.group({
       name: ['', Validators.required],
       city: ['', Validators.required],

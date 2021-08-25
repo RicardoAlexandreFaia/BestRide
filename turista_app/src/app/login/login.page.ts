@@ -143,13 +143,11 @@ export class LoginPage implements OnInit {
   public googleLogin(): void {
     const url =
       'https://bestride.auth.eu-west-2.amazoncognito.com/oauth2/authorize?' +
-      'identity_provider=Google&response_type=code&client_id=' +
+      'response_type=code&' +
+      'identity_provider=Google&redirect_uri=http://localhost:8000&client_id=' +
       '3r33mjn6o4surouviruvugp4bs' +
       '&' +
-      'redirect_uri=http://localhost:8000&scope=email+openid+profile';
-
-    const post_url =
-      'https://bestride.auth.eu-west-2.amazoncognito.com/oauth2/token';
+      'scope=email+openid+profile';
 
     const browser = this.iab.create(url, '_blank');
     if (browser.on('loadstart').subscribe)

@@ -27,7 +27,7 @@
 
 
           <ion-list lines="full">
-            <ion-item>
+            <ion-item *ngIf="social==='false'">
               <ion-thumbnail slot="start">
                 <ion-icon name="person-outline"></ion-icon>
               </ion-thumbnail>
@@ -52,7 +52,7 @@
               </ion-button>
             </ion-item>
 
-            <ion-item>
+            <ion-item *ngIf="social==='false'">
               <ion-thumbnail slot="start">
                 <ion-icon name="mail-outline"></ion-icon>
               </ion-thumbnail>
@@ -95,7 +95,8 @@
             </ion-button>
 
             <br>
-            <ion-button color="warning" (click)="alterarPass()" expand="block">{{'Change Password' | customTranslate |
+            <ion-button *ngIf="social==='false'" color="warning" (click)="alterarPass()" expand="block">{{'Change
+              Password' | customTranslate |
               async}}</ion-button>
             <br>
             <ion-button color="danger" expand="block" (click)="deleteAccount()">{{'Delete Account' | customTranslate |

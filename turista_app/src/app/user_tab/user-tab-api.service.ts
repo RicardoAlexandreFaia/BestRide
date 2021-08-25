@@ -44,21 +44,48 @@ export class DadosContaApiService {
 
   ngOnInit() {
     this.getUser();
+    const social = localStorage.getItem('isSocialLogin');
     let acessToken = localStorage.getItem('token');
-    this.http
-      .get(environment.apiUrl + this.url_get_user + acessToken)
-      .subscribe((data) => {
-        let phone = '' + data['UserAttributes'][7].Value;
-        phone = phone.slice(3, 12);
-        this.user = new User(
-          data['UserAttributes'][5].Value,
-          data['UserAttributes'][8].Value,
-          phone,
-          data['UserAttributes'][1].Value,
-          data['UserAttributes'][5].Value,
-          data['UserAttributes'][9].Value
-        );
-      });
+    console.log('IS social = ' + social);
+    if (social == 'true') {
+      this.http
+        .get(
+          'https://bestride.auth.eu-west-2.amazoncognito.com/oauth2/userInfo',
+          {
+            headers: {
+              Authorization: 'Bearer ' + acessToken,
+            },
+          }
+        )
+        .subscribe((data) => {
+          console.log('data');
+          console.log(data);
+          console.log(data['email']);
+          this.user = new User(
+            'google login',
+            'google',
+            '912',
+            data['email'],
+            'google',
+            'google'
+          );
+        });
+    } else {
+      this.http
+        .get(environment.apiUrl + this.url_get_user + acessToken)
+        .subscribe((data) => {
+          let phone = '' + data['UserAttributes'][7].Value;
+          phone = phone.slice(3, 12);
+          this.user = new User(
+            data['UserAttributes'][5].Value,
+            data['UserAttributes'][8].Value,
+            phone,
+            data['UserAttributes'][1].Value,
+            data['UserAttributes'][5].Value,
+            data['UserAttributes'][9].Value
+          );
+        });
+    }
   }
 
   public getUser(): User {

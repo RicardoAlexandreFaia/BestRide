@@ -74,26 +74,11 @@ export class LoginApiService {
           console.log('OK....');
           console.log(response['access_token']);
           localStorage.setItem('token', response['access_token']);
-
-          let acessToken = localStorage.getItem('token');
-          this.http
-            .get(
-              'https://bestride.auth.eu-west-2.amazoncognito.com/oauth2/userInfo',
-              {
-                headers: {
-                  Authorization: 'Bearer ' + response['access_token'],
-                },
-              }
-            )
-            .subscribe((data) => {
-              console.log('data');
-              console.log(data);
-              console.log(data['email']);
-            });
-          // this.router.navigate(['/home_tab']);
+          localStorage.setItem('isSocialLogin', 'true');
+          this.router.navigate(['/home_tab']);
         },
-        (error) => {
-          console.log('ERROR');
+        (err) => {
+          console.log('Erro');
         }
       );
   }
