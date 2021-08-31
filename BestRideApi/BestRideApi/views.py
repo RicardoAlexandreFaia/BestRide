@@ -2,7 +2,7 @@ import logging
 
 from botocore.exceptions import ClientError
 from django.http import JsonResponse
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 from rest_framework.views import APIView
@@ -23,8 +23,6 @@ import boto3
 
 
 class user_operations(APIView):
-
-
     @api_view(['POST'])
     def recoverAccount(request):
         boto3.setup_default_session(region_name='eu-west-2')
@@ -443,4 +441,47 @@ class Comment(APIView):
         comment = Comments.objects.all().filter(road_map=id)
         comments_Serializer = CommentsSerializer(comment, many=True)
         return Response(comments_Serializer.data)
+
+class TravelScheduleList(generics.ListCreateAPIView):
+    queryset = TravelSchedule.objects.all()
+    serializer_class = TravelScheduleSerializer
+
+class TravelScheduleGet(generics.RetrieveDestroyAPIView):
+    queryset = TravelSchedule.objects.all()
+    serializer_class = TravelScheduleSerializer
+
+    @api_view(['GET'])
+    def get(request,pk):
+        queryset = TravelSchedule.objects.all().filter(turist_id=pk)
+        serializer_class = TravelScheduleSerializer(queryset,many=True)
+        return Response(serializer_class.data)
+
+class Users(generics.RetrieveDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    @api_view(['GET'])
+    def get(request,email):
+        queryset = User.objects.all().filter(email=email)
+        serializer_class = UserSerializer(queryset,many=True)
+        return Response(serializer_class.data)
+
+class Travels(generics.RetrieveDestroyAPIView):
+    queryset = Travel.objects.all()
+    serializer_class = TravelSerializer
+
+    @api_view(['GET'])
+    def get(request,turist_id):
+        queryset = Travel.objects.all().filter(turistID=turist_id)
+        serializer_class = TravelSerializer(queryset,many=True)
+        return Response(serializer_class.data)
+
+    @api_view(['POST'])
+    def post(request):
+        travel_serializer = TravelSerializer(data=request.data)
+        if travel_serializer.is_valid():
+            travel = travel_serializer.save()
+            travel_result = TravelSerializer(travel)
+            return Response(travel_result.data, status=201)
+        return Response(travel_serializer.errors, status=400)
 

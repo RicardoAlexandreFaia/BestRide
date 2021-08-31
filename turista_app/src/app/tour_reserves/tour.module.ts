@@ -4,9 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { CalendarModule } from 'ion2-calendar';
 import { IonicModule } from '@ionic/angular';
 
-import { CalendarioPageRoutingModule } from './callendar-routing.module';
-
-import { CalendarioPage } from './callendar.page';
+import { CalendarioPageRoutingModule } from './tour-routing.module';
+import { SharedModule } from '../shared/shared.module';
+import { TourPage } from './tour.page';
+import { Stripe } from '@ionic-native/stripe/ngx';
 
 @NgModule({
   imports: [
@@ -14,8 +15,9 @@ import { CalendarioPage } from './callendar.page';
     FormsModule,
     IonicModule,
     CalendarModule,
+    SharedModule,
     CalendarioPageRoutingModule,
   ],
-  declarations: [CalendarioPage],
+  declarations: [TourPage],
 })
 export class CalendarioPageModule {}

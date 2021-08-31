@@ -25,4 +25,9 @@ urlpatterns = [
     path('itineary/distance/',views.Routes.distance),
     path('getComments/<int:id>', views.Comment.getComments),
     path('postComments/', views.Comment.postComments),
+    path('travelsSchedule/',views.TravelScheduleList.as_view()),
+    path('travelsSchedule/<int:pk>/',views.TravelScheduleGet.get),
+    path('travels/<int:turist_id>',views.Travels.get),
+    path('createTravel/',views.Travels.post),
+    path('getUserid/<str:email>/',views.Users.get),
 ]

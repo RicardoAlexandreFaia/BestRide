@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <img id="img" style="width: 15%;margin-left: 11%;" src="assets/BestRideSplash.png" />
+    <ion-title style="text-align: center;">BestRide
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <h1>{{'your reservations' | customTranslate | async}}</h1>
+    <ion-list *ngFor="let tour of tour_array">
+      <ion-item>
+        <ion-label>{{tour.road_map_name}}</ion-label>
+        <ion-label>{{tour.duration}}</ion-label>
+        <ion-label>{{tour.price}}</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+  <ion-button expand="full" color="success" (click)="payment()">{{'Pay Trips' | customTranslate | async}}</ion-button>
+</ion-content>

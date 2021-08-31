@@ -8,6 +8,39 @@
 from django.db import models
 from django.contrib.gis.db import models
 
+class Travel(models.Model):
+    idViagem = models.AutoField(db_column='idViagem', primary_key=True)
+    Pagamento_idPagamento = models.ForeignKey('Payment',models.DO_NOTHING,db_column='Pagamento_idPagamento')
+    dataViagem = models.DateField
+    turistID = models.ForeignKey('User', models.DO_NOTHING, db_column='turist_id',related_name="turistID")
+    horaInicio = models.DateField
+    horaFim = models.DateField
+    road_mapID = models.ForeignKey('RoadMap',models.DO_NOTHING,db_column='road_map_id')
+    driverID = models.ForeignKey('User', models.DO_NOTHING, db_column='driver_id',related_name="driverID")
+
+    class Meta:
+        managed = False
+        db_table = 'Travel'
+
+class Payment(models.Model):
+    idPagamento = models.AutoField(db_column='idPagamento', primary_key=True)
+    modo_pagamento = models.CharField(max_length=45)
+
+    class Meta:
+        managed = False
+        db_table = "Payment"
+
+
+class TravelSchedule(models.Model):
+    idAgendaViagem = models.AutoField(db_column='idAgendaViagem', primary_key=True)  # Field name made lowercase.
+    turist_id = models.ForeignKey('User', models.DO_NOTHING, db_column='turist_id',related_name="turist_id")
+    dataAgenda = models.DateField()
+    driver_id = models.ForeignKey('User', models.DO_NOTHING, db_column='driver_id',related_name="driver_id")
+    road_map_id = models.ForeignKey('RoadMap', models.DO_NOTHING, db_column='road_map_id')
+
+    class Meta:
+        managed = False
+        db_table = 'TravelSchedule'
 
 
 class PointInterest(models.Model):

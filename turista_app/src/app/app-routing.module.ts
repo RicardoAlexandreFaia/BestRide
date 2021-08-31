@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'payment',
     pathMatch: 'full',
   },
   {
@@ -46,11 +46,9 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'callendar',
+    path: 'tourBooking',
     loadChildren: () =>
-      import('./callendar/callendar.module').then(
-        (m) => m.CalendarioPageModule
-      ),
+      import('./tour_reserves/tour.module').then((m) => m.CalendarioPageModule),
   },
   {
     path: 'user_tab',
@@ -84,11 +82,19 @@ const routes: Routes = [
       import('./home_tab/trip-details/trip-details.module').then(
         (m) => m.TripDetailsPageModule
       ),
-  },  {
-    path: 'comment-trip',
-    loadChildren: () => import('./comment-trip/comment-trip.module').then( m => m.CommentTripPageModule)
   },
-
+  {
+    path: 'comment-trip',
+    loadChildren: () =>
+      import('./comment-trip/comment-trip.module').then(
+        (m) => m.CommentTripPageModule
+      ),
+  },
+  {
+    path: 'payment',
+    loadChildren: () =>
+      import('./payment/payment.module').then((m) => m.PaymentPageModule),
+  },
 ];
 
 @NgModule({

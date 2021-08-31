@@ -44,3 +44,17 @@ class CommentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comments
         fields = '__all__'
+
+class TravelScheduleSerializer(serializers.ModelSerializer):
+    road_map_id = RoadMapSerializer(read_only=True)
+    class Meta:
+        model = TravelSchedule
+        fields = '__all__'
+
+class TravelSerializer(serializers.ModelSerializer):
+    turistID = UserSerializer(read_only=True)
+    driverID = UserSerializer(read_only=True)
+    road_mapID = RoadMapSerializer(read_only=True)
+    class Meta:
+        model = Travel
+        fields = '__all__'

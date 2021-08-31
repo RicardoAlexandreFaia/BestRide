@@ -14,6 +14,7 @@ export class LoginApiService {
   private url_info: String = '/userInfo/';
   private url_add_turist: String = '/userInfo/add_to_turist_role';
   private url_login: String = '/login/';
+  private url_get_user_id: String = '/getUserid/';
 
   constructor(
     private http: HttpClient,
@@ -41,6 +42,17 @@ export class LoginApiService {
           localStorage.setItem('automatic_login', 'true');
         }
 
+        //get user id
+        this.http
+          .get(environment.apiUrl + this.url_get_user_id + email)
+          .subscribe(
+            (elem) => {
+              localStorage.setItem('userID', elem[0].iduser);
+            },
+            (erro) => {
+              console.log(erro);
+            }
+          );
         this.router.navigate(['/home_tab']);
       },
       (error) => {
