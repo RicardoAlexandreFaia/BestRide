@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, ToastController } from '@ionic/angular';
-import { AppComponent } from '../app.component';
 declare var Stripe;
 
 @Component({
@@ -14,16 +13,14 @@ export class PaymentPage implements OnInit {
   private card_expiry: any;
   private card_cvc: any;
   public currencyIcon: string = 'logo-euro';
-  public paymentAmount: number = 220;
+  public paymentAmount;
 
   constructor(
-    private comp: AppComponent,
     private modalCtrl: ModalController,
     private toast: ToastController
   ) {}
 
   ngOnInit() {
-    this.comp.hide_tab = true;
     this.setupStripe();
   }
 
@@ -102,6 +99,7 @@ export class PaymentPage implements OnInit {
         } else {
           this.showMessageToast('Your Payment was concluded !!');
           console.log(result);
+          this.modalCtrl.dismiss();
         }
       });
     });

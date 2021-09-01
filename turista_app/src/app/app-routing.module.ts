@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'payment',
+    redirectTo: 'tourBooking',
     pathMatch: 'full',
   },
   {
@@ -48,7 +48,7 @@ const routes: Routes = [
   {
     path: 'tourBooking',
     loadChildren: () =>
-      import('./tour_reserves/tour.module').then((m) => m.CalendarioPageModule),
+      import('./tour_reserves/tour.module').then((m) => m.TourPageModule),
   },
   {
     path: 'user_tab',

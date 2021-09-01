@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { CalendarioPageRoutingModule } from './tour-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { TourPage } from './tour.page';
-import { Stripe } from '@ionic-native/stripe/ngx';
 
 @NgModule({
   imports: [
@@ -20,4 +19,4 @@ import { Stripe } from '@ionic-native/stripe/ngx';
   ],
   declarations: [TourPage],
 })
-export class CalendarioPageModule {}
+export class TourPageModule {}
