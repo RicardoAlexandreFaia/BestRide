@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-
+from . import payments_views
 
 urlpatterns = [
     path('users/', views.user_operations.as_view()),
@@ -30,4 +30,5 @@ urlpatterns = [
     path('travels/<int:turist_id>',views.Travels.get),
     path('createTravel/',views.Travels.post),
     path('getUserid/<str:email>/',views.Users.get),
+    path('makePayment/<str:token>',payments_views.Payments.make_payment)
 ]

@@ -12,7 +12,7 @@ from rest_framework_gis.pagination import GeoJsonPagination
 from django.contrib.gis.geos import Point
 from environs import Env
 import math
-
+import urllib3
 
 
 env = Env()
@@ -484,4 +484,3 @@ class Travels(generics.RetrieveDestroyAPIView):
             travel_result = TravelSerializer(travel)
             return Response(travel_result.data, status=201)
         return Response(travel_serializer.errors, status=400)
-

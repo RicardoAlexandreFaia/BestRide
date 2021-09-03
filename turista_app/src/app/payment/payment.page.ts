@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ModalController, ToastController } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 declare var Stripe;
 
 @Component({
@@ -8,16 +10,20 @@ declare var Stripe;
   styleUrls: ['./payment.page.scss'],
 })
 export class PaymentPage implements OnInit {
-  private stripe = Stripe('pk_test_lLS9sEmL8to3FXiLDVSCW4rZ');
+  private stripe = Stripe(
+    'pk_test_51JUeiuImOAMxh8jbduIzG8rvhpIxMRnxnONEXx1D48XZugVncSYAJf4IJKKctefqXhEj3CBCUzSwOscGjdOCcPsP00MsXrafwI'
+  );
   private card_number: any;
   private card_expiry: any;
   private card_cvc: any;
   public currencyIcon: string = 'logo-euro';
   public paymentAmount;
+  private url_payment: string = '/makePayment/';
 
   constructor(
     private modalCtrl: ModalController,
-    private toast: ToastController
+    private toast: ToastController,
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
@@ -92,14 +98,30 @@ export class PaymentPage implements OnInit {
     var form = document.getElementById('payment-form');
     form.addEventListener('submit', (event) => {
       event.preventDefault();
-      this.stripe.createToken(this.card_number).then((result) => {
+      this.stripe.createSource(this.card_number).then((result) => {
         if (result.error) {
           var errorElement = document.getElementById('card-errors');
           errorElement.textContent = result.error.message;
         } else {
           this.showMessageToast('Your Payment was concluded !!');
-          console.log(result);
-          this.modalCtrl.dismiss();
+          console.log('Sucess!');
+          console.log(result['source'].id);
+          const token = result['source'].id;
+          this.http
+            .get(environment.apiUrl + this.url_payment + token)
+            .subscribe(
+              (resp) => {
+                console.log('okay');
+
+                console.log(resp);
+              },
+              (err) => {
+                console.log(err);
+
+                console.log(err);
+              }
+            );
+          //this.modalCtrl.dismiss();
         }
       });
     });
