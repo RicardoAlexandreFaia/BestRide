@@ -6,57 +6,132 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.contrib.gis.db import models
 
-
-class Roles(models.Model):
-    id_roles = models.IntegerField(primary_key=True)
-    role = models.CharField(max_length=45, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'roles'
-
-
-class TuristInfo(models.Model):
-    email = models.CharField(max_length=45, blank=True, null=True, unique=True)
-    name = models.CharField(max_length=45, blank=True, null=True)
-    dob = models.CharField(max_length=45, blank=True, null=True)
-    city = models.CharField(max_length=45, blank=True, null=True)
-    gender = models.CharField(max_length=45, blank=True, null=True)
-    phone_number = models.CharField(max_length=45, blank=True, null=True)
-    adress = models.CharField(max_length=45, blank=True, null=True)
-    postal_code = models.CharField(max_length=45, blank=True, null=True)
-    user_iduser = models.ForeignKey('User', models.DO_NOTHING, db_column='User_idUser')  # Field name made lowercase.
+class Travel(models.Model):
+    idViagem = models.AutoField(db_column='idViagem', primary_key=True)
+    Pagamento_idPagamento = models.ForeignKey('Payment',models.DO_NOTHING,db_column='Pagamento_idPagamento')
+    dataViagem = models.DateField
+    turistID = models.ForeignKey('User', models.DO_NOTHING, db_column='turist_id',related_name="turistID")
+    horaInicio = models.DateField
+    horaFim = models.DateField
+    road_mapID = models.ForeignKey('RoadMap',models.DO_NOTHING,db_column='road_map_id')
+    driverID = models.ForeignKey('User', models.DO_NOTHING, db_column='driver_id',related_name="driverID")
 
     class Meta:
         managed = False
-        db_table = 'turist_info'
-        unique_together = (('id', 'user_iduser'),)
+        db_table = 'Travel'
+
+class Payment(models.Model):
+    idPagamento = models.AutoField(db_column='idPagamento', primary_key=True)
+    modo_pagamento = models.CharField(max_length=45)
+
+    class Meta:
+        managed = False
+        db_table = "Payment"
+
+
+class TravelSchedule(models.Model):
+    idAgendaViagem = models.AutoField(db_column='idAgendaViagem', primary_key=True)  # Field name made lowercase.
+    turist_id = models.ForeignKey('User', models.DO_NOTHING, db_column='turist_id',related_name="turist_id")
+    dataAgenda = models.DateField()
+    driver_id = models.ForeignKey('User', models.DO_NOTHING, db_column='driver_id',related_name="driver_id")
+    road_map_id = models.ForeignKey('RoadMap', models.DO_NOTHING, db_column='road_map_id')
+
+    class Meta:
+        managed = False
+        db_table = 'TravelSchedule'
+
+
+class PointInterest(models.Model):
+    idpercurso = models.AutoField(db_column='idPercurso', primary_key=True)  # Field name made lowercase.
+    description = models.CharField(max_length=45, blank=True, null=True)
+    location = models.GeometryField(blank=True, null=True)
+    image = models.CharField(max_length=322, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'Point_Interest'
 
 
 class User(models.Model):
     iduser = models.AutoField(db_column='idUser', primary_key=True)  # Field name made lowercase.
-    password = models.CharField(unique=True, max_length=255, blank=True, null=True)
-    login_type = models.CharField(max_length=45, blank=True, null=True)
+    email = models.CharField(max_length=255, blank=True, null=True)
+    image = models.CharField(max_length=4000, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'user'
+        db_table = 'User'
 
 
-class UserRoles(models.Model):
-    roles_id_roles = models.ForeignKey(Roles, models.DO_NOTHING, db_column='roles_id_roles')
-    user_iduser = models.ForeignKey(User, models.DO_NOTHING, db_column='User_idUser')  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'turist_info'
-
-class RecoverAccount(models.Model):
-    idrecuperarconta = models.AutoField(db_column='recupera_conta_id', primary_key=True)  # Field name made lowercase.
-    code = models.CharField(max_length=10, db_column='code', null=False)
-    email = models.CharField(max_length=45, blank=True, null=True)
+class City(models.Model):
+    name = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'recuperar_conta'
+        db_table = 'city'
+
+
+class ItinearyRoute(models.Model):
+    interest_points = models.ForeignKey(PointInterest, models.DO_NOTHING, db_column='interest_points')
+    road_map = models.ForeignKey('RoadMap', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'itineary_route'
+        unique_together = (('id', 'interest_points', 'road_map'),)
+
+
+class ItinearyRouteInterestPoints(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    itinearyroute_id = models.IntegerField()
+    pointinterest_id = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'itineary_route_interest_points'
+
+
+class RoadMap(models.Model):
+    id = models.OneToOneField(City, models.DO_NOTHING, db_column='id', primary_key=True)
+    description = models.CharField(max_length=1000, blank=True, null=True)
+    price = models.CharField(max_length=100, blank=True, null=True)
+    duration = models.CharField(max_length=100, blank=True, null=True)
+    image = models.CharField(max_length=322, blank=True, null=True)
+    title = models.CharField(max_length=100, blank=True, null=True)
+    location = models.GeometryField(blank=True, null=True)
+    city = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'road_map'
+
+
+class RoadVehicle(models.Model):
+    road_map = models.ForeignKey(RoadMap, models.DO_NOTHING, db_column='road_map')
+    vehicle = models.ForeignKey('Vehicle', models.DO_NOTHING, db_column='vehicle')
+
+    class Meta:
+        managed = False
+        db_table = 'road_vehicle'
+        unique_together = (('road_map', 'vehicle'),)
+
+
+class Vehicle(models.Model):
+    name = models.CharField(max_length=100, blank=True, null=True)
+    max_cap = models.CharField(max_length=100, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'vehicle'
+
+class Comments(models.Model):
+    idComment = models.AutoField(db_column='id', primary_key=True)
+    comment = models.CharField(max_length=350, blank=True, null=True, db_column='comment')
+    pontuation = models.IntegerField(db_column='pontuation')
+    road_map = models.ForeignKey(RoadMap, models.DO_NOTHING, db_column='id_road_map')
+    username = models.CharField(max_length=350, blank=True, null=True, db_column='username')
+
+    class Meta:
+        managed = False
+        db_table = 'comments'

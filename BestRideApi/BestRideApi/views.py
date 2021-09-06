@@ -1,195 +1,306 @@
-from django.shortcuts import redirect
+import logging
+
+from botocore.exceptions import ClientError
 from django.http import JsonResponse
+from rest_framework import status, generics
 from rest_framework.decorators import api_view
-from rest_framework.parsers import *
+from rest_framework.parsers import JSONParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.core.mail import send_mail
-from django.conf import settings
+from .serializers import *
+from rest_framework_gis.pagination import GeoJsonPagination
+from django.contrib.gis.geos import Point
+from environs import Env
+import math
+import urllib3
 
 
-from .models import User, RecoverAccount,  TuristInfo
-from .serializers import UserSerializer, UserInfoSerializaer, RecoverAccountSerializaer, UserRoleSerializer
-from rest_framework import status
+env = Env()
+env.read_env()
 
-from django.contrib.auth.hashers import make_password, check_password
 
 import boto3
 
-class Utilizadores_operacoes(APIView):
-    def get(self, request, id=None):
-        if id:
-            try:
-                queryset = User.objects.get(iduser=id)
-            except User.DoesNotExist:
-                return Response({'Erro: Utilizador nao existe'}, status=400)
-            read_serializer = UserSerializer(queryset)
-            return Response(read_serializer.data)
-        else:
-            snippets = User.objects.all()
-            serializer = UserSerializer(snippets, many=True)
-            return Response(serializer.data)
 
-    def post(self, request, format=None):
-        request.data['password'] = make_password(request.data.get('password'), 'pbkdf2_sha256')
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class user_operations(APIView):
+    @api_view(['POST'])
+    def recoverAccount(request):
+        boto3.setup_default_session(region_name='eu-west-2')
+        client = boto3.client('cognito-idp')
 
-    def put(self, request, id=None):
         try:
-            # Check if the todo item the user wants to update exists
-            user = User.objects.get(iduser=id)
-        except User.DoesNotExist:
-            # If the todo item does not exist, return an error response
-            return Response({'errors': 'This todo item does not exist.'}, status=400)
-
-        # If the todo item does exists, use the serializer to validate the updated data
-        request.data['password'] = make_password(request.data.get('password'), 'pbkdf2_sha256')
-        update_serializer = UserSerializer(user, data=request.data)
+            response = client.forgot_password(
+                ClientId=env.str("CLIENT_ID"),
+                Username=request.data['email'])
+            return Response(response)
+        except client.exceptions.UserNotFoundException:
+            return Response("User Not Found", status=status.HTTP_404_NOT_FOUND)
 
 
-        # If the data to update the todo item is valid, proceed to saving data to the database
-        if update_serializer.is_valid():
-            # Data was valid, update the todo item in the database
-            userobject = update_serializer.save()
-
-            # Serialize the todo item from Python object to JSON format
-            read_serializer = UserSerializer(userobject)
-
-            # Return a HTTP response with the newly updated todo item
-            return Response(read_serializer.data, status=200)
-
-        # If the update data is not valid, return an error response
-        return Response(update_serializer.errors, status=400)
 
     @api_view(['POST'])
-    def deleteAccount(request):
-        id = request.data['id']
+    def confirmRecoverAccount(request):
+        boto3.setup_default_session(region_name='eu-west-2')
+        client = boto3.client('cognito-idp')
+
         try:
-            queryset = User.objects.filter(pk=id).delete()
-        except User.DoesNotExist:
-            return Response({'Erro: Info sobre o Utilizador nao existe'}, status=400)
-        return Response({'Erro: Info sobre o Utilizador foi eliminada'}, status=101)
+            response = client.confirm_forgot_password(
+                    ClientId=env.str("CLIENT_ID"),
+                    Username=request.data['email'],
+                    ConfirmationCode=str(request.data['code']),
+                    Password=request.data['password'],
+            )
+            return Response(response)
+        except client.exceptions.UserNotFoundException:
+            return Response("User Not Found", status=status.HTTP_404_NOT_FOUND)
 
 
-class UserRole(APIView):
-    def post(self, request, format=None):
-        serializer = UserRoleSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class Utilizadores_Info_operacoes(APIView):
+    @api_view(['POST'])
+    def resend_code(request):
+        boto3.setup_default_session(region_name='eu-west-2')
+        client = boto3.client('cognito-idp')
 
-    def get(self, request, id=None):
-        if id:
-            try:
-                queryset = TuristInfo.objects.get(user_iduser=id)
-            except TuristInfo.DoesNotExist:
-                return Response({'Erro: Info sobre o Utilizador nao existe'}, status=400)
-            read_serializer = UserInfoSerializaer(queryset)
-            return Response(read_serializer.data)
-        else:
-            snippets = TuristInfo.objects.all()
-            serializer = UserInfoSerializaer(snippets, many=True)
-            return Response(serializer.data)
+        try:
+            response = client.resend_confirmation_code(
+                ClientId=env.str("CLIENT_ID"),
+                Username=request.data['email'])
+
+            return JsonResponse(response)
+
+        except client.exceptions.TooManyRequestsException:
+            return Response("Too Many Requests", status=status.HTTP_404_NOT_FOUND)
+        except client.exceptions.LimitExceededException:
+            return Response("Limit Exceeded", status=status.HTTP_404_NOT_FOUND)
+        except client.exceptions.InvalidEmailRoleAccessPolicyException:
+            return Response("Invalid Email Role", status=status.HTTP_404_NOT_FOUND)
+        except client.exceptions.CodeDeliveryFailureException:
+            return Response("Code not Delivered", status=status.HTTP_404_NOT_FOUND)
+        except client.exceptions.UserNotFoundException:
+            return Response("User Not Found", status=status.HTTP_404_NOT_FOUND)
+
+
+
+
+    @api_view(['POST'])
+    def confirmAccount(request):
+        boto3.setup_default_session(region_name='eu-west-2')
+        cidp = boto3.client('cognito-idp')
+
+        try:
+            response_confirmUser = cidp.confirm_sign_up(
+                ClientId=env.str("CLIENT_ID"),
+                Username=request.data['email'],
+                ConfirmationCode=request.data['code']
+            )
+            return Response(response_confirmUser)
+
+        except cidp.exceptions.NotAuthorizedException:
+            return Response("Not Authorized", status=status.HTTP_404_NOT_FOUND)
+        except cidp.exceptions.UserNotFoundException:
+            return Response("User Not Found", status=status.HTTP_404_NOT_FOUND)
+        except cidp.exceptions.LimitExceededException:
+            return Response("Limit has Exceeded", status=status.HTTP_404_NOT_FOUND)
+        except cidp.exceptions.CodeMismatchException:
+            return Response("Code Mismatch", status=status.HTTP_404_NOT_FOUND)
+        except cidp.exceptions.ExpiredCodeException:
+            return Response("Code had Expired", status=status.HTTP_404_NOT_FOUND)
+
+
+
+
+
+    @api_view(['GET'])
+    def getUser(request,token):
+        boto3.setup_default_session(region_name='eu-west-2')
+        cidp = boto3.client('cognito-idp')
+
+        try:
+            response = cidp.get_user(
+                AccessToken = token
+            )
+
+            return Response(response)
+        except cidp.exceptions.UserNotFoundException:
+            return Response("User Not Found", status=status.HTTP_404_NOT_FOUND)
+        except cidp.exceptions.NotAuthorizedException:
+            return Response("Wrong Acess Token", status=status.HTTP_404_NOT_FOUND)
+
+
+    @api_view(['PUT'])
+    def updateUser(request,token):
+        boto3.setup_default_session(region_name='eu-west-2')
+        client = boto3.client('cognito-idp')
+
+        try:
+            response = client.update_user_attributes(
+                UserAttributes=[
+                    {
+                        'Name': "name",
+                        'Value': request.data['name']
+                    },
+                    {
+                        'Name': "locale",
+                        'Value': request.data['city']
+                    },
+                    {
+                        'Name': "email",
+                        'Value': request.data['email']
+                    },
+                    {
+                        'Name': "address",
+                        'Value': request.data['address']
+                    },
+                ],
+                AccessToken='' + token,
+            )
+            return Response(response)
+        except client.exceptions.UserNotFoundException:
+            return Response("User Not Found", status=status.HTTP_404_NOT_FOUND)
+        except client.exceptions.UserNotConfirmedException:
+            return Response("Confirm your account!", status=status.HTTP_404_NOT_FOUND)
+
+
+
+    @api_view(['PUT'])
+    def changePassword(request,token):
+        boto3.setup_default_session(region_name='eu-west-2')
+        client = boto3.client('cognito-idp')
+
+        try:
+            response = client.change_password(
+                PreviousPassword=request.data['pass'],
+                ProposedPassword=request.data['new_pass'],
+                AccessToken=request.data['token']
+            )
+
+            return Response(response)
+        except client.exceptions.InvalidPasswordException:
+            return Response("Invalid Password", status=status.HTTP_404_NOT_FOUND)
+
+
+    @api_view(['POST'])
+    def saveUser(request):
+        if request.method == 'POST':
+            tutorial_data = JSONParser().parse(request)
+            tutorial_serializer = UserSerializer(data=tutorial_data)
+            if tutorial_serializer.is_valid():
+                tutorial_serializer.save()
+                return JsonResponse(tutorial_serializer.data, status=status.HTTP_201_CREATED)
+            return JsonResponse(tutorial_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @api_view(['PUT'])
+    def updateImageUser(request,email):
+        tutorial = User.objects.get(email=email)
+        tutorial_data = JSONParser().parse(request)
+        tutorial_serializer = UserSerializer(tutorial, data=tutorial_data)
+        if tutorial_serializer.is_valid():
+            tutorial_serializer.save()
+            return JsonResponse(tutorial_serializer.data)
+        return JsonResponse(tutorial_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+    @api_view(['POST'])
+    def cancelAccount(request):
+        boto3.setup_default_session(region_name='eu-west-2')
+        client = boto3.client('cognito-idp')
+        try:
+            client.delete_user(
+                AccessToken = request.data['token']
+            )
+            return Response("User eliminated !")
+        except client.exceptions.UserNotFoundException:
+            return Response("User Not Found", status=status.HTTP_400_BAD_REQUEST)
+
+
+    def post(self, request):
+        boto3.setup_default_session(region_name='eu-west-2')
+        client = boto3.client('cognito-idp')
+        try:
+            response = client.sign_up(
+                ClientId=env.str('CLIENT_ID'),
+                Username=request.data['email'],
+                Password=request.data['password'],
+                UserAttributes=[
+                    {
+                        'Name': "name",
+                        'Value': request.data['name']
+                    },
+                    {
+                        'Name': "birthdate",
+                        'Value': request.data['dob']
+                    },
+                    {
+                        'Name': "email",
+                        'Value': request.data['email']
+                    },
+                    {
+                        'Name': "gender",
+                        'Value': request.data['gender']
+                    },
+                    {
+                        'Name': "address",
+                        'Value': request.data['adress']
+                    },
+                    {
+                        'Name': "locale",
+                        'Value': request.data['city']
+                    },
+                    {
+                        'Name': "phone_number",
+                        'Value': request.data['phone_number']
+                    },
+                ],
+            )
+            return JsonResponse(response)
+
+        except client.exceptions.InvalidPasswordException:
+            return Response("Invalid Password Format",status=status.HTTP_404_NOT_FOUND)
+        except client.exceptions.UsernameExistsException:
+            return Response("Username already Exists !", status=status.HTTP_404_NOT_FOUND)
+        except client.exceptions.CodeDeliveryFailureException:
+            return Response("Error on send Code !", status=status.HTTP_404_NOT_FOUND)
+
+
+
 
     @api_view(['POST'])
     def login(request):
-        #Verifica o email
-        email = request.data['email']
-        password = request.data['password']
-        if email:
-            try:
-                queryset = TuristInfo.objects.get(email=email)
-            except TuristInfo.DoesNotExist:
-                return Response({'O Email nao Existe'}, status=400)
-
-        #Verifica o password
-            password = make_password(password,'pbkdf2_sha256')
-            if password:
-                try:
-                    queryset_password = User.objects.get(password=password)
-                except User.DoesNotExist:
-                    return Response({'Password Invalida'}, status=400)
-
-            read_serializer = UserInfoSerializaer(queryset)
-            return Response(read_serializer.data)
-
-
-    def post(self, request, format=None):
-        serializer = UserInfoSerializaer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    @api_view(['POST'])
-    def deleteAccount(request):
-        email = request.data['email']
+        boto3.setup_default_session(region_name='eu-west-2')
+        cidp = boto3.client('cognito-idp')
         try:
-            queryset = TuristInfo.objects.filter(email=email).delete()
-        except TuristInfo.DoesNotExist:
-            return Response({'Erro: Info sobre o Utilizador nao existe'}, status=400)
-        return Response({'Erro: Info sobre o Utilizador foi eliminada'}, status=101)
+            login_request = cidp.initiate_auth(
+                ClientId=env.str('CLIENT_ID'),
+                AuthFlow="USER_PASSWORD_AUTH",
+                AuthParameters={
+                    'USERNAME': request.data['email'],
+                    'PASSWORD': request.data['password']
+                }
+            )
 
-class Recover_Account(APIView):
-#Para enviar email com o codigo para a recuperação da Pass
+            return Response(login_request,status=status.HTTP_200_OK)
 
-    def get(self, request, id):
-        if id:
-            try:
-                queryset = RecoverAccount.objects.get(idrecuperarconta=id)
-            except RecoverAccount.DoesNotExist:
-                return Response({'Erro: Info sobre o Utilizador nao existe'}, status=400)
-            read_serializer = RecoverAccountSerializaer(queryset)
-            return Response(read_serializer.data)
-        else:
-            snippets = RecoverAccount.objects.all()
-            serializer = RecoverAccountSerializaer(snippets, many=True)
-            return Response(serializer.data)
+        except cidp.exceptions.NotAuthorizedException:
+            return Response("Incorrect username or password",status=status.HTTP_404_NOT_FOUND)
 
-    def post(self, request, format=None):
-        email = request.data['email']
-        try:
-            queryset = TuristInfo.objects.get(email=email)
-        except TuristInfo.DoesNotExist:
-            return Response({'O Email nao Existe'}, status=400)
+    def loginGoogle(request):
+        boto3.setup_default_session(region_name='eu-west-2')
+        cidp = boto3.client('cognito-idp')
+        response = cidp.get_id(
+            AccountId='YOUR AWS ACCOUNT ID',
+            IdentityPoolId='us-east-1:xxxdexxx-xxdx-xxxx-ac13-xxxxf645dxxx',
+            Logins={
+                'accounts.google.com': 'google returned IdToken'
+            })
 
-        serializer = RecoverAccountSerializaer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(response)
 
-    @api_view(['POST'])
-    def sendEmail(request):
-        email = request.data['email']
-        code = request.data['code']
 
-        try:
-            queryset = TuristInfo.objects.get(email=email)
-        except TuristInfo.DoesNotExist:
-            return Response({'O Email nao Existe'}, status=400)
 
-        subject = "Código BestRide"
-        message = "O seu código para recuperar a sua conta Best Ride é:\n" + str(code)
-        email_from = settings.EMAIL_HOST_USER
-        recipient_list = [email]
-        send_mail(subject, message, email_from, recipient_list)
-        return Response({'O Email enviado'}, status=200)
 
-    @api_view(['POST'])
-    def codeVerification(request):
-        try:
-            queryset = RecoverAccount.objects.get(code=request.data['code'])
-        except RecoverAccount.DoesNotExist:
-            return Response({'Erro: Info sobre o Codigo nao existe'}, status=400)
-        return Response({'O codigo foi aceite'}, status=200)
 
 
 class TranslateAWS():
@@ -204,3 +315,172 @@ class TranslateAWS():
         return JsonResponse({
             "translated_text": response['TranslatedText']
         })
+
+class Routes(APIView):
+
+    @api_view(['POST'])
+    def getRoadMap(request):
+        KM_MAX = request.data['kmMAX']
+        Road = RoadMap.objects.all()
+        boto3.setup_default_session(region_name='us-east-2')
+        s3_client = boto3.client('s3')
+
+        distance_dict = {}
+
+        for rd in Road:
+            p1 = Point(request.data['lat'],request.data['lng'])
+            p2 = Point(rd.location.coords[0],rd.location.coords[1])
+            distance = p1.distance(p2)
+            distance_in_km = math.trunc(distance * 100)
+            distance_dict[str(rd.title)] = distance_in_km
+
+        for name,km in distance_dict.items():
+            if km > KM_MAX:
+                Road = Road.exclude(title=name)
+
+        try:
+            for e in Road:
+                response = s3_client.generate_presigned_url('get_object',
+                                                        Params={'Bucket': 'best-ride',
+                                                                'Key': '' + e.image},
+                                                        ExpiresIn=3200)
+                e.image = response
+
+        except ClientError as e:
+            logging.error(e)
+
+        Road_Serializer = RoadMapSerializer(Road,many=True)
+        return Response(Road_Serializer.data)
+
+
+
+    @api_view(['POST'])
+    def distance(request):
+        Road = RoadMap.objects.all()
+
+        distance_dict = {}
+
+        for rd in Road:
+            p1 = Point(request.data['lat'],request.data['lng'])
+            p2 = Point(rd.location.coords[0],rd.location.coords[1])
+            distance = p1.distance(p2)
+            distance_in_km = math.trunc(distance * 100)
+            distance_dict[str(rd.title)] = distance_in_km
+
+
+        return JsonResponse(distance_dict)
+
+    @api_view(['GET'])
+    def getPointsInterest(request):
+        boto3.setup_default_session(region_name='us-east-2')
+        s3_client = boto3.client('s3')
+        Points = PointInterest.objects.all()
+
+        try:
+            for point in Points:
+                response = s3_client.generate_presigned_url('get_object',
+                                                        Params={'Bucket': 'best-ride',
+                                                                'Key': '' + point.image},
+                                                        ExpiresIn=3200)
+                point.image = response
+        except ClientError as e:
+            logging.error(e)
+
+        Points_Serializer = InterestPointsSerializaer(Points,many=True)
+        return Response(Points_Serializer.data)
+
+    @api_view(['GET'])
+    def getItineary(request,id):
+        if id:
+            Itineary = ItinearyRoute.objects.filter(road_map=id)
+            boto3.setup_default_session(region_name='us-east-2')
+            s3_client = boto3.client('s3')
+
+            try:
+                for ip in Itineary:
+                    response = s3_client.generate_presigned_url('get_object',
+                                                                Params={'Bucket': 'best-ride',
+                                                                        'Key': '' + ip.interest_points.image},
+                                                                ExpiresIn=3200)
+                    ip.interest_points.image = response
+            except ClientError as e:
+                logging.error(e)
+
+
+            Itineary_Serializer = ItinearyRouteSerializer(Itineary,many=True)
+            return Response(Itineary_Serializer.data)
+        else:
+            return Response("ID missing")
+
+    @api_view(['GET'])
+    def getRoadVehicle(request,id):
+        if id:
+            roadVehicle = RoadVehicle.objects.all().filter(road_map=id)
+            roadvehicleSerializer = RoadVehicleSerializer(roadVehicle,many=True)
+            return Response(roadvehicleSerializer.data)
+        else:
+            return Response("ID Missing")
+
+class Comment(APIView):
+
+    @api_view(['POST'])
+    def postComments(request):
+        if request.method == 'POST':
+            tutorial_data = JSONParser().parse(request)
+            comment_serializer = CommentsSerializer(data=tutorial_data)
+
+            if comment_serializer.is_valid():
+                comment_item_object = comment_serializer.save()
+                return JsonResponse(comment_serializer.data, status=status.HTTP_201_CREATED)
+            return JsonResponse(comment_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return JsonResponse("Bad Request", status=status.HTTP_400_BAD_REQUEST)
+
+    @api_view(['GET'])
+    def getComments(request, id):
+        comment = Comments.objects.all().filter(road_map=id)
+        comments_Serializer = CommentsSerializer(comment, many=True)
+        return Response(comments_Serializer.data)
+
+class TravelScheduleList(generics.ListCreateAPIView):
+    queryset = TravelSchedule.objects.all()
+    serializer_class = TravelScheduleSerializer
+
+class TravelScheduleGet(generics.RetrieveDestroyAPIView):
+    queryset = TravelSchedule.objects.all()
+    serializer_class = TravelScheduleSerializer
+
+    @api_view(['GET'])
+    def get(request,pk):
+        queryset = TravelSchedule.objects.all().filter(turist_id=pk)
+        serializer_class = TravelScheduleSerializer(queryset,many=True)
+        return Response(serializer_class.data)
+
+class Users(generics.RetrieveDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    @api_view(['GET'])
+    def get(request,email):
+        queryset = User.objects.all().filter(email=email)
+        serializer_class = UserSerializer(queryset,many=True)
+        return Response(serializer_class.data)
+
+class Travels(generics.RetrieveDestroyAPIView):
+    queryset = Travel.objects.all()
+    serializer_class = TravelSerializer
+
+    @api_view(['GET'])
+    def get(request,turist_id):
+        queryset = Travel.objects.all().filter(turistID=turist_id)
+        serializer_class = TravelSerializer(queryset,many=True)
+        return Response(serializer_class.data)
+
+    @api_view(['POST'])
+    def post(request):
+        travel_serializer = TravelSerializer(data=request.data)
+        if travel_serializer.is_valid():
+            travel = travel_serializer.save()
+            travel_result = TravelSerializer(travel)
+            return Response(travel_result.data, status=201)
+        return Response(travel_serializer.errors, status=400)

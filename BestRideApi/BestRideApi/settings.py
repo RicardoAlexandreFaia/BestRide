@@ -9,8 +9,16 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+from environs import Env
 from pathlib import Path
+import os
+
+
+env = Env()
+env.read_env()
+
+#GDAL_LIBRARY_PATH = r'C:\OSGeo4W64\bin\gdal303.dll'
+GDAL_LIBRARY_PATH = env.str("GDAL_PATH")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-gn)#az7&rr#7c%$3x&8)x^5*tcgnfqim^ml#g(h+!i!m(#i^#m'
+SECRET_KEY = env.str("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'BestRideApi',
     'rest_framework',
+    'rest_framework_gis',
     'corsheaders',
 ]
 
@@ -80,11 +89,12 @@ WSGI_APPLICATION = 'BestRideApi.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'bestride',
-        'USER': 'root',
-        'PASSWORD':'',
-        'HOST':'localhost',
+        #'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.contrib.gis.db.backends.mysql',
+        'NAME': env.str('NAME'),
+        'USER': env.str('USER'),
+        'PASSWORD':env.str('PASSWORD'),
+        'HOST':env.str('HOST'),
         'PORT':'3306'
     }
 }
