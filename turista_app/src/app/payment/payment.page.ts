@@ -107,21 +107,17 @@ export class PaymentPage implements OnInit {
           console.log('Sucess!');
           console.log(result['source'].id);
           const token = result['source'].id;
-          this.http
-            .get(environment.apiUrl + this.url_payment + token)
-            .subscribe(
-              (resp) => {
-                console.log('okay');
-
-                console.log(resp);
-              },
-              (err) => {
-                console.log(err);
-
-                console.log(err);
-              }
-            );
-          //this.modalCtrl.dismiss();
+          const data = {
+            token: token,
+            amount: 0.6 * 100,
+          };
+          this.http.post(environment.apiUrl + this.url_payment, data).subscribe(
+            (resp) => {
+              this.modalCtrl.dismiss();
+              this.showMessageToast('Tour payment made successfully!');
+            },
+            (err) => {}
+          );
         }
       });
     });

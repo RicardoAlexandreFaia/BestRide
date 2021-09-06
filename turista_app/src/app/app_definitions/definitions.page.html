@@ -23,22 +23,38 @@
 
     <div class="content">
       <ion-card>
-
-        <h1> {{'App Definitios' | customTranslate | async}} </h1>
-        <ion-item>
-          <ion-label> {{'Language of the app?' | customTranslate | async}}</ion-label>
-          <ion-select [(ngModel)]='language' (ionChange)='changeLanguage()'
-            [placeholder]='"definicoes.languageChangePlaceholder" | translate'>
-            <ion-select-option value='pt'>{{'Portuguese' | customTranslate | async}}</ion-select-option>
-            <ion-select-option value='en'>{{'English' | customTranslate | async}}</ion-select-option>
-            <ion-select-option value='es'>{{'Spanish' | customTranslate | async}}</ion-select-option>
-            <ion-select-option value='fr'>{{'French' | customTranslate | async}}</ion-select-option>
-            <ion-select-option value='ru'>{{'Russian' | customTranslate | async}}</ion-select-option>
-            <ion-select-option value='it'>{{'Italian' | customTranslate | async}}</ion-select-option>
-          </ion-select>
-        </ion-item>
-        <ion-button color="danger" [routerLink]="['/login']" expand="block">{{'Log out' | customTranslate | async}}
-        </ion-button>
+        <h1> {{'App Definitions' | customTranslate | async}} </h1>
+        <br>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label> {{'Language' | customTranslate | async}}</ion-label>
+                <ion-select [(ngModel)]='language' (ionChange)='changeLanguage()'
+                  [placeholder]='"definicoes.languageChangePlaceholder" | translate'>
+                  <ion-select-option value='pt'>{{'Portuguese' | customTranslate | async}}</ion-select-option>
+                  <ion-select-option value='en'>{{'English' | customTranslate | async}}</ion-select-option>
+                  <ion-select-option value='es'>{{'Spanish' | customTranslate | async}}</ion-select-option>
+                  <ion-select-option value='fr'>{{'French' | customTranslate | async}}</ion-select-option>
+                  <ion-select-option value='ru'>{{'Russian' | customTranslate | async}}</ion-select-option>
+                  <ion-select-option value='it'>{{'Italian' | customTranslate | async}}</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-button color="danger" [routerLink]="['/login']" expand="block">{{'Log out' | customTranslate |
+                async}}
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button color="warning" expand="block">{{'Terms and conditions' | customTranslate |
+                async}}
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-card>
     </div>
   </div>

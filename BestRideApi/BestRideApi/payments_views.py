@@ -8,13 +8,13 @@ from rest_framework import status, generics
 
 class Payments(APIView):
 
-    @api_view(['GET'])
-    def make_payment(request,token):
+    @api_view(['POST'])
+    def make_payment(request):
         http = urllib3.PoolManager()
         data = {
-             "amount": 50,
+            "amount": request.data['amount'],
             "currency": "eur",
-            "source": str(token),
+            "source": request.data['token'],
             "description": "Example charge",
         }
 

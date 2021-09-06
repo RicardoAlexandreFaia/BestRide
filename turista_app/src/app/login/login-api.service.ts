@@ -48,6 +48,7 @@ export class LoginApiService {
           .subscribe(
             (elem) => {
               localStorage.setItem('userID', elem[0].iduser);
+              localStorage.setItem('isSocialLogin', 'false');
             },
             (erro) => {
               console.log(erro);

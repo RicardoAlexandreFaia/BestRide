@@ -30,5 +30,5 @@ urlpatterns = [
     path('travels/<int:turist_id>',views.Travels.get),
     path('createTravel/',views.Travels.post),
     path('getUserid/<str:email>/',views.Users.get),
-    path('makePayment/<str:token>',payments_views.Payments.make_payment)
+    path('makePayment/',payments_views.Payments.make_payment)
 ]
