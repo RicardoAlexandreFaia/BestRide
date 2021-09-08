@@ -15,7 +15,30 @@
       <circle cx="calc(100%)" cy="calc(50%)" r="210" fill="#ff3f00" />
     </svg>
 
-    <div class="content">
+    <!-- Skeleton Text -->
+    <div class="content" *ngIf="!contentLoad">
+      <ion-card *ngFor="let item of [].constructor(20)">
+        <ion-card-header>
+          <ion-card-subtitle>
+            <ion-skeleton-text animated style="width: 30%;"></ion-skeleton-text>
+          </ion-card-subtitle>
+          <ion-card-title>
+            <ion-skeleton-text animated style="width: 70%;"></ion-skeleton-text>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 30%;"></ion-skeleton-text>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+
+    <div class="content" *ngIf="contentLoad">
       <ion-card style="text-align: justify;">
         <br>
         <div id="iti_title">

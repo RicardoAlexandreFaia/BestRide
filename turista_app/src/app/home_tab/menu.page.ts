@@ -35,9 +35,8 @@ export class MenuPage implements OnInit {
   public language: string = this.translateService.currentLang;
   private distance: any;
   private currentPos: Geoposition;
-
   user: User;
-
+  public contentLoad = false;
   public trips: Array<RoadMap> = [];
 
   constructor(
@@ -55,6 +54,7 @@ export class MenuPage implements OnInit {
   }
 
   ionViewWillEnter() {}
+
   ngOnInit() {
     this.presentModalMapDefinitions();
   }
@@ -69,6 +69,12 @@ export class MenuPage implements OnInit {
     modal.onDidDismiss().then((data) => {
       const data_trips = data['data']; // data that came from the modal on dismiss
       this.trips = data_trips;
+
+      // Using Skeleton Text
+      setTimeout(() => {
+        this.contentLoad = true;
+        console.log('YESS');
+      }, 3000);
     });
 
     return await modal.present();

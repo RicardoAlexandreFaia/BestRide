@@ -20,7 +20,6 @@ export class MapServiceService {
   private urlGetPoints = '/itineary/showItineary/';
   private urlDistance = '/itineary/distance/';
   private urlVehicles = '/itineray/showRoadVehicles/';
-
   user: User;
 
   constructor(private http: HttpClient, private geolocation: Geolocation) {}

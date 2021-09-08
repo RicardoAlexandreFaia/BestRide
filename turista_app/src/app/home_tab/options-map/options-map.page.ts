@@ -12,6 +12,7 @@ import { RoadMap } from '../roadMap';
 export class OptionsMapPage implements OnInit {
   public ionicForm: FormGroup;
   public trips: Array<RoadMap> = [];
+  public locationOption: any;
 
   public registrationForm = this.formBuilder.group({
     location: ['', Validators.required],
@@ -26,8 +27,15 @@ export class OptionsMapPage implements OnInit {
 
   ngOnInit() {}
 
+  onChange(selectedValue: any) {
+    console.log('Selected:' + selectedValue);
+  }
+
   submit_form(): void {
+    const local = this.registrationForm.get('location').value;
     this.map_service.get_roads().subscribe((data) => {
+      console.log(data);
+
       for (let pos in data) {
         this.trips.push(
           new RoadMap(

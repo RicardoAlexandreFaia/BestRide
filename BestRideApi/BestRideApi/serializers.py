@@ -15,7 +15,14 @@ class InterestPointsSerializaer(serializers.ModelSerializer):
         model = PointInterest
         fields = ('__all__')
 
+class CitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = City
+        fields = '__all__'
+
+
 class RoadMapSerializer(serializers.ModelSerializer):
+    city = CitySerializer(read_only=True)
     class Meta:
         model = RoadMap
         geo_field = "point"
