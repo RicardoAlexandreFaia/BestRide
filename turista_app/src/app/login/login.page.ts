@@ -140,12 +140,17 @@ export class LoginPage implements OnInit {
     this.router.navigate(['/recover_account']);
   }
 
-  public googleLogin(): void {
+  public socialLogin(social: string): void {
     const url =
-      'https://bestride.auth.eu-west-2.amazoncognito.com/oauth2/authorize?' +
+      'https://bestride.auth.us-east-2.amazoncognito.com/oauth2/authorize?' +
       'response_type=code&' +
-      'identity_provider=Google&redirect_uri=http://localhost:8000&client_id=' +
-      '3r33mjn6o4surouviruvugp4bs' +
+      'identity_provider=' +
+      social +
+      '&' +
+      'redirect_uri=' +
+      environment.redirect_uri +
+      '&client_id=' +
+      environment.aws_client_id +
       '&' +
       'scope=email+openid+profile';
 

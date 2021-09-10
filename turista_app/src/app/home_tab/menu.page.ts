@@ -67,13 +67,12 @@ export class MenuPage implements OnInit {
     });
 
     modal.onDidDismiss().then((data) => {
-      const data_trips = data['data']; // data that came from the modal on dismiss
-      this.trips = data_trips;
-
       // Using Skeleton Text
       setTimeout(() => {
+        const data_trips = data['data']; // data that came from the modal on dismiss
+        this.trips = data_trips;
+        console.log(data);
         this.contentLoad = true;
-        console.log('YESS');
       }, 3000);
     });
 

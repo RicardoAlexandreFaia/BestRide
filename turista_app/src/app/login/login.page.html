@@ -54,7 +54,8 @@
         </form>
       </ion-card>
 
-      <ion-button id="btn_google" expand="block" (click)="googleLogin()">{{'Sign up with Google' | customTranslate |
+      <ion-button id="btn_google" expand="block" (click)="socialLogin('Google')">{{'Sign up with Google' |
+        customTranslate |
         async}}</ion-button>
       <ion-button id="btn_face" expand="block">{{'Sign up with Facebook' | customTranslate | async}}</ion-button>
 

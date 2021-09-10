@@ -108,7 +108,7 @@ npx cap sync android
 
 > pip install boto3
 
-# Google Login
+# Social Login
 
 > <preference name="OverrideUserAgent" value="Mozilla/5.0 Google" /> 
 > > Inserir no config.xml

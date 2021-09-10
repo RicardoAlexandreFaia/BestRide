@@ -84,7 +84,7 @@ class user_operations(APIView):
 
     @api_view(['POST'])
     def confirmAccount(request):
-        boto3.setup_default_session(region_name='eu-west-2')
+        boto3.setup_default_session(region_name=env.str('REGION_NAME_DEFAULT'))
         cidp = boto3.client('cognito-idp')
 
         try:
@@ -112,7 +112,7 @@ class user_operations(APIView):
 
     @api_view(['GET'])
     def getUser(request,token):
-        boto3.setup_default_session(region_name='eu-west-2')
+        boto3.setup_default_session(region_name=env.str('REGION_NAME_DEFAULT'))
         cidp = boto3.client('cognito-idp')
 
         try:
@@ -129,7 +129,7 @@ class user_operations(APIView):
 
     @api_view(['PUT'])
     def updateUser(request,token):
-        boto3.setup_default_session(region_name='eu-west-2')
+        boto3.setup_default_session(region_name=env.str('REGION_NAME_DEFAULT'))
         client = boto3.client('cognito-idp')
 
         try:
@@ -205,7 +205,7 @@ class user_operations(APIView):
 
     @api_view(['POST'])
     def cancelAccount(request):
-        boto3.setup_default_session(region_name='eu-west-2')
+        boto3.setup_default_session(region_name='us-west-2')
         client = boto3.client('cognito-idp')
         try:
             client.delete_user(
@@ -217,7 +217,7 @@ class user_operations(APIView):
 
 
     def post(self, request):
-        boto3.setup_default_session(region_name='eu-west-2')
+        boto3.setup_default_session(region_name=env.str('REGION_NAME_DEFAULT'))
         client = boto3.client('cognito-idp')
         try:
             response = client.sign_up(
@@ -269,7 +269,7 @@ class user_operations(APIView):
 
     @api_view(['POST'])
     def login(request):
-        boto3.setup_default_session(region_name='eu-west-2')
+        boto3.setup_default_session(region_name=env.str('REGION_NAME_DEFAULT'))
         cidp = boto3.client('cognito-idp')
         try:
             login_request = cidp.initiate_auth(
@@ -341,9 +341,9 @@ class Routes(APIView):
         try:
             for e in Road:
                 response = s3_client.generate_presigned_url('get_object',
-                                                        Params={'Bucket': 'best-ride',
+                                                        Params={'Bucket': 'bestridebucket',
                                                                 'Key': '' + e.image},
-                                                        ExpiresIn=3200)
+                                                        ExpiresIn=3600)
                 e.image = response
 
         except ClientError as e:
@@ -379,7 +379,7 @@ class Routes(APIView):
         try:
             for point in Points:
                 response = s3_client.generate_presigned_url('get_object',
-                                                        Params={'Bucket': 'best-ride',
+                                                        Params={'Bucket': 'bestridebucket',
                                                                 'Key': '' + point.image},
                                                         ExpiresIn=3200)
                 point.image = response
@@ -399,7 +399,7 @@ class Routes(APIView):
             try:
                 for ip in Itineary:
                     response = s3_client.generate_presigned_url('get_object',
-                                                                Params={'Bucket': 'best-ride',
+                                                                Params={'Bucket': 'bestridebucket',
                                                                         'Key': '' + ip.interest_points.image},
                                                                 ExpiresIn=3200)
                     ip.interest_points.image = response

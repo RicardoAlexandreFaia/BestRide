@@ -64,7 +64,7 @@ export class LoginApiService {
 
   public async social_sign_in(code: string) {
     const post_url =
-      'https://bestride.auth.eu-west-2.amazoncognito.com/oauth2/token?' +
+      'https://bestride.auth.us-east-2.amazoncognito.com/oauth2/token?' +
       'grant_type=authorization_code&client_id=' +
       environment.aws_client_id +
       '&code=' +
