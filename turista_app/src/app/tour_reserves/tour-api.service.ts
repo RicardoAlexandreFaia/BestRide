@@ -21,9 +21,9 @@ export class TourApiService {
         (response) => {
           for (let i in response) {
             this.tours.push({
-              road_map_name: response[i]['road_mapID'].title,
-              duration: response[i]['road_mapID'].duration,
-              price: response[i]['road_mapID'].price,
+              road_map_name: response[i]['road_map_id'].title,
+              duration: response[i]['road_map_id'].duration,
+              price: response[i]['road_map_id'].price,
             });
           }
         },

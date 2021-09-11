@@ -22,7 +22,7 @@ class CitySerializer(serializers.ModelSerializer):
 
 
 class RoadMapSerializer(serializers.ModelSerializer):
-    city = CitySerializer(read_only=True)
+    city_id = CitySerializer(read_only=True)
     class Meta:
         model = RoadMap
         geo_field = "point"
@@ -59,9 +59,9 @@ class TravelScheduleSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class TravelSerializer(serializers.ModelSerializer):
-    turistID = UserSerializer(read_only=True)
-    driverID = UserSerializer(read_only=True)
-    road_mapID = RoadMapSerializer(read_only=True)
+    turist_id = UserSerializer(read_only=True)
+    driver_id = UserSerializer(read_only=True)
+    road_map_id = RoadMapSerializer(read_only=True)
     class Meta:
         model = Travel
         fields = '__all__'

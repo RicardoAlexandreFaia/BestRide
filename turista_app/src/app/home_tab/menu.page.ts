@@ -38,6 +38,7 @@ export class MenuPage implements OnInit {
   user: User;
   public contentLoad = false;
   public trips: Array<RoadMap> = [];
+  public place: string;
 
   constructor(
     private geolocation: Geolocation,
@@ -69,14 +70,47 @@ export class MenuPage implements OnInit {
     modal.onDidDismiss().then((data) => {
       // Using Skeleton Text
       setTimeout(() => {
-        const data_trips = data['data']; // data that came from the modal on dismiss
-        this.trips = data_trips;
-        console.log(data);
+        this.place = data['data'].local;
+        if (this.place == 'Near') {
+          this.map_service.get_roads_near_me().subscribe((data) => {
+            for (let pos in data) {
+              this.trips.push(
+                new RoadMap(
+                  data[pos].id,
+                  data[pos].title,
+                  data[pos].duration,
+                  data[pos].price,
+                  data[pos].description,
+                  data[pos].image,
+                  data[pos].location['coordinates'][0],
+                  data[pos].location['coordinates'][1]
+                )
+              );
+            }
+          });
+        } else {
+          this.map_service.get_roads_by_city(this.place).subscribe((data) => {
+            for (let pos in data) {
+              this.trips.push(
+                new RoadMap(
+                  data[pos].id,
+                  data[pos].title,
+                  data[pos].duration,
+                  data[pos].price,
+                  data[pos].description,
+                  data[pos].image,
+                  data[pos].location['coordinates'][0],
+                  data[pos].location['coordinates'][1]
+                )
+              );
+            }
+          });
+        }
         this.contentLoad = true;
       }, 3000);
     });
 
-    return await modal.present();
+    modal.present();
   }
 
   public showRoteiro(road: RoadMap): void {

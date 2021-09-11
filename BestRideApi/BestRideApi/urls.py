@@ -19,6 +19,7 @@ urlpatterns = [
     path('socialLogin/google/', views.user_operations.loginGoogle),
     path('translate/', views.TranslateAWS.translate),
     path('itineary/showItineary/<int:id>',views.Routes.getItineary),
+    path('showRoadMapsCity/<str:city>',views.Routes.roadMapByCity),
     path('itineray/showRoadVehicles/<int:id>',views.Routes.getRoadVehicle),
     path('itineary/showRoadMap',views.Routes.getRoadMap),
     path('itineary/showInterestPoints',views.Routes.getPointsInterest),

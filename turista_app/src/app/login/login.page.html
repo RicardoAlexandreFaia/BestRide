@@ -15,56 +15,71 @@
       <circle cx="360" cy="600" r="300" fill="#00adff" />
     </svg>
     <div class="content">
-      <ion-card>
-        <h2>Login</h2>
+      <ion-grid>
+        <ion-card>
+          <ion-row>
+            <ion-col>
+              <h2>Login</h2>
 
-        <form class="form" [formGroup]="registrationForm" (ngSubmit)="login()">
+              <form class="form" [formGroup]="registrationForm" (ngSubmit)="login()">
 
-          <ion-list>
+                <ion-list>
+                  <ion-item>
+                    <ion-label position="stacked">Email</ion-label>
+                    <ion-input formControlName="email" type="email" required></ion-input>
+                  </ion-item>
+                  <div *ngFor="let error of errorMessages.email">
+                    <ng-container *ngIf="email.hasError(error.type) && ( email.touched || email.dirty)">
+                      <small class="error-message">{{error.message}}</small>
+                    </ng-container>
+                  </div>
 
-            <ion-item>
-              <ion-label position="stacked">Email</ion-label>
-              <ion-input formControlName="email" type="email" required></ion-input>
-            </ion-item>
-            <div *ngFor="let error of errorMessages.email">
-              <ng-container *ngIf="email.hasError(error.type) && ( email.touched || email.dirty)">
-                <small class="error-message">{{error.message}}</small>
-              </ng-container>
-            </div>
+                  <br>
 
-            <br>
+                  <ion-item>
+                    <ion-label position="stacked">Password</ion-label>
+                    <ion-input formControlName="password" [type]=" showPass ? 'text' : 'password'" required></ion-input>
+                    <ion-icon slot="end" [name]="passwordIconToggle" (click)="togglePass()"></ion-icon>
+                  </ion-item>
+                  <div *ngFor="let error of errorMessages.password">
+                    <ng-container *ngIf="password.hasError(error.type) && ( password.touched || password.dirty)">
+                      <small class="error-message">{{error.message}}</small>
+                    </ng-container>
+                  </div>
+                  <ion-item>
+                    <ion-label>{{'Remember password? ' | customTranslate | async}}</ion-label>
+                    <ion-checkbox (ionChange)="addValue($event)" [checked]="checked" color="warning">
+                    </ion-checkbox>
+                  </ion-item>
+                  <ion-button [disabled]="!registrationForm.valid" id="btn_login" type="submit">Login</ion-button>
+                </ion-list>
+              </form>
+            </ion-col>
+          </ion-row>
+        </ion-card>
 
-            <ion-item>
-              <ion-label position="stacked">Password</ion-label>
-              <ion-input formControlName="password" [type]=" showPass ? 'text' : 'password'" required></ion-input>
-              <ion-icon slot="end" [name]="passwordIconToggle" (click)="togglePass()"></ion-icon>
-            </ion-item>
-            <div *ngFor="let error of errorMessages.password">
-              <ng-container *ngIf="password.hasError(error.type) && ( password.touched || password.dirty)">
-                <small class="error-message">{{error.message}}</small>
-              </ng-container>
-            </div>
-            <ion-item>
-              <ion-label>{{'Remember password? ' | customTranslate | async}}</ion-label>
-              <ion-checkbox (ionChange)="addValue($event)" [checked]="checked" color="warning">
-              </ion-checkbox>
-            </ion-item>
-            <ion-button [disabled]="!registrationForm.valid" id="btn_login" type="submit">Login</ion-button>
-          </ion-list>
-        </form>
-      </ion-card>
+        <ion-row>
+          <ion-col>
 
-      <ion-button id="btn_google" expand="block" (click)="socialLogin('Google')">{{'Sign up with Google' |
-        customTranslate |
-        async}}</ion-button>
-      <ion-button id="btn_face" expand="block">{{'Sign up with Facebook' | customTranslate | async}}</ion-button>
+            <!-- Social Login Buttons-->
+            <ion-button id="btn_google" expand="block" (click)="socialLogin('Google')">
+              <ion-icon name="logo-google" color="danger" slot="start" size="large"></ion-icon>
+              {{'Sign up with Google' | customTranslate | async}}
+            </ion-button>
+            <ion-button id="btn_face" expand="block">
+              <ion-icon name="logo-facebook" color="secundary" slot="start" size="large"></ion-icon>
+              {{'Sign up with Facebook' | customTranslate | async}}
+            </ion-button>
 
-      <div style="color: white;font-size: 12px;text-align: justify;padding:2px">
-        <h6>{{'Dont have an account? ' | customTranslate | async}}<u (click)="create_account()">{{'Sign up' |
-            customTranslate |
-            async}}</u></h6>
-        <h6><u (click)="recover_account()">{{'Forgout your password?' | customTranslate | async}}</u></h6>
-      </div>
+            <!-- Texts -->
+            <h6>{{'Dont have an account? ' | customTranslate | async}}<u (click)="create_account()">{{'Sign up' |
+                customTranslate |
+                async}}</u></h6>
+            <h6><u (click)="recover_account()">{{'Forgout your password?' | customTranslate | async}}</u></h6>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
     </div>
   </div>
 </ion-content>

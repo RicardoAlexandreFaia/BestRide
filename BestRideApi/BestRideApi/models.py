@@ -12,11 +12,11 @@ class Travel(models.Model):
     idViagem = models.AutoField(db_column='idViagem', primary_key=True)
     Pagamento_idPagamento = models.ForeignKey('Payment',models.DO_NOTHING,db_column='Pagamento_idPagamento')
     dataViagem = models.DateField
-    turistID = models.ForeignKey('User', models.DO_NOTHING, db_column='turist_id',related_name="turistID")
+    turist_id = models.ForeignKey('User', models.DO_NOTHING, db_column='turist_id',related_name="turistID")
     horaInicio = models.DateField
     horaFim = models.DateField
-    road_mapID = models.ForeignKey('RoadMap',models.DO_NOTHING,db_column='road_map_id')
-    driverID = models.ForeignKey('User', models.DO_NOTHING, db_column='driver_id',related_name="driverID")
+    road_map_id = models.ForeignKey('RoadMap',models.DO_NOTHING,db_column='road_map_id')
+    driver_id = models.ForeignKey('User', models.DO_NOTHING, db_column='driver_id',related_name="driverID")
 
     class Meta:
         managed = False

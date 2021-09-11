@@ -86,11 +86,11 @@ export class BookTripModalPage implements OnInit {
     const data_booking = {
       Pagamento_idPagamento: 1,
       dataViagem: dateInitial,
-      turistID: turist_id,
+      turist_id: turist_id,
       horaInicio: book_hour,
       horaFim: book_hour,
-      road_mapID: '' + this.circuito.id,
-      driverID: 9,
+      road_map_id: '' + this.circuito.id,
+      driver_id: 13,
     };
     const response = this.booking_service.booking_trip(data_booking);
   }

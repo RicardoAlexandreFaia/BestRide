@@ -20,6 +20,7 @@ export class MapServiceService {
   private urlGetPoints = '/itineary/showItineary/';
   private urlDistance = '/itineary/distance/';
   private urlVehicles = '/itineray/showRoadVehicles/';
+  private urlGetRoadCity = '/showRoadMapsCity/';
   user: User;
 
   constructor(private http: HttpClient, private geolocation: Geolocation) {}
@@ -43,12 +44,17 @@ export class MapServiceService {
   public interest: Observable<any>;
   public vehicles: Observable<any>;
 
-  public get_roads(): Observable<any> {
+  public get_roads_near_me(): Observable<any> {
     this.roads = this.http.post(environment.apiUrl + this.url, {
       lat: 38.72786267006623,
       lng: -9.12640841035285,
       kmMAX: 20,
     });
+    return this.roads;
+  }
+
+  public get_roads_by_city(city: string): Observable<any> {
+    this.roads = this.http.get(environment.apiUrl + this.urlGetRoadCity + city);
     return this.roads;
   }
 

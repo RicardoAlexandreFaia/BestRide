@@ -370,6 +370,26 @@ class Routes(APIView):
 
         return JsonResponse(distance_dict)
 
+
+    @api_view(['GET'])
+    def roadMapByCity(request,city):
+        boto3.setup_default_session(region_name='us-east-2')
+        s3_client = boto3.client('s3')
+        roadMap = RoadMap.objects.filter(city_id__name=city)
+
+        try:
+            for point in roadMap:
+                response = s3_client.generate_presigned_url('get_object',
+                                                        Params={'Bucket': 'bestridebucket',
+                                                                'Key': '' + point.image},
+                                                        ExpiresIn=3200)
+                point.image = response
+        except ClientError as e:
+            logging.error(e)
+
+        roadMapSerializer = RoadMapSerializer(roadMap,many=True)
+        return Response(roadMapSerializer.data)
+
     @api_view(['GET'])
     def getPointsInterest(request):
         boto3.setup_default_session(region_name='us-east-2')
@@ -472,7 +492,7 @@ class Travels(generics.RetrieveDestroyAPIView):
 
     @api_view(['GET'])
     def get(request,turist_id):
-        queryset = Travel.objects.all().filter(turistID=turist_id)
+        queryset = Travel.objects.all().filter(turist_id=turist_id)
         serializer_class = TravelSerializer(queryset,many=True)
         return Response(serializer_class.data)
 

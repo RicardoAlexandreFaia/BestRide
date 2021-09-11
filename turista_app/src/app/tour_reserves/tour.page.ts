@@ -30,12 +30,11 @@ export class TourPage implements OnInit {
     });
 
     loading.present();
-    console.log('reloading....');
+
     const userID = localStorage.getItem('userID');
-    this.tour_array = this.tourAPI.getTravelsByUser('8');
+    this.tour_array = this.tourAPI.getTravelsByUser(userID);
     setTimeout(() => {
       loading.dismiss();
-      console.log(this.tour_array);
     }, 5000);
   }
 

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { MapServiceService } from '../map-service.service';
 import { RoadMap } from '../roadMap';
 
 @Component({
@@ -21,8 +20,7 @@ export class OptionsMapPage implements OnInit {
 
   constructor(
     public modalController: ModalController,
-    public formBuilder: FormBuilder,
-    private map_service: MapServiceService
+    public formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {}
@@ -33,24 +31,13 @@ export class OptionsMapPage implements OnInit {
 
   submit_form(): void {
     const local = this.registrationForm.get('location').value;
-    this.map_service.get_roads().subscribe((data) => {
-      console.log(data);
+    const people = this.registrationForm.get('people').value;
 
-      for (let pos in data) {
-        this.trips.push(
-          new RoadMap(
-            data[pos].id,
-            data[pos].title,
-            data[pos].duration,
-            data[pos].price,
-            data[pos].description,
-            data[pos].image,
-            data[pos].location['coordinates'][0],
-            data[pos].location['coordinates'][1]
-          )
-        );
-      }
-    });
-    this.modalController.dismiss(this.trips);
+    const dismiss_data = {
+      local: local,
+      people: people,
+    };
+
+    this.modalController.dismiss(dismiss_data);
   }
 }

@@ -16,82 +16,56 @@
       <circle cx="360" cy="600" r="300" fill="#00adff" />
     </svg>
     <div class="content">
-      <ion-card>
-        <h2 style="color: black;font-size: 25px;font-weight: bold;"> {{'Choose your preferences ! ' | customTranslate |
-          async}}</h2>
 
-        <form class="form" [formGroup]="registrationForm" (ngSubmit)="submit_form()">
-          <ion-list>
-            <ion-item>
-              <ion-label>{{'Location ?' | customTranslate | async}}</ion-label>
-              <ion-select formControlName="location" value="brown" okText="OK" cancelText="Dismiss">
-                <ion-select-option value="Near"> {{'Near Me' | customTranslate | async}}</ion-select-option>
-                <ion-select-option value="Lisbon"> {{'Lisbon' | customTranslate | async}}</ion-select-option>
-                <ion-select-option value="Sintra"> {{'Sintra' | customTranslate | async}}</ion-select-option>
-              </ion-select>
-            </ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
 
-            <br>
-            <ion-item>
-              <ion-label>{{'How Many People?' | customTranslate | async}}</ion-label>
-              <ion-select value="brown" okText="OK" formControlName="people" cancelText="Dismiss">
-                <ion-select-option value="1"> 1</ion-select-option>
-                <ion-select-option value="2"> 2</ion-select-option>
-                <ion-select-option value="3"> 3</ion-select-option>
-                <ion-select-option value="4"> 4</ion-select-option>
-                <ion-select-option value="5"> 5</ion-select-option>
-                <ion-select-option value="6"> 6</ion-select-option>
-              </ion-select>
-            </ion-item>
+            <ion-card>
 
-            <br>
-            <ion-button [disabled]="!registrationForm.valid" color="danger" type="submit">{{'Search Tours' |
-              customTranslate | async}}
-            </ion-button>
+              <ion-card-header>
+                {{'Choose your preferences ! ' | customTranslate | async}}
+              </ion-card-header>
 
-            <br>
-          </ion-list>
-        </form>
-      </ion-card>
+              <form class="form" [formGroup]="registrationForm" (ngSubmit)="submit_form()">
+                <ion-list>
+                  <ion-item>
+                    <ion-label>{{'Location ?' | customTranslate | async}}</ion-label>
+                    <ion-select formControlName="location" value="brown" okText="OK" cancelText="Dismiss">
+                      <ion-select-option value="Near"> {{'Near Me' | customTranslate | async}}</ion-select-option>
+                      <ion-select-option value="Lisbon"> {{'Lisbon' | customTranslate | async}}</ion-select-option>
+                      <ion-select-option value="Sintra"> {{'Sintra' | customTranslate | async}}</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+
+                  <br>
+                  <ion-item>
+                    <ion-label>{{'How Many People?' | customTranslate | async}}</ion-label>
+                    <ion-select value="brown" okText="OK" formControlName="people" cancelText="Dismiss">
+                      <ion-select-option value="1"> 1</ion-select-option>
+                      <ion-select-option value="2"> 2</ion-select-option>
+                      <ion-select-option value="3"> 3</ion-select-option>
+                      <ion-select-option value="4"> 4</ion-select-option>
+                      <ion-select-option value="5"> 5</ion-select-option>
+                      <ion-select-option value="6"> 6</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+
+                  <br>
+                  <ion-button [disabled]="!registrationForm.valid" color="danger" type="submit">{{'Search Tours' |
+                    customTranslate | async}}
+                  </ion-button>
+
+                  <br>
+                </ion-list>
+              </form>
+            </ion-card>
+
+
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
     </div>
   </div>
-
-  <!--
-  <ion-list class="conteudo">
-    <form class="form" [formGroup]="registrationForm" (ngSubmit)="submeter_login()">
-      <ion-card>
-        <ion-item>
-          <ion-label>Email</ion-label>
-          <ion-input formControlName="email" type="email" required></ion-input>
-        </ion-item>
-      </ion-card>
-
-      <ion-card>
-        <ion-item>
-          <ion-label>Password</ion-label>
-          <ion-input formControlName="password" [type]=" showPass ? 'text' : 'password'" required></ion-input>
-          <ion-icon slot="end" [name]="passwordIconToggle" (click)="togglePass()"></ion-icon>
-        </ion-item>
-      </ion-card>
-
-      <ion-button color="primary" expand="full" type="submit">Login</ion-button>
-
-    </form>
-
-    <div>
-      <h6 style="text-align: center;" (click)="navegar()">
-        {{'No Account? Create a account now!' | customTranslate | async}}</h6>
-      <h6 style="text-align: center;" (click)="recuperarConta()">
-        {{'Recover your account' | customTranslate | async}}</h6>
-    </div>
-
-    <ion-button shape="round" color="tertiary" (click)="login()">
-      <ion-icon name="logo-facebook"></ion-icon>
-    </ion-button>
-    <ion-button shape="round" color="warning" (click)="googleSignup()">
-      <ion-icon name="logo-google"></ion-icon>
-    </ion-button>
-
-  </ion-list>
-  -->
 </ion-content>
