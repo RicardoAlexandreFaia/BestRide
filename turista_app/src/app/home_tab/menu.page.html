@@ -38,7 +38,29 @@
     </div>
 
 
-    <div class="content" *ngIf="contentLoad">
+    <div class="content" *ngIf="contentLoad && trips.length==0">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-card>
+              <ion-card-header>
+                <ion-card-title>
+                  <ion-icon name="warning-sharp"></ion-icon>
+                </ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-text color="danger">
+                  <h3>
+                    There are no scripts available for this area. Try changing the settings.</h3>
+                </ion-text>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div class="content" *ngIf="contentLoad && trips.length > 0">
       <ion-card style="text-align: justify;">
         <br>
         <div id="iti_title">

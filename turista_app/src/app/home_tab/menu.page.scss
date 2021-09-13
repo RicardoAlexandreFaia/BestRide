@@ -20,7 +20,12 @@ ion-card-content {
   position: absolute;
   top: 5%;
   justify-content: center;
+  text-align: center;
   width: 100%;
+}
+
+ion-icon {
+  font-size: 900%;
 }
 
 #iti_title {

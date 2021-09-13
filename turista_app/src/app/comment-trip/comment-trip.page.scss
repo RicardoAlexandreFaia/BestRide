@@ -22,7 +22,6 @@
 #form {
   text-align: center;
   color: black;
-  border-bottom: 1px solid black;
   font-weight: bold;
 }
 
@@ -34,4 +33,9 @@
     align-self: center;
     width: 39%;
   }
+}
+
+ion-textarea {
+  color: red;
+  border: solid 1px red;
 }

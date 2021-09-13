@@ -29,7 +29,7 @@ export class CriaContaApiService {
       dob: data_dict['dob'],
       city: data_dict['city'],
       gender: data_dict['gender'],
-      phone_number: '+351' + data_dict['phone'],
+      phone_number: data_dict['phone'],
       adress: data_dict['address'],
       postal_code: data_dict['postal'],
       password: data_dict['pass'],
@@ -44,10 +44,7 @@ export class CriaContaApiService {
             image: '',
           })
           .subscribe(
-            (data) => {
-              console.log(data);
-              this.showAlertError('Sucess', 'Your account was Confirmed !');
-            },
+            (data) => {},
             (error) => {
               console.log(error);
             }

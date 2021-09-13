@@ -20,18 +20,42 @@ export class CriaContaPage implements OnInit {
   public ionicForm: FormGroup;
   isSubmitted = false;
 
-  public profileForm = this.formBuilder.group({
-    name: '',
-    dob: '',
-    cellphone: '',
-    address: '',
-    postal: '',
-    gender: '',
-    city: '',
-    email: '',
-    pass: '',
-    passRepeat: '',
-  });
+  public phoneIndicative: any = [
+    {
+      country: 'Portugal',
+      indicative: '+351',
+    },
+    {
+      country: 'France',
+      indicative: '+33',
+    },
+    {
+      country: 'Spain',
+      indicative: '+34',
+    },
+    {
+      country: 'United Kingdom',
+      indicative: '+44',
+    },
+  ];
+
+  public gender: any = [
+    {
+      gender: 'male',
+    },
+    {
+      gender: 'female',
+    },
+  ];
+
+  public city: any = [
+    {
+      city: 'Lisbon',
+    },
+    {
+      city: 'Sintra',
+    },
+  ];
 
   constructor(
     public formBuilder: FormBuilder,
@@ -49,6 +73,7 @@ export class CriaContaPage implements OnInit {
         name: ['', Validators.required],
         dob: ['', Validators.required],
         phone: ['', Validators.required],
+        phone_ind: ['', Validators.required],
         address: ['', Validators.required],
         postal: ['', Validators.required],
         gender: ['', Validators.required],
@@ -126,10 +151,11 @@ export class CriaContaPage implements OnInit {
     if (!this.ionicForm.valid) {
       return false;
     } else {
+      const indicative = this.ionicForm.get('phone_ind').value;
       const create_account = {
         name: this.ionicForm.get('name').value,
         dob: this.ionicForm.get('dob').value,
-        phone: this.ionicForm.get('phone').value,
+        phone: indicative + this.ionicForm.get('phone').value,
         address: this.ionicForm.get('address').value,
         postal: this.ionicForm.get('postal').value,
         gender: this.ionicForm.get('gender').value,
@@ -138,6 +164,7 @@ export class CriaContaPage implements OnInit {
         pass: this.ionicForm.get('pass').value,
         passRepeat: this.ionicForm.get('passRepeat').value,
       };
+      console.log(create_account);
 
       this.api.createAccount(create_account);
     }

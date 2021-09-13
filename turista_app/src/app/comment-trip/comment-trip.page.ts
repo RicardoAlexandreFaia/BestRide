@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
@@ -17,10 +17,10 @@ import { CustomTranslateService } from '../shared/services/custom-translate.serv
   styleUrls: ['./comment-trip.page.scss'],
 })
 export class CommentTripPage implements OnInit {
+  @Input() road_map_id: number;
   public ionicForm: FormGroup;
-  public roadId = JSON.parse(localStorage.getItem('roadMapID'));
   public roadTitle: String;
-  public comments: Array<Comment> = [];
+  public comments: Array<any> = [];
   public progress: boolean = false;
   public language: string = this.translateService.currentLang;
   private form: FormGroup;
@@ -39,17 +39,18 @@ export class CommentTripPage implements OnInit {
     private router: Router,
     private http: HttpClient,
     private translateService: TranslateService,
-    private comp: AppComponent,
     private comments_api: CommentApiService,
-    private trans: CustomTranslateService
+    private trans: CustomTranslateService,
+    private mdlCtrl: ModalController
   ) {}
 
   ngOnInit() {
-    this.comments = this.comments_api.get_comments(this.roadId);
+    this.comments = this.comments_api.get_comments(this.road_map_id);
   }
 
-  public convertToNumber(event): number {
-    return +event;
+  public closeModal() {
+    this.mdlCtrl.dismiss();
+    this.comments = []; // Empty array
   }
 
   public submit() {
@@ -57,7 +58,7 @@ export class CommentTripPage implements OnInit {
     let comment = new Comment(
       this.registrationForm.get('rating').value,
       this.registrationForm.get('comment').value,
-      this.roadId,
+      this.road_map_id,
       this.user.name
     );
     this.comments_api.postComment(comment);

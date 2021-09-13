@@ -1,5 +1,5 @@
 * {
-  font-weight: 950;
+  font-weight: 700;
   color: black;
 }
 
@@ -55,4 +55,10 @@ ion-card {
     position: absolute;
     left: 7%;
   }
+}
+
+.phoneIndicative {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding-left: 0 !important;
 }

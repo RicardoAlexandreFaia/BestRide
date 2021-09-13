@@ -3,6 +3,11 @@
     <div id="content-menu">
       <img src="assets/BestRideLogo.png" />
     </div>
+    <ion-buttons slot="end">
+      <ion-button color="secondary" (click)="closeModal()">
+        <ion-icon name="close" size="large"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -16,35 +21,77 @@
     </svg>
 
     <div class="content">
-      <div id="form">
-        <ion-card>
-          <form [formGroup]="registrationForm" (ngSubmit)="submit()">
-            <ion-item>
-              <ion-label>{{'Rate this Trip: ' | customTranslate | async}}</ion-label>
-              <ion-input type="number" min="1" max="5" formControlName="rating" required></ion-input>
-            </ion-item>
 
-            <ion-item>
-              <ion-label>{{'Final Comment: ' | customTranslate | async}}</ion-label>
-              <ion-textarea placeholder="" formControlName="comment" type="text" required>
-              </ion-textarea>
-            </ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <div id="form">
+              <ion-card>
+                <form [formGroup]="registrationForm" (ngSubmit)="submit()">
 
-            <ion-button color="warning" [disabled]="!registrationForm.valid" id="btn_login" type="submit" block>
-              {{'Post Commentary' | customTranslate | async}}
-            </ion-button>
-          </form>
-        </ion-card>
+                  <ion-card-header>
+                    <ion-card-title>
+                      <ion-label>{{'Comment This Trip!' | customTranslate | async}}</ion-label>
+                    </ion-card-title>
+                  </ion-card-header>
+
+                  <ion-row>
+                    <ion-col>
+                      <ion-range snaps color="danger" pin min="0" max="10" color="danger" formControlName="rating">
+                        <ion-icon name="thumbs-down" slot="start" size="small"></ion-icon>
+                        <ion-icon name="thumbs-up" slot="end" size="small"></ion-icon>
+                      </ion-range>
+                    </ion-col>
+                  </ion-row>
+
+
+                  <ion-row>
+                    <ion-col>
+                      <ion-textarea placeholder="" formControlName="comment" type="text" required>
+                      </ion-textarea>
+                    </ion-col>
+                  </ion-row>
+
+                  <ion-button color="warning" [disabled]="!registrationForm.valid" id="btn_login" type="submit" block>
+                    {{'Post Commentary' | customTranslate | async}}
+                  </ion-button>
+                </form>
+              </ion-card>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+
+      <div *ngIf="comments.length==0">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-card>
+                <ion-card-header>
+                  <ion-icon name="warning-sharp" size="large"></ion-icon>
+                </ion-card-header>
+                <ion-card-content>
+                  <ion-text color="secundary">
+                    {{'There are no comments posted for this tour' | customTranslate | async}}
+                  </ion-text>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </div>
 
-      <div scrollY="true" class="botoes">
+
+      <div scrollY="true" class="botoes" *ngIf="comments.length > 0">
         <ion-list *ngFor="let comment of comments">
           <div>
             <ion-card-header>
               <ion-card-subtitle>
-                {{"" + comment.author.name}}
+                {{"" + comment.author.name | uppercase}}
                 <br>
                 {{comment.rating}}
+                <ion-icon name="star-sharp" size="small"></ion-icon>
               </ion-card-subtitle>
             </ion-card-header>
             <ion-card-content>
@@ -53,6 +100,8 @@
           </div>
         </ion-list>
       </div>
+
+
     </div>
   </div>
 

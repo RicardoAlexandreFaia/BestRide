@@ -35,16 +35,6 @@ export class ConfirmAccountPage implements OnInit {
 
   ngOnInit() {}
 
-  private async presentAlert() {
-    const alert = await this.alertController.create({
-      header: 'Erro',
-      message: 'rrro',
-      buttons: ['OK'],
-    });
-
-    await alert.present();
-  }
-
   public validateUser(): void {
     let code = this.registrationForm.get('code').value;
     console.log(localStorage.getItem('email'));

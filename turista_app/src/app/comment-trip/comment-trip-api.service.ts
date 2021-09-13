@@ -19,7 +19,7 @@ export class CommentApiService {
   private url_comments: String = '/getComments/';
   private url_post_comments: String = '/postComments/';
   private url_road = '/itineary/showRoadMap';
-
+  public comments: Array<Comment> = [];
   public user: User;
 
   constructor(
@@ -44,9 +44,8 @@ export class CommentApiService {
     return this.user;
   }
 
-  public comments: Array<Comment> = [];
-
   public get_comments(id: Number): Array<Comment> {
+    this.comments = [];
     this.http
       .get(environment.apiUrl + this.url_comments + id)
       .subscribe((data) => {
@@ -68,7 +67,7 @@ export class CommentApiService {
     this.http
       .post(environment.apiUrl + this.url_post_comments, {
         comment: comment.comment,
-        pontuation: comment.rating, //Arranjar forma de ir buscar o user
+        pontuation: comment.rating,
         road_map: comment.roadId,
         username: comment.author.name,
       })

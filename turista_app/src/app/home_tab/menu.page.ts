@@ -20,6 +20,7 @@ import { AlertController } from '@ionic/angular';
 import { CustomTranslateService } from '../shared/services/custom-translate.service';
 import { User } from './user';
 import { TripDetailsPage } from './trip-details/trip-details.page';
+import { CommentTripPage } from '../comment-trip/comment-trip.page';
 
 declare var google: any;
 
@@ -140,8 +141,16 @@ export class MenuPage implements OnInit {
     return await modal.present();
   }
 
-  public comments(road: RoadMap): void {
-    localStorage.setItem('roadMapID', JSON.stringify(road.id));
-    this.router.navigate(['/comment-trip']);
+  public async comments(road: RoadMap) {
+    //localStorage.setItem('roadMapID', JSON.stringify(road.id));
+    //his.router.navigate(['/comment-trip']);
+
+    const modal = await this.model_controller.create({
+      component: CommentTripPage,
+      componentProps: {
+        road_map_id: JSON.stringify(road.id),
+      },
+    });
+    return await modal.present();
   }
 }
